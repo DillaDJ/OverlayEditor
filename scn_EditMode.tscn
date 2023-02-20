@@ -1,0 +1,143 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2pppb1nw65ir"]
+
+[ext_resource type="PackedScene" uid="uid://c31mdyy0mq04b" path="res://scn_ToggleContentContainer.tscn" id="1_ehu1h"]
+[ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
+[ext_resource type="Script" path="res://gd_ChangeSceneButton.gd" id="2_dw1i8"]
+[ext_resource type="Texture2D" uid="uid://bc4wcvk3u03in" path="res://Icons/icon.svg" id="3_0knws"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdohb"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.196078, 0.235294, 0.329412, 0.862745)
+border_width_left = 3
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
+
+[node name="scn_EditMode" type="Node"]
+
+[node name="LeftToolbarContentContainer" parent="." instance=ExtResource("1_ehu1h")]
+anchors_preset = 9
+anchor_left = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 2
+docked_edge = 0
+toggle_type = 0
+move_width = 55
+
+[node name="ToggleShow" parent="LeftToolbarContentContainer" index="1"]
+anchors_preset = 4
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -30.0
+offset_right = 35.0
+offset_bottom = 30.0
+grow_horizontal = 1
+grow_vertical = 2
+text = "❯"
+
+[node name="BGPanel" type="PanelContainer" parent="LeftToolbarContentContainer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -25.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("1_vu2ib")
+
+[node name="ButtonLayout" type="VBoxContainer" parent="LeftToolbarContentContainer/BGPanel"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="LeftToolbarContentContainer/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("3_0knws")
+expand_icon = true
+
+[node name="TopMenuContentContainer" parent="." instance=ExtResource("1_ehu1h")]
+anchors_preset = 10
+anchor_left = 0.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+docked_edge = 1
+toggle_type = 0
+move_width = 55
+
+[node name="ToggleShow" parent="TopMenuContentContainer" index="1"]
+custom_minimum_size = Vector2(60, 30)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -30.0
+offset_top = 5.0
+offset_right = 30.0
+offset_bottom = 39.0
+grow_horizontal = 2
+text = "˅"
+clip_text = true
+
+[node name="BGPanel" type="PanelContainer" parent="TopMenuContentContainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -50.0
+offset_right = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = ExtResource("1_vu2ib")
+
+[node name="ButtonLayout" type="HBoxContainer" parent="TopMenuContentContainer/BGPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="ToggleUIVisibility" type="Button" parent="TopMenuContentContainer/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "H"
+expand_icon = true
+
+[node name="ChangeModeContainer" parent="." instance=ExtResource("1_ehu1h")]
+docked_edge = 2
+toggle_type = 0
+
+[node name="ChangeToOverlay" type="Button" parent="ChangeModeContainer"]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hdohb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hdohb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hdohb")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_hdohb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sqy4d")
+text = "Overlay Mode"
+script = ExtResource("2_dw1i8")
+scene_name = "overlay"
+
+[editable path="LeftToolbarContentContainer"]
+[editable path="TopMenuContentContainer"]

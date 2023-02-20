@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkfuts6u4mjmg"]
+
+[ext_resource type="PackedScene" uid="uid://c31mdyy0mq04b" path="res://scn_ToggleContentContainer.tscn" id="2_du0xg"]
+[ext_resource type="Script" path="res://gd_ChangeSceneButton.gd" id="3_vxap1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bkojo"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.196078, 0.235294, 0.329412, 0.862745)
+border_width_left = 3
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_plww1"]
+
+[node name="OverlayMode" type="Node"]
+
+[node name="ToggleContentContainer" parent="." node_paths=PackedStringArray("unhover_hider") instance=ExtResource("2_du0xg")]
+docked_edge = 2
+toggle_type = 1
+unhover_hider = NodePath("ChangeToEdit")
+hide_toggle_button = true
+
+[node name="ToggleShow" parent="ToggleContentContainer" index="1"]
+custom_minimum_size = Vector2(100, 100)
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 0.0
+offset_bottom = 80.0
+
+[node name="ChangeToEdit" type="Button" parent="ToggleContentContainer"]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkojo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bkojo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bkojo")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bkojo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_plww1")
+text = "Edit Mode"
+script = ExtResource("3_vxap1")
+scene_name = "edit"
+
+[editable path="ToggleContentContainer"]

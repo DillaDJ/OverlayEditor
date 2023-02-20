@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://c31mdyy0mq04b"]
+
+[ext_resource type="Script" path="res://gd_ToggleContentContainer.gd" id="1_qgljg"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_28cv0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_84hpc"]
+bg_color = Color(0.262745, 0.286275, 0.396078, 0.235294)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w05w3"]
+bg_color = Color(0.262745, 0.286275, 0.396078, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ToggleContentContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+script = ExtResource("1_qgljg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_28cv0")
+}
+
+[node name="ToggleShow" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 60)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -35.0
+offset_right = -5.0
+offset_bottom = 60.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_84hpc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w05w3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_w05w3")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_84hpc")
+theme_override_styles/focus = SubResource("StyleBoxFlat_84hpc")
+text = "❮"
