@@ -19,9 +19,14 @@ var toggled := false
 
 
 func _ready():
+	if hide_toggle_button:
+		var toggle_button : Button = $ToggleShow 
+		toggle_button.text = ""
+		toggle_button.flat = true
+		
 	setup_params()
 	setup_animations()
-	update_button_arrow()
+
 
 func setup_params():
 	var toggle_button : Button = $ToggleShow
@@ -38,6 +43,7 @@ func setup_params():
 			toggle_button.connect("mouse_exited", Callable(self, "hover_hide_mode"))
 		
 		anim_player.connect("animation_finished", Callable(self, "reset_lock"))
+
 
 func setup_animations():
 	get_viewport().connect("size_changed", Callable(self, "adjust_anim_clips"))
@@ -95,8 +101,6 @@ func click_toggle_show_mode():
 	else:
 		anim_player.play("toggles/fold")
 		toggled = false
-	
-	update_button_arrow()
 
 
 func hover_show_mode():
@@ -104,36 +108,10 @@ func hover_show_mode():
 		anim_player.play("toggles/unfold")
 		toggled = true
 
+
 func hover_hide_mode():
 	anim_player.play("toggles/fold")
 
-
-func update_button_arrow():
-	var toggle_button : Button = $ToggleShow 
-
-	if hide_toggle_button:
-		toggle_button.text = ""
-		toggle_button.flat = true
-		return
-	
-	if docked_edge == DockedEdge.LEFT:
-		if toggled:
-			toggle_button.text = "❮"
-		else:
-			toggle_button.text = "❯"
-	
-	elif docked_edge == DockedEdge.RIGHT:
-		if toggled:
-			toggle_button.text = "❯"
-		else:
-			toggle_button.text = "❮"
-	
-	elif docked_edge == DockedEdge.TOP:
-		if toggled:
-			toggle_button.text = "^"
-		else:
-			toggle_button.text = "˅"
-		
 
 func adjust_anim_clips():
 	var unfold_anim := anim_lib.get_animation("unfold")

@@ -1,9 +1,33 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2pppb1nw65ir"]
+[gd_scene load_steps=31 format=3 uid="uid://b5k5yoavpl66b"]
 
+[ext_resource type="Script" path="res://gd_Message.gd" id="1_2uypw"]
 [ext_resource type="PackedScene" uid="uid://c31mdyy0mq04b" path="res://scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
+[ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
 [ext_resource type="Script" path="res://gd_ChangeSceneButton.gd" id="2_dw1i8"]
-[ext_resource type="Texture2D" uid="uid://bc4wcvk3u03in" path="res://Icons/icon.svg" id="3_0knws"]
+[ext_resource type="Script" path="res://gd_Grid.gd" id="2_wihld"]
+[ext_resource type="Script" path="res://gd_BGColorChanger.gd" id="3_f6tth"]
+[ext_resource type="Texture2D" uid="uid://ctb6by47bruyw" path="res://Icons/eye.png" id="4_3qsby"]
+[ext_resource type="Texture2D" uid="uid://b8j3a01gr5h50" path="res://Icons/tools.png" id="4_eevsf"]
+[ext_resource type="Script" path="res://gd_OverlayCreator.gd" id="4_owp6d"]
+[ext_resource type="Script" path="res://gd_ButtonHighlighter.gd" id="5_e52fa"]
+[ext_resource type="Script" path="res://gd_ChangeTool.gd" id="5_iterm"]
+[ext_resource type="Script" path="res://gd_UIVisibilityToggler.gd" id="6_qaor4"]
+[ext_resource type="Texture2D" uid="uid://bqcig2aovmk11" path="res://Icons/cog.png" id="7_5ii8i"]
+[ext_resource type="Script" path="res://gd_GridToggler.gd" id="8_wmgu4"]
+[ext_resource type="Script" path="res://gd_MoveTool.gd" id="11_gk2gf"]
+[ext_resource type="Texture2D" uid="uid://bqp1s4fptl3nf" path="res://Icons/LeaveIcon.png" id="14_x8hgr"]
+[ext_resource type="Texture2D" uid="uid://crp8k21rcldio" path="res://Icons/sliders.png" id="16_7tuxj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cn10i"]
+bg_color = Color(0.0588235, 0.0431373, 0.054902, 0.392157)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
+bg_color = Color(0.290196, 0.313726, 0.360784, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdohb"]
 content_margin_left = 20.0
@@ -16,9 +40,192 @@ border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
 
-[node name="scn_EditMode" type="Node"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
+bg_color = Color(0.968627, 0.305882, 0.654902, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.258824, 0.494118, 0.898039, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
-[node name="LeftToolbarContentContainer" parent="." instance=ExtResource("1_ehu1h")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h7kyx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cgnbv"]
+bg_color = Color(0.258824, 0.494118, 0.898039, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.752941, 0.878431, 0.996078, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r5361"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_picb8"]
+bg_color = Color(0.262745, 0.286275, 0.396078, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Animation" id="Animation_xh6aa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_styles/panel:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.262745, 0.286275, 0.396078, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MessageLayout/Title:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MessageLayout/Subtitle:theme_override_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.588235, 0.623529, 0.682353, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_m5dns"]
+resource_name = "fadeinout"
+length = 3.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_styles/panel:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5, 3.5),
+"transitions": PackedFloat32Array(0.420448, 1, 1.8025, 1),
+"update": 0,
+"values": [Color(0.262745, 0.286275, 0.396078, 0), Color(0.262745, 0.286275, 0.396078, 0.784314), Color(0.262745, 0.286275, 0.396078, 0.784314), Color(0.262745, 0.286275, 0.396078, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MessageLayout/Title:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5, 3.5),
+"transitions": PackedFloat32Array(0.420448, 1, 1.8025, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MessageLayout/Subtitle:theme_override_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5, 3.5),
+"transitions": PackedFloat32Array(0.420448, 1, 1.8025, 1),
+"update": 0,
+"values": [Color(0.588235, 0.623529, 0.682353, 0), Color(0.588235, 0.623529, 0.682353, 1), Color(0.588235, 0.623529, 0.682353, 1), Color(0.588235, 0.623529, 0.682353, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1fqn2"]
+_data = {
+"RESET": SubResource("Animation_xh6aa"),
+"fadeinout": SubResource("Animation_m5dns")
+}
+
+[node name="Editor" type="Node"]
+script = ExtResource("1_w4h5f")
+metadata/_edit_horizontal_guides_ = [0.0]
+
+[node name="BGColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Grid" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_wihld")
+primary_color = Color(1, 1, 1, 0.54902)
+secondary_color = Color(1, 1, 1, 0.196078)
+
+[node name="OverlayElements" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Interface" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftToolbar" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
 anchors_preset = 9
 anchor_left = 0.0
 anchor_right = 0.0
@@ -27,11 +234,9 @@ offset_top = 0.0
 offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 2
-docked_edge = 0
-toggle_type = 0
 move_width = 55
 
-[node name="ToggleShow" parent="LeftToolbarContentContainer" index="1"]
+[node name="ToggleShow" parent="Interface/LeftToolbar" index="1"]
 anchors_preset = 4
 anchor_left = 0.0
 anchor_top = 0.5
@@ -43,9 +248,15 @@ offset_right = 35.0
 offset_bottom = 30.0
 grow_horizontal = 1
 grow_vertical = 2
-text = "❯"
+tooltip_text = "Change tools"
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("4_eevsf")
+expand_icon = true
 
-[node name="BGPanel" type="PanelContainer" parent="LeftToolbarContentContainer"]
+[node name="BGPanel" type="PanelContainer" parent="Interface/LeftToolbar"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -59,26 +270,40 @@ grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("1_vu2ib")
 
-[node name="ButtonLayout" type="VBoxContainer" parent="LeftToolbarContentContainer/BGPanel"]
+[node name="ButtonLayout" type="VBoxContainer" parent="Interface/LeftToolbar/BGPanel"]
 layout_mode = 2
+script = ExtResource("5_e52fa")
+base_stylebox = SubResource("StyleBoxFlat_cn10i")
+highlighted_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
 
-[node name="Button" type="Button" parent="LeftToolbarContentContainer/BGPanel/ButtonLayout"]
+[node name="MoveTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-icon = ExtResource("3_0knws")
+theme_override_font_sizes/font_size = 23
+text = "✥"
 expand_icon = true
+script = ExtResource("5_iterm")
 
-[node name="TopMenuContentContainer" parent="." instance=ExtResource("1_ehu1h")]
+[node name="SelectTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "⬚"
+expand_icon = true
+script = ExtResource("5_iterm")
+tool_to_select = 1
+
+[node name="TopMenu" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
 anchors_preset = 10
 anchor_left = 0.0
 offset_top = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 docked_edge = 1
-toggle_type = 0
 move_width = 55
 
-[node name="ToggleShow" parent="TopMenuContentContainer" index="1"]
+[node name="ToggleShow" parent="Interface/TopMenu" index="1"]
 custom_minimum_size = Vector2(60, 30)
 anchors_preset = 5
 anchor_left = 0.5
@@ -88,10 +313,11 @@ offset_top = 5.0
 offset_right = 30.0
 offset_bottom = 39.0
 grow_horizontal = 2
-text = "˅"
+tooltip_text = "Create overlays and change settings"
+text = "+"
 clip_text = true
 
-[node name="BGPanel" type="PanelContainer" parent="TopMenuContentContainer"]
+[node name="BGPanel" type="PanelContainer" parent="Interface/TopMenu"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -107,24 +333,160 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 theme = ExtResource("1_vu2ib")
 
-[node name="ButtonLayout" type="HBoxContainer" parent="TopMenuContentContainer/BGPanel"]
+[node name="ButtonLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel"]
 layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="ToggleUIVisibility" type="Button" parent="TopMenuContentContainer/BGPanel/ButtonLayout"]
+[node name="CreatePanel" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-text = "H"
+tooltip_text = "Create a panel (can be used as backgrounds or other decoration)"
+theme_override_font_sizes/font_size = 23
+text = "▢"
+expand_icon = true
+script = ExtResource("4_owp6d")
+
+[node name="CreateText" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Create a text label"
+theme_override_font_sizes/font_size = 23
+text = "Tt"
+expand_icon = true
+script = ExtResource("4_owp6d")
+type_to_create = 1
+
+[node name="Spacer" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
+
+[node name="ToggleGrid" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Shows Grid Settings"
+theme_override_font_sizes/font_size = 23
+toggle_mode = true
+text = "#"
+expand_icon = true
+script = ExtResource("8_wmgu4")
+
+[node name="GridSettingsBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.0
+offset_top = 50.0
+offset_right = 69.0
+offset_bottom = 86.0
+grow_horizontal = 2
+
+[node name="FieldsLayout" type="VBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG"]
+layout_mode = 2
+
+[node name="ToggleGridLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
+layout_mode = 2
+text = "Grid Enabled"
+
+[node name="CheckBox" type="CheckBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
+layout_mode = 2
+
+[node name="GridSizeLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
+layout_mode = 2
+text = "Size"
+
+[node name="SpinBox" type="SpinBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 8.0
+value = 5.0
+rounded = true
+update_on_text_changed = true
+
+[node name="ChangeBGColor" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Changes the color of the background (for visual clarity and other testing)"
+theme_override_font_sizes/font_size = 23
+toggle_mode = true
+text = "⎚"
+expand_icon = true
+script = ExtResource("3_f6tth")
+
+[node name="ColorPickerBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 628.0
+grow_horizontal = 2
+
+[node name="ColorPicker" type="ColorPicker" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor/ColorPickerBG"]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ToggleUIVisibility" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Hide UI elements and preview overlays"
+icon = ExtResource("4_3qsby")
+expand_icon = true
+script = ExtResource("6_qaor4")
+
+[node name="Spacer2" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
+
+[node name="Settings" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Hide UI elements and preview overlays"
+icon = ExtResource("7_5ii8i")
+icon_alignment = 1
 expand_icon = true
 
-[node name="ChangeModeContainer" parent="." instance=ExtResource("1_ehu1h")]
+[node name="ChangeMode" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
 docked_edge = 2
-toggle_type = 0
 
-[node name="ChangeToOverlay" type="Button" parent="ChangeModeContainer"]
+[node name="ToggleShow" parent="Interface/ChangeMode" index="1"]
+tooltip_text = "Switch back to overlay mode"
+theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("14_x8hgr")
+expand_icon = true
+
+[node name="ToOverlayButton" type="Button" parent="Interface/ChangeMode"]
 custom_minimum_size = Vector2(180, 60)
 layout_mode = 0
 offset_right = 180.0
@@ -139,5 +501,266 @@ text = "Overlay Mode"
 script = ExtResource("2_dw1i8")
 scene_name = "overlay"
 
-[editable path="LeftToolbarContentContainer"]
-[editable path="TopMenuContentContainer"]
+[node name="Inspector" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
+anchors_preset = 3
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_vertical = 0
+docked_edge = 2
+move_width = 300
+
+[node name="ToggleShow" parent="Interface/Inspector" index="1"]
+offset_top = -65.0
+offset_bottom = -5.0
+tooltip_text = "Customise the currently selected overlay"
+theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("16_7tuxj")
+icon_alignment = 1
+expand_icon = true
+
+[node name="BGPanel" type="Panel" parent="Interface/Inspector"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme = ExtResource("1_vu2ib")
+
+[node name="ToolGizmos" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MoveTool" type="Control" parent="ToolGizmos"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+script = ExtResource("11_gk2gf")
+
+[node name="TranslationGizmo" type="Button" parent="ToolGizmos/MoveTool"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_vb07r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vb07r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vb07r")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h7kyx")
+
+[node name="ResizeGizmos" type="Control" parent="ToolGizmos/MoveTool"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TL" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="T" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="TR" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="R" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="BR" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="B" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="BL" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="L" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
+
+[node name="Message" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(620, 120)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -60.0
+offset_right = 310.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_picb8")
+script = ExtResource("1_2uypw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Message"]
+libraries = {
+"": SubResource("AnimationLibrary_1fqn2")
+}
+
+[node name="MessageLayout" type="VBoxContainer" parent="Message"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Message/MessageLayout"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Message/MessageLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.588235, 0.623529, 0.682353, 1)
+text = "Subtitle"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[editable path="Interface/LeftToolbar"]
+[editable path="Interface/TopMenu"]
+[editable path="Interface/ChangeMode"]
+[editable path="Interface/Inspector"]
