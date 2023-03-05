@@ -19,7 +19,9 @@ func _process(_delta):
 		interface.show()
 		bg_color.show()
 		gizmos.show()
-		grid.show()
+		
+		if %Grid.is_visible:
+			grid.show()
 	
 		interface_hidden = false
 

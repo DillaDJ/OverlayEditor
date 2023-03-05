@@ -1,44 +1,27 @@
-[gd_scene load_steps=31 format=3 uid="uid://b5k5yoavpl66b"]
+[gd_scene load_steps=35 format=3 uid="uid://k8oejpp4gyer"]
 
 [ext_resource type="Script" path="res://gd_Message.gd" id="1_2uypw"]
-[ext_resource type="PackedScene" uid="uid://c31mdyy0mq04b" path="res://scn_ToggleContentContainer.tscn" id="1_ehu1h"]
+[ext_resource type="PackedScene" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
 [ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
-[ext_resource type="Script" path="res://gd_ChangeSceneButton.gd" id="2_dw1i8"]
-[ext_resource type="Script" path="res://gd_Grid.gd" id="2_wihld"]
-[ext_resource type="Script" path="res://gd_BGColorChanger.gd" id="3_f6tth"]
+[ext_resource type="Script" path="res://gd_OverlayContainer.gd" id="2_yv83e"]
 [ext_resource type="Texture2D" uid="uid://ctb6by47bruyw" path="res://Icons/eye.png" id="4_3qsby"]
+[ext_resource type="Script" path="res://Utility/gd_Grid.gd" id="4_33u1s"]
 [ext_resource type="Texture2D" uid="uid://b8j3a01gr5h50" path="res://Icons/tools.png" id="4_eevsf"]
-[ext_resource type="Script" path="res://gd_OverlayCreator.gd" id="4_owp6d"]
-[ext_resource type="Script" path="res://gd_ButtonHighlighter.gd" id="5_e52fa"]
-[ext_resource type="Script" path="res://gd_ChangeTool.gd" id="5_iterm"]
-[ext_resource type="Script" path="res://gd_UIVisibilityToggler.gd" id="6_qaor4"]
+[ext_resource type="Script" path="res://Utility/gd_ButtonHighlighter.gd" id="6_cyb0l"]
 [ext_resource type="Texture2D" uid="uid://bqcig2aovmk11" path="res://Icons/cog.png" id="7_5ii8i"]
-[ext_resource type="Script" path="res://gd_GridToggler.gd" id="8_wmgu4"]
-[ext_resource type="Script" path="res://gd_MoveTool.gd" id="11_gk2gf"]
+[ext_resource type="Script" path="res://Utility/gd_ChangeTool.gd" id="7_vw1rj"]
+[ext_resource type="Script" path="res://Utility/gd_OverlayCreator.gd" id="8_le8sj"]
+[ext_resource type="Script" path="res://Utility/gd_GridToggler.gd" id="9_byeq5"]
+[ext_resource type="Script" path="res://Utility/gd_BGColorChanger.gd" id="10_gdd3r"]
+[ext_resource type="Script" path="res://Utility/gd_UIVisibilityToggler.gd" id="12_0cd2w"]
 [ext_resource type="Texture2D" uid="uid://bqp1s4fptl3nf" path="res://Icons/LeaveIcon.png" id="14_x8hgr"]
+[ext_resource type="Script" path="res://Utility/gd_ChangeSceneButton.gd" id="15_xjk06"]
 [ext_resource type="Texture2D" uid="uid://crp8k21rcldio" path="res://Icons/sliders.png" id="16_7tuxj"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cn10i"]
-bg_color = Color(0.0588235, 0.0431373, 0.054902, 0.392157)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
-bg_color = Color(0.290196, 0.313726, 0.360784, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdohb"]
-content_margin_left = 20.0
-content_margin_right = 20.0
-bg_color = Color(0.196078, 0.235294, 0.329412, 0.862745)
-border_width_left = 3
-border_width_top = 3
-border_width_bottom = 3
-border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
+[ext_resource type="Script" path="res://gd_Inspector.gd" id="17_woalc"]
+[ext_resource type="Script" path="res://Tooling/gd_MoveTool.gd" id="18_5oclh"]
+[ext_resource type="Script" path="res://gd_Hierarchy.gd" id="18_yihel"]
+[ext_resource type="Script" path="res://gd_DraggableTree.gd" id="19_gyogg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -67,6 +50,27 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r5361"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cn10i"]
+bg_color = Color(0.0588235, 0.0431373, 0.054902, 0.392157)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
+bg_color = Color(0.290196, 0.313726, 0.360784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytkeg"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.196078, 0.235294, 0.329412, 0.862745)
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_picb8"]
 bg_color = Color(0.262745, 0.286275, 0.396078, 0)
@@ -195,16 +199,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Grid" type="Control" parent="."]
+[node name="Unselect" type="Button" parent="."]
 unique_name_in_owner = true
-visible = false
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("2_wihld")
-primary_color = Color(1, 1, 1, 0.54902)
-secondary_color = Color(1, 1, 1, 0.196078)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
 
 [node name="OverlayElements" type="Control" parent="."]
 unique_name_in_owner = true
@@ -214,8 +219,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_yv83e")
 
-[node name="Interface" type="Control" parent="."]
+[node name="ToolGizmos" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -223,331 +230,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="LeftToolbar" parent="Interface" instance=ExtResource("1_ehu1h")]
-layout_mode = 1
-anchors_preset = 9
-anchor_left = 0.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-offset_top = 0.0
-offset_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 2
-move_width = 55
-
-[node name="ToggleShow" parent="Interface/LeftToolbar" index="1"]
-anchors_preset = 4
-anchor_left = 0.0
-anchor_top = 0.5
-anchor_right = 0.0
-anchor_bottom = 0.5
-offset_left = 5.0
-offset_top = -30.0
-offset_right = 35.0
-offset_bottom = 30.0
-grow_horizontal = 1
-grow_vertical = 2
-tooltip_text = "Change tools"
-theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
-theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-text = ""
-icon = ExtResource("4_eevsf")
-expand_icon = true
-
-[node name="BGPanel" type="PanelContainer" parent="Interface/LeftToolbar"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -25.0
-offset_bottom = 25.0
-grow_horizontal = 0
-grow_vertical = 2
-theme = ExtResource("1_vu2ib")
-
-[node name="ButtonLayout" type="VBoxContainer" parent="Interface/LeftToolbar/BGPanel"]
-layout_mode = 2
-script = ExtResource("5_e52fa")
-base_stylebox = SubResource("StyleBoxFlat_cn10i")
-highlighted_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
-
-[node name="MoveTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-theme_override_font_sizes/font_size = 23
-text = "✥"
-expand_icon = true
-script = ExtResource("5_iterm")
-
-[node name="SelectTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-theme_override_font_sizes/font_size = 23
-text = "⬚"
-expand_icon = true
-script = ExtResource("5_iterm")
-tool_to_select = 1
-
-[node name="TopMenu" parent="Interface" instance=ExtResource("1_ehu1h")]
-layout_mode = 1
-anchors_preset = 10
-anchor_left = 0.0
-offset_top = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-docked_edge = 1
-move_width = 55
-
-[node name="ToggleShow" parent="Interface/TopMenu" index="1"]
-custom_minimum_size = Vector2(60, 30)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -30.0
-offset_top = 5.0
-offset_right = 30.0
-offset_bottom = 39.0
-grow_horizontal = 2
-tooltip_text = "Create overlays and change settings"
-text = "+"
-clip_text = true
-
-[node name="BGPanel" type="PanelContainer" parent="Interface/TopMenu"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -25.0
-offset_top = -50.0
-offset_right = 25.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme = ExtResource("1_vu2ib")
-
-[node name="ButtonLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel"]
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="CreatePanel" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Create a panel (can be used as backgrounds or other decoration)"
-theme_override_font_sizes/font_size = 23
-text = "▢"
-expand_icon = true
-script = ExtResource("4_owp6d")
-
-[node name="CreateText" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Create a text label"
-theme_override_font_sizes/font_size = 23
-text = "Tt"
-expand_icon = true
-script = ExtResource("4_owp6d")
-type_to_create = 1
-
-[node name="Spacer" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
-
-[node name="ToggleGrid" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Shows Grid Settings"
-theme_override_font_sizes/font_size = 23
-toggle_mode = true
-text = "#"
-expand_icon = true
-script = ExtResource("8_wmgu4")
-
-[node name="GridSettingsBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid"]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -69.0
-offset_top = 50.0
-offset_right = 69.0
-offset_bottom = 86.0
-grow_horizontal = 2
-
-[node name="FieldsLayout" type="VBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG"]
-layout_mode = 2
-
-[node name="ToggleGridLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
-layout_mode = 2
-text = "Grid Enabled"
-
-[node name="CheckBox" type="CheckBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
-layout_mode = 2
-
-[node name="GridSizeLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
-layout_mode = 2
-text = "Size"
-
-[node name="SpinBox" type="SpinBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = 1.0
-max_value = 8.0
-value = 5.0
-rounded = true
-update_on_text_changed = true
-
-[node name="ChangeBGColor" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Changes the color of the background (for visual clarity and other testing)"
-theme_override_font_sizes/font_size = 23
-toggle_mode = true
-text = "⎚"
-expand_icon = true
-script = ExtResource("3_f6tth")
-
-[node name="ColorPickerBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor"]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -150.0
-offset_top = 50.0
-offset_right = 150.0
-offset_bottom = 628.0
-grow_horizontal = 2
-
-[node name="ColorPicker" type="ColorPicker" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor/ColorPickerBG"]
-layout_mode = 2
-color = Color(1, 1, 1, 0)
-
-[node name="ToggleUIVisibility" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Hide UI elements and preview overlays"
-icon = ExtResource("4_3qsby")
-expand_icon = true
-script = ExtResource("6_qaor4")
-
-[node name="Spacer2" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
-
-[node name="Settings" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-tooltip_text = "Hide UI elements and preview overlays"
-icon = ExtResource("7_5ii8i")
-icon_alignment = 1
-expand_icon = true
-
-[node name="ChangeMode" parent="Interface" instance=ExtResource("1_ehu1h")]
-layout_mode = 1
-docked_edge = 2
-
-[node name="ToggleShow" parent="Interface/ChangeMode" index="1"]
-tooltip_text = "Switch back to overlay mode"
-theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
-theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
-theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-text = ""
-icon = ExtResource("14_x8hgr")
-expand_icon = true
-
-[node name="ToOverlayButton" type="Button" parent="Interface/ChangeMode"]
-custom_minimum_size = Vector2(180, 60)
-layout_mode = 0
-offset_right = 180.0
-offset_bottom = 60.0
-mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_hdohb")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hdohb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_hdohb")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_hdohb")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_sqy4d")
-text = "Overlay Mode"
-script = ExtResource("2_dw1i8")
-scene_name = "overlay"
-
-[node name="Inspector" parent="Interface" instance=ExtResource("1_ehu1h")]
-layout_mode = 1
-anchors_preset = 3
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = 0.0
-offset_bottom = 0.0
-grow_vertical = 0
-docked_edge = 2
-move_width = 300
-
-[node name="ToggleShow" parent="Interface/Inspector" index="1"]
-offset_top = -65.0
-offset_bottom = -5.0
-tooltip_text = "Customise the currently selected overlay"
-theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
-theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
-theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-text = ""
-icon = ExtResource("16_7tuxj")
-icon_alignment = 1
-expand_icon = true
-
-[node name="BGPanel" type="Panel" parent="Interface/Inspector"]
-custom_minimum_size = Vector2(300, 400)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
-grow_vertical = 0
-theme = ExtResource("1_vu2ib")
-
-[node name="ToolGizmos" type="Control" parent="."]
-unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="MoveTool" type="Control" parent="ToolGizmos"]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 0
-script = ExtResource("11_gk2gf")
+script = ExtResource("18_5oclh")
 
 [node name="TranslationGizmo" type="Button" parent="ToolGizmos/MoveTool"]
 layout_mode = 1
@@ -713,6 +402,410 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
+[node name="Interface" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Grid" type="Control" parent="Interface"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("4_33u1s")
+primary_color = Color(1, 1, 1, 0.54902)
+secondary_color = Color(1, 1, 1, 0.196078)
+
+[node name="LeftToolbar" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
+anchors_preset = 9
+anchor_left = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 2
+move_width = 55
+
+[node name="ToggleShow" parent="Interface/LeftToolbar" index="1"]
+anchors_preset = 4
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -30.0
+offset_right = 35.0
+offset_bottom = 30.0
+grow_horizontal = 1
+grow_vertical = 2
+tooltip_text = "Change tools"
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("4_eevsf")
+expand_icon = true
+
+[node name="BGPanel" type="PanelContainer" parent="Interface/LeftToolbar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -25.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("1_vu2ib")
+
+[node name="ButtonLayout" type="VBoxContainer" parent="Interface/LeftToolbar/BGPanel"]
+layout_mode = 2
+script = ExtResource("6_cyb0l")
+base_stylebox = SubResource("StyleBoxFlat_cn10i")
+highlighted_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
+
+[node name="MoveTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "✥"
+expand_icon = true
+script = ExtResource("7_vw1rj")
+
+[node name="SelectTool" type="Button" parent="Interface/LeftToolbar/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "⬚"
+expand_icon = true
+script = ExtResource("7_vw1rj")
+tool_to_select = 1
+
+[node name="TopMenu" parent="Interface" instance=ExtResource("1_ehu1h")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+docked_edge = 1
+move_width = 55
+
+[node name="ToggleShow" parent="Interface/TopMenu" index="1"]
+custom_minimum_size = Vector2(60, 30)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -30.0
+offset_top = 5.0
+offset_right = 30.0
+offset_bottom = 39.0
+grow_horizontal = 2
+tooltip_text = "Create overlays and change settings"
+text = "+"
+clip_text = true
+
+[node name="BGPanel" type="PanelContainer" parent="Interface/TopMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -50.0
+offset_right = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = ExtResource("1_vu2ib")
+
+[node name="ButtonLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="CreatePanel" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Create a panel (can be used as backgrounds or other decoration)"
+theme_override_font_sizes/font_size = 23
+text = "▢"
+expand_icon = true
+script = ExtResource("8_le8sj")
+
+[node name="CreateText" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Create a text label"
+theme_override_font_sizes/font_size = 23
+text = "Tt"
+expand_icon = true
+script = ExtResource("8_le8sj")
+type_to_create = 1
+
+[node name="Spacer" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
+
+[node name="ToggleGrid" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Shows Grid Settings"
+theme_override_font_sizes/font_size = 23
+toggle_mode = true
+text = "#"
+expand_icon = true
+script = ExtResource("9_byeq5")
+
+[node name="GridSettingsBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.0
+offset_top = 50.0
+offset_right = 69.0
+offset_bottom = 86.0
+grow_horizontal = 2
+
+[node name="FieldsLayout" type="VBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG"]
+layout_mode = 2
+
+[node name="ToggleGridLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
+layout_mode = 2
+text = "Grid Enabled"
+
+[node name="CheckBox" type="CheckBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
+layout_mode = 2
+
+[node name="GridSizeLayout" type="HBoxContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
+layout_mode = 2
+text = "Size"
+
+[node name="SpinBox" type="SpinBox" parent="Interface/TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/GridSizeLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 8.0
+value = 6.0
+rounded = true
+update_on_text_changed = true
+
+[node name="ChangeBGColor" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Changes the color of the background (for visual clarity and other testing)"
+theme_override_font_sizes/font_size = 23
+toggle_mode = true
+text = "⎚"
+expand_icon = true
+script = ExtResource("10_gdd3r")
+
+[node name="ColorPickerBG" type="PanelContainer" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 628.0
+grow_horizontal = 2
+
+[node name="ColorPicker" type="ColorPicker" parent="Interface/TopMenu/BGPanel/ButtonLayout/ChangeBGColor/ColorPickerBG"]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ToggleUIVisibility" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Hide UI elements and preview overlays"
+icon = ExtResource("4_3qsby")
+expand_icon = true
+script = ExtResource("12_0cd2w")
+
+[node name="Spacer2" type="Panel" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
+
+[node name="Settings" type="Button" parent="Interface/TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Hide UI elements and preview overlays"
+icon = ExtResource("7_5ii8i")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ChangeMode" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 1
+
+[node name="ToggleShow" parent="Interface/ChangeMode" index="1"]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 5.0
+offset_top = 20.0
+offset_right = 35.0
+offset_bottom = 80.0
+grow_horizontal = 1
+tooltip_text = "Switch back to overlay mode"
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("14_x8hgr")
+expand_icon = true
+
+[node name="ToOverlayButton" type="Button" parent="Interface/ChangeMode"]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ytkeg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ytkeg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ytkeg")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ytkeg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sqy4d")
+text = "Overlay Mode"
+script = ExtResource("15_xjk06")
+scene_name = "overlay"
+
+[node name="HierachyInspector" parent="Interface" instance=ExtResource("1_ehu1h")]
+layout_mode = 1
+anchors_preset = 11
+anchor_bottom = 1.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_vertical = 2
+docked_edge = 2
+move_width = 360
+
+[node name="ToggleShow" parent="Interface/HierachyInspector" index="1"]
+anchors_preset = 6
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -30.0
+offset_right = -6.0
+offset_bottom = 30.0
+grow_vertical = 2
+tooltip_text = "Change hierachy of overlays and customise the currently selected overlay"
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+text = ""
+icon = ExtResource("16_7tuxj")
+icon_alignment = 1
+expand_icon = true
+
+[node name="BGPanel" type="Panel" parent="Interface/HierachyInspector"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Interface/HierachyInspector/BGPanel"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_vu2ib")
+split_offset = 420
+
+[node name="Hierarchy" type="Panel" parent="Interface/HierachyInspector/BGPanel/VSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("18_yihel")
+
+[node name="Tree" type="Tree" parent="Interface/HierachyInspector/BGPanel/VSplitContainer/Hierarchy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+hide_root = true
+script = ExtResource("19_gyogg")
+
+[node name="Inspector" type="Panel" parent="Interface/HierachyInspector/BGPanel/VSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("17_woalc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Interface/HierachyInspector/BGPanel/VSplitContainer/Inspector"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PropertyContainer" type="VBoxContainer" parent="Interface/HierachyInspector/BGPanel/VSplitContainer/Inspector/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
 [node name="Message" type="Panel" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -728,6 +821,7 @@ offset_right = 310.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_picb8")
 script = ExtResource("1_2uypw")
 
@@ -763,4 +857,4 @@ vertical_alignment = 1
 [editable path="Interface/LeftToolbar"]
 [editable path="Interface/TopMenu"]
 [editable path="Interface/ChangeMode"]
-[editable path="Interface/Inspector"]
+[editable path="Interface/HierachyInspector"]

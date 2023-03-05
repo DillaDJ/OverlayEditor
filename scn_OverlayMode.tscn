@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkfuts6u4mjmg"]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource type="PackedScene" uid="uid://c31mdyy0mq04b" path="res://scn_ToggleContentContainer.tscn" id="2_du0xg"]
-[ext_resource type="Script" path="res://gd_ChangeSceneButton.gd" id="3_vxap1"]
+[ext_resource type="PackedScene" path="res://Utility/scn_ToggleContentContainer.tscn" id="2_du0xg"]
+[ext_resource type="Script" path="res://Utility/gd_ChangeSceneButton.gd" id="3_vxap1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bkojo"]
 content_margin_left = 20.0

@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://mye4mfsbdv8b"]
+[gd_scene load_steps=2 format=3 uid="uid://mye4mfsbdv8b"]
+
+[ext_resource type="Script" path="res://Overlays/gd_TextOverlay.gd" id="1_nrmqn"]
 
 [node name="TextOverlay" type="Label"]
 anchors_preset = 8
@@ -12,5 +14,8 @@ offset_right = 56.0
 offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
 text = "Lorem Ipsum"
 autowrap_mode = 3
+script = ExtResource("1_nrmqn")

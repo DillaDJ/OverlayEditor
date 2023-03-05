@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://be2wo7fk5ffns"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krmgv"]
+bg_color = Color(1, 1, 1, 0.235294)
+
+[node name="Spacer" type="VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+
+[node name="Top" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="Wedge" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_krmgv")
+
+[node name="Bot" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2

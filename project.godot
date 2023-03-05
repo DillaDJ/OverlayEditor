@@ -17,7 +17,7 @@ config/icon="res://Icons/icon.svg"
 
 [autoload]
 
-sngl_Utility="*res://gd_Utility.gd"
+sngl_Utility="*res://Utility/gd_Utility.gd"
 
 [display]
 

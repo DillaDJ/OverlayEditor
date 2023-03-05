@@ -6,7 +6,6 @@ extends Button
 
 func _ready():
 	picker.connect("color_changed", Callable(self, "change_bg_color"))
-	#connect("focus_exited", Callable($ColorPickerBG, "hide"))
 	connect("button_down", Callable(self, "toggle_picker"))
 
 
