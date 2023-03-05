@@ -43,10 +43,14 @@ func _ready():
 	translation_gizmo.connect("button_down", Callable(self, "start_translate"))
 	translation_gizmo.connect("button_up", Callable(self, "stop_translate"))
 	
-	%Unselect.connect("button_down", Callable(self, "deselect_overlay"))
-	
 	%Hierarchy.connect("item_selected", Callable(self, "select_from_idx"))
-	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay").bind(true))
+	%Hierarchy.connect("child_selected", Callable(self, "select_child_from_idx"))
+	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
+
+
+func _unhandled_input(event):
+	if Input.is_action_pressed("left_click"):
+		deselect_overlay()
 
 
 func _process(delta):
@@ -66,6 +70,9 @@ func _process(delta):
 
 func change_tool(tool_type : Editor.EditingTools):
 	enabled = tool_type == Editor.EditingTools.MOVE
+	
+	if selected_overlay:
+		show()
 
 
 # Selection
@@ -74,10 +81,14 @@ func check_for_selections():
 	var overlays = %OverlayElements.get_children()
 	overlays.reverse()
 	
-	for i in range(overlays.size()):
-		if overlays[i].get_global_rect().has_point(mouse_pos):
-			selection_group.append(overlays[i])
-
+	for overlay in overlays:
+		if overlay.get_global_rect().has_point(mouse_pos):
+			selection_group.append(overlay)
+			
+			for child in overlay.get_children():
+				if child.get_global_rect().has_point(mouse_pos):
+					selection_group.append(child)
+	
 	if selection_group.size() > 0:
 		var selected_idx : int = selection_group.find(selected_overlay)
 		if selected_idx != -1:
@@ -85,9 +96,14 @@ func check_for_selections():
 			if new_selection == selected_overlay:
 				return
 			
-			select_overlay(new_selection)
+			click_select_overlay(new_selection)
 		else:
-			select_overlay(selection_group[0])
+			click_select_overlay(selection_group[0])
+
+
+func click_select_overlay(overlay):
+	select_overlay(overlay)
+	emit_signal("overlay_selected", overlay)
 
 
 func select_overlay(overlay):
@@ -95,10 +111,8 @@ func select_overlay(overlay):
 	
 	reposition_gizmos()
 	
-	translation_gizmo.position = overlay.position
+	translation_gizmo.global_position = overlay.global_position
 	translation_gizmo.size = overlay.size
-	
-	emit_signal("overlay_selected", overlay)
 	
 	if enabled:
 		show()
@@ -115,6 +129,12 @@ func select_from_idx(idx):
 	select_overlay(overlay)
 
 
+func select_child_from_idx(parent_idx, child_idx):
+	var parent = %OverlayElements.get_children()[parent_idx]
+	var child = parent.get_child(child_idx)
+	select_overlay(child)
+
+
 # Resize and translate
 func translate_and_resize():
 	var new_pos = mouse_pos + clicked_offset
@@ -127,7 +147,7 @@ func translate_and_resize():
 		adjust_gizmos_for_resize()
 		transform_selected_overlay()
 	elif translating:
-		translation_gizmo.position = new_pos
+		translation_gizmo.global_position = new_pos
 		transform_selected_overlay()
 		reposition_gizmos()
 
@@ -163,7 +183,7 @@ func stop_resize():
 
 
 func start_translate():
-	clicked_offset = selected_overlay.position - mouse_pos
+	clicked_offset = selected_overlay.global_position - mouse_pos
 	translating = true
 
 
@@ -219,7 +239,7 @@ func adjust_gizmos_for_resize():
 		if lowest_point == null or lowest_point.position.x > gizmo.position.x or lowest_point.position.y > gizmo.position.y:
 			lowest_point = gizmo
 
-	translation_gizmo.position = lowest_point.position + Vector2(10, 10)
+	translation_gizmo.global_position = lowest_point.global_position + Vector2(10, 10)
 
 	translation_gizmo.size.x = abs(resize_gizmos[0].position.x - resize_gizmos[2].position.x) - 10
 	translation_gizmo.size.y = abs(resize_gizmos[0].position.y - resize_gizmos[6].position.y) - 10

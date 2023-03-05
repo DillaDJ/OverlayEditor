@@ -6,6 +6,8 @@ extends Panel
 var root : TreeItem
 
 signal item_selected(idx)
+signal child_selected(parent, idx)
+
 signal items_deselected()
 
 
@@ -24,19 +26,38 @@ func _ready():
 func add_to_tree(overlay):
 	var new_item : TreeItem = tree.create_item()
 	new_item.set_text(0, overlay.name)
+	
+	overlay.connect("name_changed", Callable(self, "update_item_text").bind(new_item))
 
 
 func select_by_overlay(overlay : Control):
-	select_by_index(overlay.get_index())
+	if overlay.get_parent() == %OverlayElements:
+		select_by_index(overlay.get_index())
+	else:
+		select_child_by_index(overlay.get_parent().get_index(), overlay.get_index())
 
 
 func select_by_index(idx):
 	root.get_children()[idx].select(0)
 
 
+func select_child_by_index(parent_idx, child_idx):
+	root.get_children()[parent_idx].get_children()[child_idx].select(0)
+
+
 func deselect_all(_mouse_pos, _mouse_btn_idx):
 	tree.deselect_all()
+	emit_signal("items_deselected")
 
 
 func emit_selected_idx():
-	emit_signal("item_selected", tree.get_selected().get_index())
+	var item : TreeItem = tree.get_selected()
+	
+	if item.get_parent() != root:
+		emit_signal("child_selected", item.get_parent().get_index(), item.get_index())
+	else:
+		emit_signal("item_selected", item.get_index())
+
+
+func update_item_text(new_name, item):
+	item.set_text(0, new_name)

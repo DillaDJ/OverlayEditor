@@ -10,6 +10,9 @@ func _get_drag_data(_at_position):
 	set_drop_mode_flags(DROP_MODE_INBETWEEN | DROP_MODE_ON_ITEM)
 	
 	var tree_item = get_selected()
+	if !tree_item:
+		return
+	
 	var preview = preview_scn.instantiate()
 	preview.set_text(tree_item.get_text(0))
 	set_drag_preview(preview)
@@ -26,6 +29,9 @@ func _drop_data(pos, item):
 	var shift = get_drop_section_at_position(pos)
 	# shift == 0 if dropping on item, -1, +1 if in between
 	
+	if shift == -100 or to_item.get_parent().get_parent():
+		return
+	
 	emit_signal('tree_item_reordered', item, to_item, shift)
 	drop_tree_item(item, to_item, shift)
 
@@ -36,7 +42,10 @@ func drop_tree_item(item, to_item, shift):
 			item.move_before(to_item)
 		
 		0:
-			pass
+			var child = to_item.create_child()
+			child.set_text(0, item.get_text(0))
+			
+			item.free()
 		
 		1:
 			item.move_after(to_item)

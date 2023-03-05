@@ -14,9 +14,24 @@ extends Panel
 func _ready():
 	%MoveTool.connect("overlay_selected", Callable(self, "populate_properties"))
 	%MoveTool.connect("overlay_deselected", Callable(self, "clear_properties"))
+	
+	%Hierarchy.connect("item_selected", Callable(self, "populate_from_idx"))
+	%Hierarchy.connect("child_selected", Callable(self, "populate_child_from_idx"))
+
+
+func populate_from_idx(idx):
+	var overlay = %OverlayElements.get_child(idx)
+	populate_properties(overlay)
+
+
+func populate_child_from_idx(parent_idx, child_idx):
+	var overlay = %OverlayElements.get_child(parent_idx).get_child(child_idx)
+	populate_properties(overlay)
 
 
 func populate_properties(overlay : Overlay):
+	clear_properties()
+	
 	for property in overlay.overridable_properties:
 		if typeof(property) == TYPE_STRING:
 			property_container.add_child(spacer.instantiate())

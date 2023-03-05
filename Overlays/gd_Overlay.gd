@@ -30,7 +30,7 @@ class Property:
 var overridable_properties : Array = []
 
 
-signal name_changed()
+signal name_changed(new_name)
 signal pos_changed()
 signal size_changed()
 
@@ -43,15 +43,15 @@ func _ready():
 
 
 func set_overlay_name(new_name):
-	emit_signal("name_changed")
 	set_name(new_name)
+	emit_signal("name_changed", new_name)
 
 
 func set_overlay_pos(new_pos):
-	emit_signal("pos_changed")
 	set_position(new_pos)
+	emit_signal("pos_changed")
 
 
 func set_overlay_size(new_size):
-	emit_signal("size_changed")
 	set_size(new_size)
+	emit_signal("size_changed")

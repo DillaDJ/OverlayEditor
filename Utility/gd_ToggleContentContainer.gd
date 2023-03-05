@@ -15,6 +15,7 @@ enum ToggleType { CLICK, HOVER }
 
 var anim_lib  : AnimationLibrary
 
+var hovering_content := false
 var toggled := false
 
 
@@ -130,10 +131,3 @@ func adjust_anim_clips():
 func reset_lock(anim_name):
 	if anim_name == "toggles/fold":
 		toggled = false
-
-
-func is_mouse_over_content(mouse_pos):
-	for child in get_children():
-		if child.has_method("get_global_rect") \
-		and child.get_global_rect().has_point(mouse_pos):
-			return true
