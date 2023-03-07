@@ -2,7 +2,6 @@ extends Button
 
 
 @onready var message 	: Control = %Message
-@onready var toolbar 	: Control = %Toolbar
 @onready var top_menu 	: Control = %TopMenu
 @onready var change_mode: Control = %ChangeMode
 @onready var right_panel: Control = %HierarchyInspector
@@ -30,7 +29,6 @@ func _process(_delta):
 
 func hide_interface():
 	message.show_message("Interface Hidden", "To unhide the interface, press any key after this message fades out")
-	toolbar.hide()
 	change_mode.hide()
 	top_menu.hide()
 	right_panel.hide()
@@ -38,14 +36,11 @@ func hide_interface():
 	gizmos.hide()
 	grid.hide()
 	
-	%Unselect.disabled = true
-	
 	await get_tree().create_timer(3.5).timeout
 	interface_hidden = true
 
 
 func show_interface():
-	toolbar.show()
 	change_mode.show()
 	top_menu.show()
 	right_panel.show()
@@ -55,12 +50,10 @@ func show_interface():
 	if %Grid.is_visible:
 		grid.show()
 	
-	%Unselect.disabled = false
 	interface_hidden = false
 
 
 func hide_for_editing():
-	toolbar.hide()
 	change_mode.hide()
 	top_menu.hide()
 	right_panel.hide()

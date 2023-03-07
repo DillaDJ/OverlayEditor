@@ -5,27 +5,23 @@ extends Panel
 @onready var short_string_property_scn 	: PackedScene = preload("res://Overlays/Properties/scn_ShortStringProperty.tscn")
 @onready var string_property_scn 		: PackedScene = preload("res://Overlays/Properties/scn_StringProperty.tscn")
 @onready var vector2_property_scn 		: PackedScene = preload("res://Overlays/Properties/scn_Vector2Property.tscn")
+@onready var vector4_property_scn 		: PackedScene = preload("res://Overlays/Properties/scn_Vector4Property.tscn")
 @onready var color_property_scn 		: PackedScene = preload("res://Overlays/Properties/scn_ColorProperty.tscn")
 @onready var spacer						: PackedScene = preload("res://Overlays/Properties/scn_Spacer.tscn")
 
 @onready var property_container = $ScrollContainer/PropertyContainer
+@onready var overlay_container = %OverlayElements
 
 
 func _ready():
 	%MoveTool.connect("overlay_selected", Callable(self, "populate_properties"))
 	%MoveTool.connect("overlay_deselected", Callable(self, "clear_properties"))
 	
-	%Hierarchy.connect("item_selected", Callable(self, "populate_from_idx"))
-	%Hierarchy.connect("child_selected", Callable(self, "populate_child_from_idx"))
+	%Hierarchy.connect("item_selected", Callable(self, "populate_from_path"))
 
 
-func populate_from_idx(idx):
-	var overlay = %OverlayElements.get_child(idx)
-	populate_properties(overlay)
-
-
-func populate_child_from_idx(parent_idx, child_idx):
-	var overlay = %OverlayElements.get_child(parent_idx).get_child(child_idx)
+func populate_from_path(path : String):
+	var overlay : Control = overlay_container.get_node(path)
 	populate_properties(overlay)
 
 
@@ -53,6 +49,9 @@ func populate_properties(overlay : Overlay):
 			Overlay.Property.Type.VECTOR2:
 				add_property_interface(vector2_property_scn, property)
 				
+			Overlay.Property.Type.VECTOR4:
+				add_property_interface(vector4_property_scn, property)
+			
 			Overlay.Property.Type.COLOR:
 				add_property_interface(color_property_scn, property)
 

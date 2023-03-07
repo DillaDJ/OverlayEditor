@@ -16,7 +16,7 @@ func _ready():
 
 
 func create_overlay(type : OverlayTypes):
-	var new_overlay
+	var new_overlay : Control
 	
 	match type:
 		OverlayTypes.PANEL:
@@ -26,3 +26,4 @@ func create_overlay(type : OverlayTypes):
 			new_overlay = text_scn.instantiate()
 	
 	%OverlayElements.add_child(new_overlay)
+	sngl_Utility.get_scene_root().emit_signal("overlay_created", new_overlay)
