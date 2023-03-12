@@ -1,11 +1,12 @@
 extends Button
 
 
-enum OverlayTypes { PANEL, TEXT }
+enum OverlayTypes { PANEL, TEXTURE_PANEL, TEXT }
 
 
-var panel_scn : PackedScene = preload("res://Overlays/scn_PanelOverlay.tscn")
-var text_scn : PackedScene = preload("res://Overlays/scn_TextOverlay.tscn")
+var panel_scn 			: PackedScene = preload("res://Overlays/scn_PanelOverlay.tscn")
+var texture_panel_scn 	: PackedScene = preload("res://Overlays/scn_TexturePanelOverlay.tscn")
+var text_scn 			: PackedScene = preload("res://Overlays/scn_TextOverlay.tscn")
 
 
 @export var type_to_create : OverlayTypes
@@ -21,6 +22,9 @@ func create_overlay(type : OverlayTypes):
 	match type:
 		OverlayTypes.PANEL:
 			new_overlay = panel_scn.instantiate()
+		
+		OverlayTypes.TEXTURE_PANEL:
+			new_overlay = texture_panel_scn.instantiate()
 			
 		OverlayTypes.TEXT:
 			new_overlay = text_scn.instantiate()

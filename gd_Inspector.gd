@@ -62,10 +62,15 @@ func add_property_interface(property_scene : PackedScene, property : Overlay.Pro
 	
 	var current_value = property.get_property()
 	property_interface.set_prop_value(current_value)
+	property_interface.set_prop_name(property.prop_name + ":")
 	
+	var move_tool = %MoveTool
+	if property.prop_name == "Position":
+		move_tool.connect("overlay_translated", Callable(property_interface, "set_prop_value"))
+	elif property.prop_name == "Size":
+		move_tool.connect("overlay_resized", Callable(property_interface, "set_prop_value"))
 	property_interface.connect("value_changed", Callable(property, "apply_property"))
 	
-	property_interface.set_prop_name(property.prop_name + ":")
 
 
 func clear_properties():

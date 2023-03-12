@@ -11,6 +11,8 @@ extends Control
 # 6 5 4
 @onready var resize_gizmos : Array[Node] = $ResizeGizmos.get_children()
 
+var selection_stoppers : Array[Control]
+
 var selected_overlay : Control
 
 var dragging_gizmo : Control
@@ -29,6 +31,9 @@ var translating := false
 signal overlay_selected(overlay)
 signal overlay_deselected()
 
+signal overlay_translated(overlay_position)
+signal overlay_resized(overlay_size)
+
 
 func _ready() -> void:
 	var resize_gizmo_nodes : Array[Node] = $ResizeGizmos.get_children()
@@ -41,10 +46,18 @@ func _ready() -> void:
 	
 	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
 	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
+	
+	selection_stoppers.append(%TopMenu/ToggleShow)
+	selection_stoppers.append(%TopMenu/BGPanel)
+	selection_stoppers.append(%TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG)
+	selection_stoppers.append(%ChangeMode/ToggleShow)
+	selection_stoppers.append(%ChangeMode/ToOverlayButton)
+	selection_stoppers.append(%HierarchyInspector/ToggleShow)
+	selection_stoppers.append(%HierarchyInspector/BGPanel)
 
 
 func _unhandled_input(_event : InputEvent) -> void:
-	if Input.is_action_pressed("left_click") and selected_overlay:
+	if Input.is_action_just_pressed("left_click") and selected_overlay:
 		deselect_overlay()
 
 
@@ -64,6 +77,11 @@ func _process(delta : float) -> void:
 
 # Selection
 func check_for_selections() -> void:
+	if !Input.is_action_pressed("alt"):
+		for interface in selection_stoppers:
+			if interface.get_global_rect().has_point(mouse_pos):
+				return
+	
 	var selection_group : Array[Node] = []
 	var overlays : Array[Node] = %OverlayElements.get_children()
 	overlays.reverse()
@@ -94,18 +112,19 @@ func click_select_overlay(overlay : Control) -> void:
 
 
 func select_overlay(overlay : Control) -> void:
+	if !overlay.is_connected("transformed", Callable(self, "reposition_gizmos")):
+		overlay.connect("transformed", Callable(self, "reposition_gizmos"))
 	selected_overlay = overlay
 	
 	reposition_gizmos()
-	
-	translation_gizmo.global_position = overlay.global_position
-	translation_gizmo.size = overlay.size
-	
 	show()
 
 
 func deselect_overlay() -> void:
+	if selected_overlay and selected_overlay.is_connected("transformed", Callable(self, "reposition_gizmos")):
+		selected_overlay.disconnect("transformed", Callable(self, "reposition_gizmos"))
 	selected_overlay = null
+	
 	emit_signal("overlay_deselected")
 	hide()
 
@@ -126,10 +145,14 @@ func translate_and_resize() -> void:
 		drag_gizmo(new_pos)
 		adjust_gizmos_for_resize()
 		transform_selected_overlay()
+		
 	elif translating:
 		translation_gizmo.global_position = new_pos
 		transform_selected_overlay()
 		reposition_gizmos()
+	
+	emit_signal("overlay_resized", translation_gizmo.size)
+	emit_signal("overlay_translated", translation_gizmo.global_position)
 
 
 func start_resize(gizmo_idx : int) -> void:
@@ -174,6 +197,8 @@ func stop_translate() -> void:
 func transform_selected_overlay() -> void:
 	selected_overlay.global_position = translation_gizmo.global_position
 	selected_overlay.size = translation_gizmo.size
+	
+	
 
 
 # Gizmos
@@ -194,6 +219,9 @@ func reposition_gizmos() -> void:
 	
 	resize_gizmos[7].global_position.y = .5 * (resize_gizmos[6].global_position.y + resize_gizmos[0].global_position.y)
 	resize_gizmos[7].global_position.x = resize_gizmos[6].global_position.x
+	
+	translation_gizmo.global_position = selected_overlay.global_position
+	translation_gizmo.size = selected_overlay.size
 
 
 func adjust_gizmos_for_resize() -> void:

@@ -4,7 +4,7 @@ extends Node
 
 enum EditingTools { MOVE }
 
-@onready var move_tool : MoveTool = %MoveTool
+#@onready var move_tool : MoveTool = %MoveTool
 
 #signal tool_changed(tool_type : EditingTools)
 signal overlay_created(overlay)

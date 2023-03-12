@@ -47,9 +47,6 @@ func show_interface():
 	bg_color.show()
 	gizmos.show()
 	
-	if %Grid.is_visible:
-		grid.show()
-	
 	interface_hidden = false
 
 

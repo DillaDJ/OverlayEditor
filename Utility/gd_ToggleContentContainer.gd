@@ -131,3 +131,7 @@ func adjust_anim_clips():
 func reset_lock(anim_name):
 	if anim_name == "toggles/fold":
 		toggled = false
+
+
+func toggle_content_hover(value : bool):
+	hovering_content = value

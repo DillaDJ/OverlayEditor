@@ -6,8 +6,12 @@ func _ready() -> void:
 	
 	# Properties
 	overridable_properties.append(Property.new("Color", Property.Type.COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color")))
-	overridable_properties.append(Property.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
+	overridable_properties.append("SPACE")
+	
 	overridable_properties.append(Property.new("Border Color", Property.Type.COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color")))
+	overridable_properties.append(Property.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
+	overridable_properties.append("SPACE")
+	
 	overridable_properties.append(Property.new("Rounding", Property.Type.VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding")))
 
 
@@ -22,7 +26,7 @@ func set_overlay_color(new_color) -> void:
 
 
 func get_border() -> Vector4:
-	var border : Vector4
+	var border := Vector4.ZERO
 	var stylebox : StyleBoxFlat = get_stylebox()
 	border.x = stylebox.get_border_width(SIDE_LEFT)
 	border.y = stylebox.get_border_width(SIDE_TOP)
@@ -50,7 +54,7 @@ func set_border_color(new_color : Color) -> void:
 
 
 func get_rounding() -> Vector4:
-	var rounding : Vector4
+	var rounding := Vector4.ZERO
 	var stylebox : StyleBoxFlat = get_stylebox()
 	rounding.x = stylebox.get_corner_radius(CORNER_TOP_LEFT)
 	rounding.y = stylebox.get_corner_radius(CORNER_TOP_RIGHT)

@@ -12,7 +12,8 @@ var increment : int
 
 var grid_size : int = 6
 
-var is_visible := false
+var is_visible  := false
+var snapping 	:= false
 
 
 func _ready():
@@ -51,13 +52,17 @@ func _draw():
 
 func recalculate_grid():
 	screen_dimensions = get_viewport_rect().size
-	increment = lowest_increment / int(pow(2, grid_size))
+	increment = int(lowest_increment / pow(2, grid_size))
 	queue_redraw()
 
 
 func set_grid_size(new_size):
 	grid_size = new_size
 	recalculate_grid()
+
+
+func toggle_grid_snap():
+	snapping = !snapping
 
 
 func toggle_grid():
@@ -70,7 +75,10 @@ func toggle_grid():
 
 
 func snap_to_nearest_point(point : Vector2):
-	var x_pos = increment * round(point.x / increment)
-	var y_pos = increment * round(point.y / increment)
-	
-	return Vector2(x_pos, y_pos)
+	if snapping:
+		var x_pos = increment * round(point.x / increment)
+		var y_pos = increment * round(point.y / increment)
+		
+		return Vector2(x_pos, y_pos)
+	else:
+		return point
