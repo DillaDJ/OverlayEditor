@@ -4,10 +4,17 @@ extends Node
 
 enum OverlayTypes { PANEL, TEXT }
 
+var sync_timer : Timer
+
 
 func _ready():
 	var window : Window = get_tree().get_root()
 	window.set_flag(Window.FLAG_TRANSPARENT, true)
+	
+	sync_timer = Timer.new()
+	sync_timer.wait_time = 1.0
+	sync_timer.one_shot = true
+	add_child(sync_timer)
 
 
 func change_scene(scene):
@@ -39,3 +46,7 @@ func gcd(a, b):
 		b = temp % b
 	
 	return a
+
+
+func test():
+	print("test")

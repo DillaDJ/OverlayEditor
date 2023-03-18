@@ -11,6 +11,8 @@ extends Control
 # 6 5 4
 @onready var resize_gizmos : Array[Node] = $ResizeGizmos.get_children()
 
+var enabled := true
+
 var selection_stoppers : Array[Control]
 
 var selected_overlay : Control
@@ -28,6 +30,7 @@ var click_time_threshold := 0.2
 
 var translating := false
 
+signal overlay_click_selected(overlay)
 signal overlay_selected(overlay)
 signal overlay_deselected()
 
@@ -57,22 +60,27 @@ func _ready() -> void:
 
 
 func _unhandled_input(_event : InputEvent) -> void:
-	if Input.is_action_just_pressed("left_click") and selected_overlay:
+	if enabled and Input.is_action_just_pressed("left_click") and selected_overlay:
 		deselect_overlay()
 
 
 func _process(delta : float) -> void:
-	mouse_pos = get_viewport().get_mouse_position()
-	
-	if Input.is_action_pressed("left_click"):
-		translate_and_resize()
-		click_time += delta
-	
-	if Input.is_action_just_released("left_click"):
-		if click_time < click_time_threshold:
-			check_for_selections()
+	if enabled:
+		mouse_pos = get_viewport().get_mouse_position()
 		
-		click_time = 0
+		if Input.is_action_pressed("left_click"):
+			translate_and_resize()
+			click_time += delta
+		
+		if Input.is_action_just_released("left_click"):
+			if click_time < click_time_threshold:
+				check_for_selections()
+			
+			click_time = 0
+
+
+func toggle_enabled():
+	enabled = !enabled
 
 
 # Selection
@@ -108,7 +116,7 @@ func check_for_selections() -> void:
 
 func click_select_overlay(overlay : Control) -> void:
 	select_overlay(overlay)
-	emit_signal("overlay_selected", overlay)
+	emit_signal("overlay_click_selected", overlay)
 
 
 func select_overlay(overlay : Control) -> void:
@@ -118,6 +126,8 @@ func select_overlay(overlay : Control) -> void:
 	
 	reposition_gizmos()
 	show()
+	
+	emit_signal("overlay_selected", overlay)
 
 
 func deselect_overlay() -> void:
@@ -197,8 +207,6 @@ func stop_translate() -> void:
 func transform_selected_overlay() -> void:
 	selected_overlay.global_position = translation_gizmo.global_position
 	selected_overlay.size = translation_gizmo.size
-	
-	
 
 
 # Gizmos

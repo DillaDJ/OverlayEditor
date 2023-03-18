@@ -2,33 +2,8 @@ class_name Overlay
 extends Control
 
 
-class Property: 
-	enum Type { INT, FLOAT, STRING_SHORT, STRING, VECTOR2, VECTOR4, COLOR }
-	var type : Type
-	
-	var prop_name : String
-	
-	var overlay_getter : Callable
-	var overlay_setter : Callable
-	
-	
-	func _init(new_name, new_type, new_getter, new_setter):
-		prop_name = new_name
-		type = new_type
-		overlay_getter = new_getter
-		overlay_setter = new_setter
-	
-	
-	func get_property():
-		return overlay_getter.call()
-	
-	
-	func apply_property(new_value):
-		overlay_setter.call(new_value)
-
-
-var overridable_properties : Array = []
-
+var overridable_properties 	: Array = []
+var attached_events 		: Array = []
 
 signal name_changed(new_name)
 signal transformed()

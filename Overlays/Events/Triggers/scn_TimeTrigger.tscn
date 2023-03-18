@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b1ksl3m6t3mc1"]
+
+[node name="TimeTrigger" type="HBoxContainer"]
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Every "
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2
+min_value = 0.1
+max_value = 9999.0
+step = 0.1
+value = 0.1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = " seconds:"

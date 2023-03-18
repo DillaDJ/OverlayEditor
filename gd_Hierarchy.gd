@@ -13,9 +13,11 @@ signal items_deselected()
 
 
 func _ready() -> void:
+	var move_tool = %MoveTool
+	
 	sngl_Utility.get_scene_root().connect("overlay_created", Callable(self, "add_to_tree"))
-	%MoveTool.connect("overlay_selected", Callable(self, "select_by_overlay"))
-	%MoveTool.connect("overlay_deselected", Callable(tree, "deselect_all"))
+	move_tool.connect("overlay_selected", Callable(self, "select_by_overlay"))
+	move_tool.connect("overlay_deselected", Callable(tree, "deselect_all"))
 	
 	tree.connect("item_selected", Callable(self, "emit_selected_path"))
 	tree.connect("empty_clicked", Callable(self, "deselect_all"))

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://i6eedr4ariny"]
+[gd_scene load_steps=48 format=3 uid="uid://2q23awlm38v0"]
 
 [ext_resource type="PackedScene" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -27,7 +27,9 @@
 [ext_resource type="Script" path="res://gd_Inspector.gd" id="17_woalc"]
 [ext_resource type="Script" path="res://gd_Hierarchy.gd" id="18_yihel"]
 [ext_resource type="Script" path="res://Utility/gd_Message.gd" id="20_0b0gy"]
-[ext_resource type="Script" path="res://gd_Events.gd" id="22_3ebsf"]
+[ext_resource type="Script" path="res://gd_EventMenu.gd" id="27_ovmqj"]
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Overlays/Events/Actions/thm_ActionUnselected.tres" id="28_cj4j2"]
+[ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Overlays/Events/Actions/thm_ActionSelected.tres" id="29_loeoa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -81,8 +83,31 @@ bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2viwx"]
 bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aqk5g"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmma4"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.356863, 0.545098, 0.960784, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmgyb"]
-bg_color = Color(0.12109, 0.128016, 0.159195, 0.784314)
+bg_color = Color(0.121569, 0.129412, 0.160784, 0.784314)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_picb8"]
 bg_color = Color(0.262745, 0.286275, 0.396078, 0)
@@ -824,7 +849,11 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2viwx")
-script = ExtResource("22_3ebsf")
+script = ExtResource("27_ovmqj")
+unselected_event_theme = SubResource("StyleBoxFlat_aqk5g")
+selected_event_theme = SubResource("StyleBoxFlat_bmma4")
+unselected_action_theme = ExtResource("28_cj4j2")
+selected_action_theme = ExtResource("29_loeoa")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events"]
 layout_mode = 1
@@ -838,6 +867,44 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar"]
+layout_mode = 2
+
+[node name="NewGlobalEvent" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Create new event"
+disabled = true
+text = "+"
+item_count = 2
+popup/item_0/text = "Timed Event"
+popup/item_0/id = 0
+popup/item_1/text = "Twitch Chat Event"
+popup/item_1/id = 1
+
+[node name="NewGlobalAction" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+disabled = true
+text = "A"
+item_count = 1
+popup/item_0/text = "Print Action"
+popup/item_0/id = 0
+
+[node name="Spacer" type="Control" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Delete" type="Button" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+disabled = true
+text = "X"
+flat = true
+
 [node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -847,11 +914,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mmgyb")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
-
-[node name="CreateEvent" type="Button" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
-layout_mode = 2
-disabled = true
-text = "New Event"
 
 [node name="Message" type="Panel" parent="."]
 unique_name_in_owner = true
