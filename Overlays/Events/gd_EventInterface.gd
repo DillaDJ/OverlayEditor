@@ -46,6 +46,7 @@ func add_action_interface(action) -> Control:
 	match action.type:
 		Action.Type.PRINT:
 			interface = print_action_scn.instantiate()
+		
 		Action.Type.PROPERTY:
 			interface = property_action_scn.instantiate()
 	

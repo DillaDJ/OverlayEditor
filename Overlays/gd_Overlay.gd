@@ -2,18 +2,17 @@ class_name Overlay
 extends Control
 
 
-var overridable_properties 	: Array = []
-var attached_events 		: Array = []
+var overridable_properties 	: Array[Property] = []
+var attached_events 		: Array[Event] = []
 
 signal name_changed(new_name)
 signal transformed()
 
 
 func _ready():
-	overridable_properties.append(Property.new("Name", 		Property.Type.STRING_SHORT, Callable(self, "get_name"), Callable(self, "set_overlay_name")))
-	overridable_properties.append(Property.new("Position", 	Property.Type.VECTOR2, Callable(self, "get_position"), Callable(self, "set_overlay_pos")))
-	overridable_properties.append(Property.new("Size", 		Property.Type.VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size")))
-	overridable_properties.append("SPACE")
+	overridable_properties.append(ReadProperty.new("Name", 		Property.Type.STRING_SHORT, Callable(self, "get_name"), Callable(self, "set_overlay_name")))
+	overridable_properties.append(ReadProperty.new("Position", 	Property.Type.VECTOR2, Callable(self, "get_position"), Callable(self, "set_overlay_pos")))
+	overridable_properties.append(ReadProperty.new("Size", 		Property.Type.VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size")))
 
 
 func set_overlay_name(new_name):

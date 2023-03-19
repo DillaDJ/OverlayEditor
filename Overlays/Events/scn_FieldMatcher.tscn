@@ -1,0 +1,123 @@
+[gd_scene load_steps=7 format=3 uid="uid://djgdur52l3yhq"]
+
+[ext_resource type="Texture2D" uid="uid://bc4wcvk3u03in" path="res://Icons/icon.svg" id="1_3vo0h"]
+[ext_resource type="Script" path="res://Overlays/Events/gd_FieldMatcher.gd" id="1_edavj"]
+[ext_resource type="PackedScene" uid="uid://bhhy55okktj07" path="res://Overlays/Events/scn_PropertySelector.tscn" id="3_glwj8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luw1a"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpruv"]
+bg_color = Color(1, 1, 1, 0.196078)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kisw1"]
+bg_color = Color(0, 0, 0, 0.196078)
+
+[node name="FieldMatcher" type="HBoxContainer"]
+visible = false
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+script = ExtResource("1_edavj")
+
+[node name="ToggleProperty" type="Button" parent="."]
+custom_minimum_size = Vector2(31, 31)
+layout_mode = 2
+tooltip_text = "Toggles reading between properties or event data and user input"
+theme_override_styles/normal = SubResource("StyleBoxFlat_luw1a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mpruv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kisw1")
+icon = ExtResource("1_3vo0h")
+expand_icon = true
+
+[node name="PropertySelector" parent="." instance=ExtResource("3_glwj8")]
+visible = false
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="SpinBox" type="SpinBox" parent="."]
+visible = false
+custom_minimum_size = Vector2(90, 32)
+layout_mode = 2
+max_value = 1e+06
+step = 0.1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+visible = false
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Vector" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="XCoords" type="HBoxContainer" parent="Vector"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Vector/XCoords"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "X:
+"
+
+[node name="SpinBox" type="SpinBox" parent="Vector/XCoords"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+max_value = 1e+06
+step = 0.1
+
+[node name="YCoords" type="HBoxContainer" parent="Vector"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Vector/YCoords"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "Y:
+"
+
+[node name="SpinBox" type="SpinBox" parent="Vector/YCoords"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+max_value = 1e+06
+step = 0.1
+
+[node name="ZCoords" type="HBoxContainer" parent="Vector"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Vector/ZCoords"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "Z:
+"
+
+[node name="SpinBox" type="SpinBox" parent="Vector/ZCoords"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+max_value = 1e+06
+step = 0.1
+
+[node name="WCoords" type="HBoxContainer" parent="Vector"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Vector/WCoords"]
+layout_mode = 2
+text = "W:"
+
+[node name="SpinBox" type="SpinBox" parent="Vector/WCoords"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+max_value = 1e+06
+step = 0.1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+visible = false
+custom_minimum_size = Vector2(50, 32)
+layout_mode = 2
+size_flags_horizontal = 3

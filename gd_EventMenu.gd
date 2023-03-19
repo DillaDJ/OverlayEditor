@@ -2,8 +2,8 @@ extends Panel
 
 @onready var event_interface_scn : PackedScene = preload("res://Overlays/Events/scn_EventInterface.tscn")
 @onready var event_container 	: Control = $VBoxContainer/ScrollContainer/EventContainer
-@onready var new_event_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewGlobalEvent
-@onready var new_action_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewGlobalAction
+@onready var new_event_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewEvent
+@onready var new_action_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewAction
 @onready var delete_button 		: Button = $VBoxContainer/Toolbar/HBoxContainer/Delete
 
 @export var unselected_event_theme 	: StyleBoxFlat
@@ -18,7 +18,8 @@ var selected_overlay : Overlay
 var selected_interface_idx 	: int = -1
 var selected_action_idx 	: int = -1
 
-signal message_sent()
+
+signal event_selected(event : Event)
 
 
 func _ready() -> void:
@@ -67,6 +68,9 @@ func create_action(action_type : Action.Type) -> void:
 	match action_type:
 		Action.Type.PRINT:
 			action = PrintAction.new()
+		
+		Action.Type.PROPERTY:
+			action = PropertyAction.new()
 	
 	create_action_interface(selected_interface, action)
 	
@@ -85,9 +89,20 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 			line_edit.text = action.message
 			
 			line_edit.connect("text_changed", Callable(action, "change_message"))
+		
+		Action.Type.PROPERTY:
+			var prop_select 	: Button = action_interface.get_node("HorizontalLayout/PropertySelector")
+			var mode_select 	: OptionButton = action_interface.get_node("HorizontalLayout/Mode")
+			var field_matcher 	: FieldMatcher = action_interface.get_node("HorizontalLayout/FieldMatcher")
+			
+			prop_select.connect("button_down", Callable(self, "select_interface").bind(action_interface, true))
+			prop_select.connect("property_linked", Callable(action, "change_property"))
+			field_matcher.connect("field_changed", Callable(action, "change_value"))
+			mode_select.connect("item_selected", Callable(action, "change_mode"))
 
 
-func select_interface(interface : Control) -> void:
+
+func select_interface(interface : Control, ignore_action : bool = false) -> void:
 	var selected_interface : Control
 	
 	# Destyling
@@ -103,7 +118,10 @@ func select_interface(interface : Control) -> void:
 	
 	# Getting
 	if interface.get_parent() != event_container:
-		selected_action_idx = interface.get_index()
+		if !ignore_action:
+			selected_action_idx = interface.get_index()
+		else:
+			selected_action_idx = -1
 		
 		while interface.get_parent() != event_container:
 			interface = interface.get_parent()
@@ -124,6 +142,8 @@ func select_interface(interface : Control) -> void:
 	
 	new_action_button.disabled = false
 	delete_button.disabled = false
+	
+	event_selected.emit(selected_overlay.attached_events[selected_interface_idx])
 
 
 func delete_selected():

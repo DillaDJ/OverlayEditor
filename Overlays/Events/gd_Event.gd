@@ -3,11 +3,18 @@ class_name Event
 
 var trigger : Trigger
 
+var properties : Array[Property]
+
 var actions : Array[Action] = []
 
 
 func _init(event_trigger : Trigger):
 	trigger = event_trigger
+	
+	match trigger.type:
+		Trigger.Type.TWITCH_CHAT:
+			properties.append(Property.new("Chatter Username", Property.Type.STRING_SHORT, Callable(trigger, "get_message_user")))
+			properties.append(Property.new("Chat Message", Property.Type.STRING, Callable(trigger, "get_message_contents")))
 	
 	trigger.connect("triggered", Callable(self, "execute_actions"))
 

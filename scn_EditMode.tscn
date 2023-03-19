@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://2q23awlm38v0"]
+[gd_scene load_steps=49 format=3 uid="uid://2q23awlm38v0"]
 
 [ext_resource type="PackedScene" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -30,6 +30,7 @@
 [ext_resource type="Script" path="res://gd_EventMenu.gd" id="27_ovmqj"]
 [ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Overlays/Events/Actions/thm_ActionUnselected.tres" id="28_cj4j2"]
 [ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Overlays/Events/Actions/thm_ActionSelected.tres" id="29_loeoa"]
+[ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -873,7 +874,7 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar"]
 layout_mode = 2
 
-[node name="NewGlobalEvent" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Create new event"
@@ -885,14 +886,16 @@ popup/item_0/id = 0
 popup/item_1/text = "Twitch Chat Event"
 popup/item_1/id = 1
 
-[node name="NewGlobalAction" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="NewAction" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
 text = "A"
-item_count = 1
+item_count = 2
 popup/item_0/text = "Print Action"
 popup/item_0/id = 0
+popup/item_1/text = "Property Action"
+popup/item_1/id = 1
 
 [node name="Spacer" type="Control" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 layout_mode = 2
@@ -914,6 +917,60 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mmgyb")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
+
+[node name="PropertySelect" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_vu2ib")
+script = ExtResource("30_jjmu8")
+
+[node name="PanelContainer" type="PanelContainer" parent="PropertySelect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PropertySelect/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PropertySelect/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Selectable Properties:"
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="PropertySelect/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+auto_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PropertySelect/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Confirm" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
 
 [node name="Message" type="Panel" parent="."]
 unique_name_in_owner = true

@@ -5,9 +5,9 @@ func _ready():
 	super()
 	
 	# Properties
-	overridable_properties.append(Property.new("Text", Property.Type.STRING, Callable(self, "get_text"), Callable(self, "set_text")))
-	overridable_properties.append(Property.new("Text Size", Property.Type.INT, Callable(self, "get_text_size"), Callable(self, "set_text_size")))
-	overridable_properties.append(Property.new("Text Color", Property.Type.COLOR, Callable(self, "get_text_color"), Callable(self, "set_text_color")))
+	overridable_properties.append(ReadProperty.new("Text", Property.Type.STRING, Callable(self, "get_text"), Callable(self, "set_text")))
+	overridable_properties.append(ReadProperty.new("Text Size", Property.Type.INT, Callable(self, "get_text_size"), Callable(self, "set_text_size")))
+	overridable_properties.append(ReadProperty.new("Text Color", Property.Type.COLOR, Callable(self, "get_text_color"), Callable(self, "set_text_color")))
 
 
 func get_text():

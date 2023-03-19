@@ -32,10 +32,6 @@ func populate_properties(overlay : Overlay):
 	clear_properties()
 	
 	for property in overlay.overridable_properties:
-		if typeof(property) == TYPE_STRING:
-			property_container.add_child(spacer.instantiate())
-			continue
-		
 		match property.type:
 			Property.Type.ENUM:
 				add_enum_property_interface(property)
@@ -89,12 +85,12 @@ func add_property_interface(property_scene : PackedScene, property : Property) -
 	property_interface.set_prop_value(current_value)
 	property_interface.set_prop_name(property.prop_name + ":")
 	
-	property_interface.connect("value_changed", Callable(property, "apply_property"))
+	property_interface.connect("value_changed", Callable(property, "set_property"))
 	
 	return property_interface
 
 
-func add_enum_property_interface(property : Property.EnumProperty) -> void:
+func add_enum_property_interface(property : ReadProperty.EnumProperty) -> void:
 	var property_interface = enum_property_scn.instantiate()
 	property_container.add_child(property_interface)
 	
@@ -105,7 +101,7 @@ func add_enum_property_interface(property : Property.EnumProperty) -> void:
 	property_interface.set_prop_value(current_value)
 	property_interface.set_prop_name(property.prop_name + ":")
 	
-	property_interface.connect("value_changed", Callable(property, "apply_property"))
+	property_interface.connect("value_changed", Callable(property, "set_property"))
 
 
 func clear_properties():

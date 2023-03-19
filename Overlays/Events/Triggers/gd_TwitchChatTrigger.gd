@@ -15,6 +15,8 @@ var connected := false
 
 var latest_message : TwitchChatMessage
 
+var finished_connecting := false
+
 
 func _init():
 	type = Type.TWITCH_CHAT
@@ -47,15 +49,30 @@ func poll():
 			connected = true
 		else:
 			while client.get_available_packet_count():
-				latest_message = TwitchChatMessage.new(client.get_packet().get_string_from_utf8())
-				triggered.emit()
+				if finished_connecting:
+					var message = client.get_packet().get_string_from_utf8()
+					if message.split(" ")[0] == "PING":
+						client.send_text("PONG :tmi.twitch.tv")
+					else:
+						latest_message = TwitchChatMessage.new(message)
+						triggered.emit()
+				else: 
+					var message = client.get_packet().get_string_from_utf8()
+					if message.split(":")[-1] == "End of /NAMES list\r\n":
+						finished_connecting = true
 		
 	elif state == WebSocketPeer.STATE_CLOSED:
 		var code = client.get_close_code()
 		var reason = client.get_close_reason()
 		print("WebSocket closed with code: %d, reason %s. Clean: %s" % [code, reason, code != -1])
-		poll_timer.stop()
+		print("Reconnecting...")
+		
+		client.connect_to_url(server)
 
 
-func get_message_text() -> String:
+func get_message_user() -> String:
+	return latest_message.get_user()
+
+
+func get_message_contents() -> String:
 	return latest_message.get_contents()
