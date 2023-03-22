@@ -7,8 +7,10 @@ extends Panel
 
 var root : TreeItem
 
-signal item_selected(path : String)
+var selected_by_overlay := false
 
+
+signal item_selected(path : String)
 signal items_deselected()
 
 
@@ -16,7 +18,7 @@ func _ready() -> void:
 	var move_tool = %MoveTool
 	
 	sngl_Utility.get_scene_root().connect("overlay_created", Callable(self, "add_to_tree"))
-	move_tool.connect("overlay_selected", Callable(self, "select_by_overlay"))
+	move_tool.connect("overlay_click_selected", Callable(self, "find_overlay_in_tree"))
 	move_tool.connect("overlay_deselected", Callable(tree, "deselect_all"))
 	
 	tree.connect("item_selected", Callable(self, "emit_selected_path"))
@@ -33,12 +35,13 @@ func add_to_tree(overlay : Control) -> void:
 	overlay.connect("name_changed", Callable(self, "update_item_text").bind(new_item))
 
 
-func select_by_overlay(overlay : Control) -> void:
+func find_overlay_in_tree(overlay : Control) -> void:
 	var path : Array [int] = []
 	
 	while overlay != overlay_container:
 		path.append(overlay.get_index())
 		overlay = overlay.get_parent()
+	selected_by_overlay = true
 	
 	path.reverse()
 	select_by_index(path)
@@ -59,15 +62,14 @@ func deselect_all(_mouse_pos : Vector2, _mouse_btn_idx : int) -> void:
 
 
 func emit_selected_path() -> void:
+	if selected_by_overlay:
+		selected_by_overlay = false
+		return
+	
 	var item : TreeItem = tree.get_selected()
+	var path := get_item_path(item)
 	
-	var path = get_item_path(item)
-	
-	emit_signal("item_selected", path)
-
-
-func update_item_text(new_name : String, item : TreeItem) -> void:
-	item.set_text(0, new_name)
+	item_selected.emit(path)
 
 
 func get_item_path(item : TreeItem) -> String:
@@ -78,3 +80,7 @@ func get_item_path(item : TreeItem) -> String:
 		item = item.get_parent()
 	
 	return path
+
+
+func update_item_text(new_name : String, item : TreeItem) -> void:
+	item.set_text(0, new_name)

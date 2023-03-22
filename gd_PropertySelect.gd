@@ -48,30 +48,35 @@ func populate_properties(event : Event):
 	cached_event = event
 
 
-func select(write_only : bool = false):
+func disable_non_matching_type(type_to_match : Property.Type):
+	for i in range(cached_overlay.overridable_properties.size() + cached_event.properties.size()):
+		var property := get_property_from_idx(i)
+		var new_idx := convert_to_item_list_idx(i)
+		
+		if (property.type == Property.Type.STRING or property.type == Property.Type.STRING_SHORT) and \
+		(type_to_match == Property.Type.STRING or type_to_match == Property.Type.STRING_SHORT):
+			item_list.set_item_disabled(new_idx, false)
+			continue
+		
+		if property.type == type_to_match:
+			item_list.set_item_disabled(new_idx, false)
+		else:
+			item_list.set_item_disabled(new_idx, true)
+
+
+func start_select(mode : PropertySelectButton.Mode):
 	var event_property_count := cached_event.properties.size()
 	
-	if write_only:
+	# Prevent writing into event properties
+	if mode == PropertySelectButton.Mode.Write:
 		for i in range(event_property_count):
 			item_list.set_item_disabled(i + 1, true)
-	else:
-		for i in range(event_property_count):
-			item_list.set_item_disabled(i + 1, false)
 	
 	show()
 
 
 func confirm():
-	var selected_property : Property
-	var event_property_count := cached_event.properties.size()
-	
-	if selected_idx >= event_property_count:
-		selected_property = cached_overlay.overridable_properties[selected_idx - event_property_count]
-	else:
-		selected_property = cached_event.properties[selected_idx]
-	
-	property_selected.emit(selected_property)
-	
+	property_selected.emit(get_property_from_idx(selected_idx))
 	confirm_button.disabled = true
 	hide()
 
@@ -82,9 +87,42 @@ func cancel():
 
 
 func set_selected_index(idx : int) -> void:
-	if idx < cached_event.properties.size() + 1:
-		selected_idx = idx - 1
-	else:
-		selected_idx = idx - 3
+	if item_list.is_item_disabled(idx):
+		return
 	
+	selected_idx = convert_to_property_idx(idx)
 	confirm_button.disabled = false
+
+
+func convert_to_item_list_idx(idx : int) -> int:
+	var new_idx
+	
+	if idx < cached_event.properties.size():
+			new_idx = idx + 1
+	else:
+			new_idx = idx + 3
+	
+	return new_idx
+
+
+func convert_to_property_idx(idx : int) -> int:
+	var new_idx
+	
+	if idx < cached_event.properties.size() + 1:
+			new_idx = idx - 1
+	else:
+			new_idx = idx - 3
+	
+	return new_idx
+
+
+func get_property_from_idx(idx : int) -> Property:
+	var event_property_count := cached_event.properties.size()
+	var selected_property : Property
+	
+	if idx >= event_property_count:
+		selected_property = cached_overlay.overridable_properties[idx - event_property_count]
+	else:
+		selected_property = cached_event.properties[idx]
+	
+	return selected_property

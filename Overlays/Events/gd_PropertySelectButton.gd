@@ -19,14 +19,15 @@ func start_select_property():
 	property_select.connect("property_selected", Callable(self, "link_property"))
 	property_select.connect("cancelled", Callable(self, "cancel"))
 	
-	if mode == Mode.Read:
-		property_select.select()
-	else:
-		property_select.select(true)
+	property_select.start_select(mode)
 
 
 func link_property(property : Property) -> void:
 	text = property.prop_name.to_lower()
+	
+	if mode == Mode.Write:
+		property_select.disable_non_matching_type(property.type)
+	
 	property_linked.emit(property)
 	
 	property_select.disconnect("property_selected", Callable(self, "link_property"))

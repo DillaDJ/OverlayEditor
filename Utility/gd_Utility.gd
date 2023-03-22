@@ -48,5 +48,14 @@ func gcd(a, b):
 	return a
 
 
-func test():
-	print("test")
+func get_children_nested(node : Node) -> Array[Node]:
+	var children : Array[Node] = []
+	
+	for child in node.get_children():
+		children.append(child)
+		
+		var deep_children = get_children_nested(child)
+		for deep_child in deep_children:
+			children.append(deep_child)
+	
+	return children

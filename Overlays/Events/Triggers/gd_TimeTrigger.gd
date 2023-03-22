@@ -22,3 +22,7 @@ func edit_time(new_time : float):
 	trigger_time = new_time
 	timer.wait_time = new_time
 	sngl_Utility.sync_timer.start()
+
+
+func get_time() -> float:
+	return trigger_time

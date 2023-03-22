@@ -95,5 +95,5 @@ func set_v_stretch(new_value : int) -> void:
 func reset_rect():
 	var texture : ImageTexture = self.texture
 	
-	emit_signal("rect_size_reset", texture.get_size())
-	emit_signal("reset")
+	size_reset.emit(texture.get_size())
+	reset.emit()

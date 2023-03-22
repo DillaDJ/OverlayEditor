@@ -2,7 +2,7 @@ class_name PrintAction
 extends Action
 
 
-var message := "Test"
+var property : Property
 
 
 func _init():
@@ -10,8 +10,9 @@ func _init():
 
 
 func execute():
-	print(message)
+	if property:
+		print(property.get_property())
 
 
-func change_message(new_message : String) -> void:
-	message = new_message
+func change_property(new_property : Property) -> void:
+	property = new_property

@@ -3,13 +3,13 @@ extends Control
 
 
 @onready var grid : OverlayGrid = %Grid
-@onready var translation_gizmo : Button = $TranslationGizmo
 
 # Resize gizmo order
 # 0 1 2
 # 7 * 3
 # 6 5 4
 @onready var resize_gizmos : Array[Node] = $ResizeGizmos.get_children()
+@onready var translation_gizmo : Button = $TranslationGizmo
 
 var enabled := true
 
@@ -28,7 +28,8 @@ var clicked_offset : Vector2
 var click_time : float = 0
 var click_time_threshold := 0.2
 
-var translating := false
+var translating 	:= false
+var just_selected 	:= false
 
 signal overlay_click_selected(overlay)
 signal overlay_selected(overlay)
@@ -56,7 +57,7 @@ func _ready() -> void:
 	selection_stoppers.append(%ChangeMode/ToggleShow)
 	selection_stoppers.append(%ChangeMode/ToOverlayButton)
 	selection_stoppers.append(%HierarchyInspector/ToggleShow)
-	selection_stoppers.append(%HierarchyInspector/BGPanel)
+	selection_stoppers.append(%HierarchyInspector/HBoxContainer)
 
 
 func _unhandled_input(_event : InputEvent) -> void:
@@ -65,6 +66,11 @@ func _unhandled_input(_event : InputEvent) -> void:
 
 
 func _process(delta : float) -> void:
+	# Skip a frame so that properties don't get applied to hierarchy selects
+	if just_selected:
+		just_selected = false
+		return
+	
 	if enabled:
 		mouse_pos = get_viewport().get_mouse_position()
 		
@@ -85,22 +91,16 @@ func toggle_enabled():
 
 # Selection
 func check_for_selections() -> void:
-	if !Input.is_action_pressed("alt"):
-		for interface in selection_stoppers:
-			if interface.get_global_rect().has_point(mouse_pos):
-				return
+	if is_mouse_hovering_interface():
+		return
 	
 	var selection_group : Array[Node] = []
-	var overlays : Array[Node] = %OverlayElements.get_children()
+	var overlays : Array[Node] = sngl_Utility.get_children_nested(%OverlayElements)
 	overlays.reverse()
 	
 	for overlay in overlays:
 		if overlay.get_global_rect().has_point(mouse_pos):
 			selection_group.append(overlay)
-			
-			for child in overlay.get_children():
-				if child.get_global_rect().has_point(mouse_pos):
-					selection_group.append(child)
 	
 	if selection_group.size() > 0:
 		var selected_idx : int = selection_group.find(selected_overlay)
@@ -116,7 +116,8 @@ func check_for_selections() -> void:
 
 func click_select_overlay(overlay : Control) -> void:
 	select_overlay(overlay)
-	emit_signal("overlay_click_selected", overlay)
+	
+	overlay_click_selected.emit(overlay)
 
 
 func select_overlay(overlay : Control) -> void:
@@ -127,7 +128,7 @@ func select_overlay(overlay : Control) -> void:
 	reposition_gizmos()
 	show()
 	
-	emit_signal("overlay_selected", overlay)
+	overlay_selected.emit(overlay)
 
 
 func deselect_overlay() -> void:
@@ -135,13 +136,14 @@ func deselect_overlay() -> void:
 		selected_overlay.disconnect("transformed", Callable(self, "reposition_gizmos"))
 	selected_overlay = null
 	
-	emit_signal("overlay_deselected")
+	overlay_deselected.emit()
 	hide()
 
 
 func select_from_path(path : String) -> void:
 	var overlay : Control = %OverlayElements.get_node(path)
 	select_overlay(overlay)
+	just_selected = true
 
 
 # Resize and translate
@@ -278,3 +280,11 @@ func drag_gizmo(pos : Vector2) -> void:
 		dragging_gizmo.global_position.y = pos.y
 	else:
 		dragging_gizmo.global_position = pos
+
+
+func is_mouse_hovering_interface() -> bool:
+	if !Input.is_action_pressed("alt"):
+		for interface in selection_stoppers:
+			if interface.get_global_rect().has_point(mouse_pos):
+				return true
+	return false

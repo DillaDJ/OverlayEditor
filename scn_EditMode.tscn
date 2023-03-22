@@ -1,6 +1,6 @@
-[gd_scene load_steps=49 format=3 uid="uid://2q23awlm38v0"]
+[gd_scene load_steps=54 format=3 uid="uid://d0ct1pavfqhaw"]
 
-[ext_resource type="PackedScene" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
+[ext_resource type="PackedScene" uid="uid://debdglcdt2t2n" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
 [ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
 [ext_resource type="Script" path="res://Overlays/gd_OverlayContainer.gd" id="3_du7ip"]
@@ -27,6 +27,8 @@
 [ext_resource type="Script" path="res://gd_Inspector.gd" id="17_woalc"]
 [ext_resource type="Script" path="res://gd_Hierarchy.gd" id="18_yihel"]
 [ext_resource type="Script" path="res://Utility/gd_Message.gd" id="20_0b0gy"]
+[ext_resource type="Script" path="res://Utility/gd_BarResizer.gd" id="24_u31f0"]
+[ext_resource type="Script" path="res://Utility/gd_TabDragNDrop.gd" id="25_r0gxd"]
 [ext_resource type="Script" path="res://gd_EventMenu.gd" id="27_ovmqj"]
 [ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Overlays/Events/Actions/thm_ActionUnselected.tres" id="28_cj4j2"]
 [ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Overlays/Events/Actions/thm_ActionSelected.tres" id="29_loeoa"]
@@ -73,6 +75,16 @@ border_width_bottom = 3
 border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjybi"]
+bg_color = Color(0.0588235, 0.0588235, 0.0588235, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2k8a"]
+bg_color = Color(0.0588235, 0.0588235, 0.0588235, 0.392157)
+border_width_left = 2
+border_color = Color(0.419608, 0.427451, 0.447059, 0.392157)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jej8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kseq"]
 bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
@@ -751,7 +763,7 @@ offset_top = 0.0
 offset_bottom = 0.0
 grow_vertical = 2
 docked_edge = 2
-move_width = 360
+move_width = 368
 
 [node name="ToggleShow" parent="HierarchyInspector" index="1"]
 anchors_preset = 6
@@ -771,15 +783,30 @@ icon = ExtResource("16_7tuxj")
 icon_alignment = 1
 expand_icon = true
 
-[node name="BGPanel" type="Panel" parent="HierarchyInspector"]
-custom_minimum_size = Vector2(360, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector"]
+custom_minimum_size = Vector2(8, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_right = 368.0
 grow_vertical = 2
+theme_override_constants/separation = 0
+script = ExtResource("24_u31f0")
 
-[node name="VSplitContainer" type="VSplitContainer" parent="HierarchyInspector/BGPanel"]
-custom_minimum_size = Vector2(360, 0)
+[node name="Resize" type="Button" parent="HierarchyInspector/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_hjybi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f2k8a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f2k8a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jej8d")
+
+[node name="BGPanel" type="Panel" parent="HierarchyInspector/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="HierarchyInspector/HBoxContainer/BGPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -789,20 +816,21 @@ grow_vertical = 2
 theme = ExtResource("1_vu2ib")
 split_offset = 420
 
-[node name="TopTabContainer" type="TabContainer" parent="HierarchyInspector/BGPanel/VSplitContainer"]
+[node name="TopTabContainer" type="TabContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer"]
 layout_mode = 2
 theme_override_constants/side_margin = 0
 drag_to_rearrange_enabled = true
 tabs_rearrange_group = 0
 use_hidden_tabs_for_min_size = true
+script = ExtResource("25_r0gxd")
 
-[node name="Hierarchy" type="Panel" parent="HierarchyInspector/BGPanel/VSplitContainer/TopTabContainer"]
+[node name="Hierarchy" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6kseq")
 script = ExtResource("18_yihel")
 
-[node name="Tree" type="Tree" parent="HierarchyInspector/BGPanel/VSplitContainer/TopTabContainer/Hierarchy"]
+[node name="Tree" type="Tree" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer/Hierarchy"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -816,19 +844,20 @@ grow_vertical = 2
 hide_root = true
 script = ExtResource("17_w7a3r")
 
-[node name="BottomTabContainer" type="TabContainer" parent="HierarchyInspector/BGPanel/VSplitContainer"]
+[node name="BottomTabContainer" type="TabContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer"]
 layout_mode = 2
 theme_override_constants/side_margin = 0
 drag_to_rearrange_enabled = true
 tabs_rearrange_group = 0
+script = ExtResource("25_r0gxd")
 
-[node name="Inspector" type="Panel" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer"]
+[node name="Inspector" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n73x3")
 script = ExtResource("17_woalc")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Inspector"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -840,12 +869,12 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PropertyContainer" type="VBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Inspector/ScrollContainer"]
+[node name="PropertyContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="Events" type="Panel" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer"]
+[node name="Events" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -856,7 +885,7 @@ selected_event_theme = SubResource("StyleBoxFlat_bmma4")
 unselected_action_theme = ExtResource("28_cj4j2")
 selected_action_theme = ExtResource("29_loeoa")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -868,13 +897,13 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
+[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar"]
 layout_mode = 2
 
-[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Create new event"
@@ -886,7 +915,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Twitch Chat Event"
 popup/item_1/id = 1
 
-[node name="NewAction" type="MenuButton" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="NewAction" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
@@ -897,23 +926,23 @@ popup/item_0/id = 0
 popup/item_1/text = "Property Action"
 popup/item_1/id = 1
 
-[node name="Spacer" type="Control" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="Spacer" type="Control" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Delete" type="Button" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
+[node name="Delete" type="Button" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
 text = "X"
 flat = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_mmgyb")
 
-[node name="EventContainer" type="VBoxContainer" parent="HierarchyInspector/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/ScrollContainer"]
+[node name="EventContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5

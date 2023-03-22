@@ -63,10 +63,12 @@ func match_property(property : Property):
 			checkbox.show()
 		
 		Property.Type.INT:
-			checkbox.show()
+			spinbox.step = 1
+			spinbox.show()
 		
 		Property.Type.FLOAT:
-			checkbox.show()
+			spinbox.step = .1
+			spinbox.show()
 		
 		Property.Type.STRING_SHORT:
 			line_edit.show()
@@ -91,6 +93,42 @@ func match_property(property : Property):
 			pass
 		
 	show()
+
+
+func fill_field(property : Property):
+	var value_to_set = property.get_property()
+	
+	match property.type:
+		Property.Type.BOOL:
+			checkbox.set_pressed(value_to_set)
+		
+		Property.Type.INT:
+			spinbox.value = value_to_set
+		
+		Property.Type.FLOAT:
+			spinbox.value = value_to_set
+		
+		Property.Type.STRING_SHORT:
+			line_edit.text = value_to_set
+		
+		Property.Type.STRING:
+			line_edit.text = value_to_set
+		
+		Property.Type.VECTOR2:
+			x_spinbox.value = value_to_set.x
+			y_spinbox.value = value_to_set.y
+		
+		Property.Type.VECTOR4:
+			x_spinbox.value = value_to_set.x
+			y_spinbox.value = value_to_set.y
+			z_spinbox.value = value_to_set.z
+			w_spinbox.value = value_to_set.w
+		
+		Property.Type.COLOR:
+			color_picker.color = value_to_set
+		
+		Property.Type.TEXTURE:
+			pass
 
 
 func emit_field_change():

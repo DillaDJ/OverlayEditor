@@ -12,6 +12,10 @@ func rearrange_overlay_hirarchy(from_item : TreeItem, to_item : TreeItem, shift)
 	var from_path = hierarchy.get_item_path(from_item)
 	var from = get_node(from_path)
 	
+	if !from:
+		print("???")
+		return
+	
 	if shift == -100:
 		from.reparent(self)
 		move_child(from, -1)

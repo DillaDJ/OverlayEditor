@@ -18,7 +18,7 @@ func execute():
 		return
 	
 	var new_value
-	if typeof(value) == 24:
+	if typeof(value) == TYPE_OBJECT:
 		match mode:
 			Mode.SET:
 				new_value = value.get_property()

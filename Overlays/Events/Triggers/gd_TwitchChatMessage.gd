@@ -9,9 +9,15 @@ var raw_msg : String
 func _init(unprocessed_message : String):
 	raw_msg = unprocessed_message
 	
-	var split = unprocessed_message.split(":")
-	user = split[1].split(" ")[2].lstrip("#")
-	msg = split[2].lstrip(":")
+	var regex := RegEx.new()
+	regex.compile(":([^!]*).*PRIVMSG #[^ ]* :(.*)")
+	
+	var result := regex.search(unprocessed_message)
+	
+	if result.get_group_count() > 1:
+		user = result.strings[1]
+		msg = result.strings[2]
+
 
 
 func get_user():

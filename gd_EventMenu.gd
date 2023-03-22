@@ -32,7 +32,7 @@ func _ready() -> void:
 	delete_button.connect("button_down", Callable(self, "delete_selected"))
 	
 	%MoveTool.connect("overlay_selected", Callable(self, "populate_events"))
-	%MoveTool.connect("overlay_deselected", Callable(self, "populate_global_events"))
+	%MoveTool.connect("overlay_deselected", Callable(self, "clear_events"))
 
 
 func create_event(trigger_type : int) -> void:
@@ -85,21 +85,31 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 	
 	match action.type:
 		Action.Type.PRINT:
-			var line_edit : LineEdit = action_interface.get_node("HorizontalLayout/LineEdit") 
-			line_edit.text = action.message
+			var prop_select : Button = action_interface.get_node("HorizontalLayout/PropertySelectButton") 
 			
-			line_edit.connect("text_changed", Callable(action, "change_message"))
+			if action.property:
+				prop_select.text = action.property.prop_name.to_lower()
+			
+			prop_select.connect("property_linked", Callable(action, "change_property"))
 		
 		Action.Type.PROPERTY:
 			var prop_select 	: Button = action_interface.get_node("HorizontalLayout/PropertySelector")
 			var mode_select 	: OptionButton = action_interface.get_node("HorizontalLayout/Mode")
 			var field_matcher 	: FieldMatcher = action_interface.get_node("HorizontalLayout/FieldMatcher")
 			
+			if typeof(action.value) == TYPE_OBJECT:
+				field_matcher.property_selector.text = action.value.prop_name.to_lower()
+				field_matcher.matched_property = action.value
+				field_matcher.toggle_property()
+			elif action.property:
+				prop_select.text = action.property.prop_name.to_lower()
+				field_matcher.match_property(action.property)
+				field_matcher.fill_field(action.property)
+			
 			prop_select.connect("button_down", Callable(self, "select_interface").bind(action_interface, true))
 			prop_select.connect("property_linked", Callable(action, "change_property"))
 			field_matcher.connect("field_changed", Callable(action, "change_value"))
 			mode_select.connect("item_selected", Callable(action, "change_mode"))
-
 
 
 func select_interface(interface : Control, ignore_action : bool = false) -> void:
@@ -165,10 +175,18 @@ func delete_selected():
 	delete_button.disabled = true
 
 
+func clear_events():
+	for child in event_container.get_children():
+		child.queue_free()
+	
+	selected_interface_idx = -1
+	selected_action_idx = -1
+
+
 func populate_events(overlay) -> void:
 	new_event_button.disabled = false
 	selected_overlay = overlay
-	clear_event_panel()
+	clear_events()
 	
 	for event in selected_overlay.attached_events:
 		var event_interface = create_event_interface()
@@ -178,16 +196,3 @@ func populate_events(overlay) -> void:
 		for action in event.actions:
 			create_action_interface(event_interface, action)
 
-
-func populate_global_events() -> void:
-	new_event_button.disabled = true
-	selected_overlay = null
-	clear_event_panel()
-
-
-func clear_event_panel():
-	for child in event_container.get_children():
-		child.queue_free()
-	
-	selected_interface_idx = -1
-	selected_action_idx = -1
