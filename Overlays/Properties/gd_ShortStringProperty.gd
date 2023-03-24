@@ -5,7 +5,7 @@ extends PropertyInterface
 
 
 func _ready():
-	text_edit.connect("text_changed", Callable(self, "change_text"))
+	text_edit.connect("text_submitted", Callable(self, "change_text"))
 
 
 func set_prop_value(new_text : String) -> void:

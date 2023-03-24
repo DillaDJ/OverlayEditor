@@ -7,9 +7,8 @@ extends Control
 @onready var confirm_button : Button = $PanelContainer/VBoxContainer/HBoxContainer/Confirm
 
 var cached_overlay : Overlay
-var cached_event : Event
-
-var selected_idx : int = -1
+var event_property_count := 0
+var selected_idx := -1
 
 signal property_selected(property : Property)
 signal cancelled()
@@ -17,39 +16,45 @@ signal cancelled()
 
 func _ready():
 	item_list.connect("item_selected", Callable(self, "set_selected_index"))
+	move_tool.connect("overlay_selected", Callable(self, "populate_properties"))
 	
-	%Events.connect("event_selected", Callable(self, "populate_properties"))
+	%Events.connect("event_created", Callable(self, "add_event"))
 	$PanelContainer/VBoxContainer/HBoxContainer/Confirm.connect("button_down", Callable(self, "confirm"))
 	$PanelContainer/VBoxContainer/HBoxContainer/Cancel.connect("button_down", Callable(self, "cancel"))
 
 
-func populate_properties(event : Event):
-	var selected_overlay = move_tool.selected_overlay
+func populate_properties(overlay : Overlay):
+	event_property_count = 0
+	cached_overlay = overlay
 	
 	item_list.clear()
 	item_list.add_item("Event Properties (Read Only):")
 	item_list.set_item_disabled(0, true)
 	
-	for property in event.properties:
-		item_list.add_item(property.prop_name)
+	for event in overlay.attached_events:
+		for property in event.properties:
+			item_list.add_item(property.prop_name)
+			event_property_count += 1
 	
 	item_list.add_item("")
 	item_list.add_item("Overlay Properties:")
-	item_list.set_item_disabled(event.properties.size() + 1, true)
-	item_list.set_item_disabled(event.properties.size() + 2, true)
+	item_list.set_item_disabled(event_property_count + 1, true)
+	item_list.set_item_disabled(event_property_count + 2, true)
 	
-	for property in selected_overlay.overridable_properties:
-		if typeof(property) == TYPE_STRING:
-			continue
+	for property in overlay.overridable_properties:
 		item_list.add_item(property.prop_name)
-	
-	if selected_overlay != cached_overlay:
-		cached_overlay = selected_overlay
-	cached_event = event
+
+
+func add_event(event : Event):
+	for property in event.properties:
+			item_list.add_item(property.prop_name)
+			event_property_count += 1
+			
+			item_list.move_item(item_list.item_count - 1, event_property_count)
 
 
 func disable_non_matching_type(type_to_match : Property.Type):
-	for i in range(cached_overlay.overridable_properties.size() + cached_event.properties.size()):
+	for i in range(cached_overlay.overridable_properties.size() + event_property_count):
 		var property := get_property_from_idx(i)
 		var new_idx := convert_to_item_list_idx(i)
 		
@@ -65,8 +70,6 @@ func disable_non_matching_type(type_to_match : Property.Type):
 
 
 func start_select(mode : PropertySelectButton.Mode):
-	var event_property_count := cached_event.properties.size()
-	
 	# Prevent writing into event properties
 	if mode == PropertySelectButton.Mode.Write:
 		for i in range(event_property_count):
@@ -86,6 +89,7 @@ func cancel():
 	hide()
 
 
+# Utility
 func set_selected_index(idx : int) -> void:
 	if item_list.is_item_disabled(idx):
 		return
@@ -97,7 +101,7 @@ func set_selected_index(idx : int) -> void:
 func convert_to_item_list_idx(idx : int) -> int:
 	var new_idx
 	
-	if idx < cached_event.properties.size():
+	if idx < event_property_count:
 			new_idx = idx + 1
 	else:
 			new_idx = idx + 3
@@ -108,7 +112,7 @@ func convert_to_item_list_idx(idx : int) -> int:
 func convert_to_property_idx(idx : int) -> int:
 	var new_idx
 	
-	if idx < cached_event.properties.size() + 1:
+	if idx < event_property_count + 1:
 			new_idx = idx - 1
 	else:
 			new_idx = idx - 3
@@ -117,12 +121,14 @@ func convert_to_property_idx(idx : int) -> int:
 
 
 func get_property_from_idx(idx : int) -> Property:
-	var event_property_count := cached_event.properties.size()
-	var selected_property : Property
-	
 	if idx >= event_property_count:
-		selected_property = cached_overlay.overridable_properties[idx - event_property_count]
+		return cached_overlay.overridable_properties[idx - event_property_count]
 	else:
-		selected_property = cached_event.properties[idx]
+		var i := 0
+		for event in cached_overlay.attached_events:
+			for property in event.properties:
+				if i == idx:
+					return property
+				i += 1
 	
-	return selected_property
+	return null

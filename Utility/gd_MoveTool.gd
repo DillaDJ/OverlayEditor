@@ -48,9 +48,6 @@ func _ready() -> void:
 	translation_gizmo.connect("button_down", Callable(self, "start_translate"))
 	translation_gizmo.connect("button_up", Callable(self, "stop_translate"))
 	
-	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
-	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
-	
 	selection_stoppers.append(%TopMenu/ToggleShow)
 	selection_stoppers.append(%TopMenu/BGPanel)
 	selection_stoppers.append(%TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG)
@@ -58,6 +55,9 @@ func _ready() -> void:
 	selection_stoppers.append(%ChangeMode/ToOverlayButton)
 	selection_stoppers.append(%HierarchyInspector/ToggleShow)
 	selection_stoppers.append(%HierarchyInspector/HBoxContainer)
+	
+	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
+	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
 
 
 func _unhandled_input(_event : InputEvent) -> void:
@@ -123,6 +123,10 @@ func click_select_overlay(overlay : Control) -> void:
 func select_overlay(overlay : Control) -> void:
 	if !overlay.is_connected("transformed", Callable(self, "reposition_gizmos")):
 		overlay.connect("transformed", Callable(self, "reposition_gizmos"))
+	
+	if !overlay.is_connected("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item")):
+		overlay.connect("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item").bind(overlay))
+	
 	selected_overlay = overlay
 	
 	reposition_gizmos()
@@ -134,6 +138,9 @@ func select_overlay(overlay : Control) -> void:
 func deselect_overlay() -> void:
 	if selected_overlay and selected_overlay.is_connected("transformed", Callable(self, "reposition_gizmos")):
 		selected_overlay.disconnect("transformed", Callable(self, "reposition_gizmos"))
+		
+	if selected_overlay.is_connected("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item")):
+		selected_overlay.disconnect("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item"))
 	selected_overlay = null
 	
 	overlay_deselected.emit()
@@ -267,6 +274,7 @@ func drag_gizmo(pos : Vector2) -> void:
 	var top  : bool = dragging_gizmo == resize_gizmos[0] or dragging_gizmo == resize_gizmos[1] or dragging_gizmo == resize_gizmos[2]
 	var left : bool = dragging_gizmo == resize_gizmos[6] or dragging_gizmo == resize_gizmos[7] or dragging_gizmo == resize_gizmos[0]
 	
+	# Adjust grid top and left for gizmo offset
 	if grid.is_visible:
 		if top: 
 			pos.y -= 10

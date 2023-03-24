@@ -32,6 +32,9 @@ func populate_properties(overlay : Overlay):
 	clear_properties()
 	
 	for property in overlay.overridable_properties:
+		if property.hidden:
+			continue
+		
 		match property.type:
 			Property.Type.ENUM:
 				add_enum_property_interface(property)
@@ -90,7 +93,7 @@ func add_property_interface(property_scene : PackedScene, property : Property) -
 	return property_interface
 
 
-func add_enum_property_interface(property : ReadProperty.EnumProperty) -> void:
+func add_enum_property_interface(property : WriteProperty.EnumProperty) -> void:
 	var property_interface = enum_property_scn.instantiate()
 	property_container.add_child(property_interface)
 	

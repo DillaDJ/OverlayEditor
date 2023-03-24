@@ -25,4 +25,4 @@ func edit_time(new_time : float):
 
 
 func get_time() -> float:
-	return trigger_time
+	return timer.time_left

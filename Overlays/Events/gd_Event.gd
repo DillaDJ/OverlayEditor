@@ -13,7 +13,7 @@ func _init(event_trigger : Trigger):
 	
 	match trigger.type:
 		Trigger.Type.TIMED:
-			properties.append(Property.new("Timer Length", Property.Type.FLOAT, Callable(trigger, "get_time")))
+			properties.append(Property.new("Time Remaining", Property.Type.FLOAT, Callable(trigger, "get_time")))
 		
 		Trigger.Type.TWITCH_CHAT:
 			properties.append(Property.new("Chatter Username", Property.Type.STRING_SHORT, Callable(trigger, "get_message_user")))
@@ -28,6 +28,7 @@ func add_action(action : Action) -> void:
 
 func remove_action(action : Action) -> void:
 	actions.erase(action)
+	action.free()
 
 
 func remove_action_at(action_idx : int) -> void:
@@ -37,3 +38,7 @@ func remove_action_at(action_idx : int) -> void:
 func execute_actions() -> void:
 	for action in actions:
 		action.execute()
+
+func delete():
+	actions.clear()
+	trigger = null

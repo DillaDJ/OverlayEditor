@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Overlays/gd_PanelOverlay.gd" id="1_wmdyf"]
 
 [node name="PanelOverlay" type="Panel"]
+custom_minimum_size = Vector2(40, 40)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

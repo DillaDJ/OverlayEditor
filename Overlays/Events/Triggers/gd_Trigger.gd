@@ -1,7 +1,7 @@
 class_name Trigger
 
 
-enum Type { TIMED, TWITCH_CHAT }
+enum Type { TIMED, TWITCH_CHAT, PROPERTY_SET }
 var type : Type
 
 

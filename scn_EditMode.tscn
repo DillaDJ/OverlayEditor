@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://d0ct1pavfqhaw"]
+[gd_scene load_steps=55 format=3 uid="uid://d0ct1pavfqhaw"]
 
 [ext_resource type="PackedScene" uid="uid://debdglcdt2t2n" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -33,6 +33,7 @@
 [ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Overlays/Events/Actions/thm_ActionUnselected.tres" id="28_cj4j2"]
 [ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Overlays/Events/Actions/thm_ActionSelected.tres" id="29_loeoa"]
 [ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
+[ext_resource type="Script" path="res://gd_ConfirmationDialog.gd" id="34_emxxc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -559,7 +560,7 @@ theme_override_font_sizes/font_size = 23
 icon = ExtResource("11_qgpgf")
 expand_icon = true
 script = ExtResource("8_le8sj")
-type_to_create = 1
+type_to_create = 3
 
 [node name="CreateVLayoutContainer" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
@@ -571,7 +572,7 @@ theme_override_font_sizes/font_size = 23
 icon = ExtResource("12_6jeg4")
 expand_icon = true
 script = ExtResource("8_le8sj")
-type_to_create = 1
+type_to_create = 4
 
 [node name="CreateGridLayoutContainer" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
@@ -583,7 +584,7 @@ theme_override_font_sizes/font_size = 23
 icon = ExtResource("13_jw6up")
 expand_icon = true
 script = ExtResource("8_le8sj")
-type_to_create = 1
+type_to_create = 5
 
 [node name="Spacer3" type="Panel" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(2, 0)
@@ -909,11 +910,13 @@ layout_mode = 2
 tooltip_text = "Create new event"
 disabled = true
 text = "+"
-item_count = 2
+item_count = 3
 popup/item_0/text = "Timed Event"
 popup/item_0/id = 0
 popup/item_1/text = "Twitch Chat Event"
 popup/item_1/id = 1
+popup/item_2/text = "Property Set Event"
+popup/item_2/id = 2
 
 [node name="NewAction" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VBoxContainer/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
@@ -1048,6 +1051,13 @@ theme_override_colors/font_color = Color(0.588235, 0.623529, 0.682353, 1)
 text = "Subtitle"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+position = Vector2i(500, 500)
+size = Vector2i(300, 100)
+theme = ExtResource("1_vu2ib")
+script = ExtResource("34_emxxc")
 
 [editable path="TopMenu"]
 [editable path="ChangeMode"]

@@ -1,3 +1,4 @@
+class_name EventMenu
 extends Panel
 
 @onready var event_interface_scn : PackedScene = preload("res://Overlays/Events/scn_EventInterface.tscn")
@@ -19,6 +20,7 @@ var selected_interface_idx 	: int = -1
 var selected_action_idx 	: int = -1
 
 
+signal event_created(event : Event)
 signal event_selected(event : Event)
 
 
@@ -45,11 +47,15 @@ func create_event(trigger_type : int) -> void:
 			
 		Trigger.Type.TWITCH_CHAT:
 			trigger = TwitchChatTrigger.new()
+			
+		Trigger.Type.PROPERTY_SET:
+			trigger = PropertySetTrigger.new()
 	
 	var event := Event.new(trigger)
 	
 	selected_overlay.attached_events.append(event)
 	event_interface.add_trigger_interface(trigger)
+	event_created.emit(event)
 
 
 func create_event_interface() -> EventInterface:
@@ -97,6 +103,9 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 			var mode_select 	: OptionButton = action_interface.get_node("HorizontalLayout/Mode")
 			var field_matcher 	: FieldMatcher = action_interface.get_node("HorizontalLayout/FieldMatcher")
 			
+			action_interface.set_mode(action.mode)
+			mode_select.select(action.mode)
+			
 			if typeof(action.value) == TYPE_OBJECT:
 				field_matcher.property_selector.text = action.value.prop_name.to_lower()
 				field_matcher.matched_property = action.value
@@ -104,7 +113,9 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 			elif action.property:
 				prop_select.text = action.property.prop_name.to_lower()
 				field_matcher.match_property(action.property)
-				field_matcher.fill_field(action.property)
+				
+				if action.value:
+					field_matcher.fill_field(action.property, action.value)
 			
 			prop_select.connect("button_down", Callable(self, "select_interface").bind(action_interface, true))
 			prop_select.connect("property_linked", Callable(action, "change_property"))
@@ -165,10 +176,12 @@ func delete_selected():
 			interface.remove_action_interface_at(selected_action_idx)
 			event.remove_action_at(selected_action_idx)
 		else:
+			var event = selected_overlay.attached_events[selected_interface_idx]
 			var interface = event_container.get_child(selected_interface_idx)
 			selected_overlay.attached_events.remove_at(selected_interface_idx)
 			selected_interface_idx = -1
 			interface.queue_free()
+			event.delete()
 		selected_action_idx = -1
 	
 	new_action_button.disabled = true

@@ -5,12 +5,12 @@ func _ready() -> void:
 	super()
 	
 	# Properties
-	overridable_properties.append(ReadProperty.new("Color", Property.Type.COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color")))
+	overridable_properties.append(WriteProperty.new("Color", Property.Type.COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color")))
 	
-	overridable_properties.append(ReadProperty.new("Border Color", Property.Type.COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color")))
-	overridable_properties.append(ReadProperty.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
+	overridable_properties.append(WriteProperty.new("Border Color", Property.Type.COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color")))
+	overridable_properties.append(WriteProperty.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
 	
-	overridable_properties.append(ReadProperty.new("Rounding", Property.Type.VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding")))
+	overridable_properties.append(WriteProperty.new("Rounding", Property.Type.VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding")))
 
 
 func get_overlay_color() -> Color:

@@ -68,8 +68,8 @@ text = "X:
 [node name="SpinBox" type="SpinBox" parent="Vector/XCoords"]
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
+min_value = -1e+06
 max_value = 1e+06
-step = 0.1
 
 [node name="YCoords" type="HBoxContainer" parent="Vector"]
 layout_mode = 2
@@ -83,8 +83,8 @@ text = "Y:
 [node name="SpinBox" type="SpinBox" parent="Vector/YCoords"]
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
+min_value = -1e+06
 max_value = 1e+06
-step = 0.1
 
 [node name="ZCoords" type="HBoxContainer" parent="Vector"]
 visible = false
@@ -99,8 +99,8 @@ text = "Z:
 [node name="SpinBox" type="SpinBox" parent="Vector/ZCoords"]
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
+min_value = -1e+06
 max_value = 1e+06
-step = 0.1
 
 [node name="WCoords" type="HBoxContainer" parent="Vector"]
 visible = false
@@ -113,8 +113,8 @@ text = "W:"
 [node name="SpinBox" type="SpinBox" parent="Vector/WCoords"]
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
+min_value = -1e+06
 max_value = 1e+06
-step = 0.1
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="."]
 visible = false

@@ -25,7 +25,6 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 
 [node name="PropertySelectButton" type="Button"]
-size_flags_horizontal = 3
 tooltip_text = "Changes the property that's being used"
 theme_override_styles/normal = SubResource("StyleBoxFlat_0urbj")
 theme_override_styles/hover = SubResource("StyleBoxFlat_lei5r")

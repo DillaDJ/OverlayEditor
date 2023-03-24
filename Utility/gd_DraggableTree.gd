@@ -4,6 +4,7 @@ extends Tree
 var preview_scn : PackedScene = preload("res://Utility/scn_TreePreview.tscn")
 
 signal tree_item_reordered(item, to_item, shift)
+signal tree_item_created(item : TreeItem)
 
 
 func _get_drag_data(_at_position : Vector2) -> Variant:
@@ -44,18 +45,16 @@ func drop_tree_item(item : TreeItem, to_item : TreeItem, shift : int):
 	match shift:
 		-100:
 			item.move_after(get_root().get_child(get_child_count() - 1))
-		
 		-1:
 			item.move_before(to_item)
-		
 		0:
 			var child := reparent_tree_item(item, to_item)
-		
+			tree_item_created.emit(child)
 		1:
 			if to_item.get_child_count() != 0:
 				var child := reparent_tree_item(item, to_item)
 				child.move_before(to_item.get_child(0))
-				
+				tree_item_created.emit(child)
 			else:
 				item.move_after(to_item)
 
@@ -75,5 +74,6 @@ func populate_deep_children_items(from : TreeItem, to : TreeItem) -> void:
 	for child in from.get_children():
 		var new_child = to.create_child(0)
 		new_child.set_text(0, child.get_text(0))
+		tree_item_created.emit(new_child)
 		
 		populate_deep_children_items(child, new_child)

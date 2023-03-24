@@ -9,7 +9,9 @@ extends HBoxContainer
 @onready var vector 	: Control = $Vector
 @onready var x_spinbox 	: SpinBox = $Vector/XCoords/SpinBox
 @onready var y_spinbox 	: SpinBox = $Vector/YCoords/SpinBox
+@onready var z_coords 	: Control = $Vector/ZCoords
 @onready var z_spinbox 	: SpinBox = $Vector/ZCoords/SpinBox
+@onready var w_coords 	: Control = $Vector/WCoords
 @onready var w_spinbox 	: SpinBox = $Vector/WCoords/SpinBox
 
 @onready var color_picker : ColorPickerButton = $ColorPickerButton
@@ -25,16 +27,16 @@ signal field_changed(new_value)
 
 
 func _ready():
-	checkbox.connect("button_down", Callable(self, "emit_field_change"))
-	spinbox.connect("changed", Callable(self, "emit_field_change"))
-	x_spinbox.connect("changed", Callable(self, "emit_field_change"))
-	y_spinbox.connect("changed", Callable(self, "emit_field_change"))
-	z_spinbox.connect("changed", Callable(self, "emit_field_change"))
-	w_spinbox.connect("changed", Callable(self, "emit_field_change"))
+	checkbox.connect("button_down", Callable(self, "bool_change_field"))
+	spinbox.connect("value_changed", Callable(self, "change_field"))
+	x_spinbox.connect("value_changed", Callable(self, "vector_change_field"))
+	y_spinbox.connect("value_changed", Callable(self, "vector_change_field"))
+	z_spinbox.connect("value_changed", Callable(self, "vector_change_field"))
+	w_spinbox.connect("value_changed", Callable(self, "vector_change_field"))
 	
-	line_edit.connect("text_submitted", Callable(self, "quick_emit_field_changed"))
-	color_picker.connect("color_changed", Callable(self, "quick_emit_field_changed"))
-	property_selector.connect("property_linked", Callable(self, "quick_emit_field_changed"))
+	line_edit.connect("text_submitted", Callable(self, "change_field"))
+	color_picker.connect("color_changed", Callable(self, "change_field"))
+	property_selector.connect("property_linked", Callable(self, "change_field"))
 	
 	$ToggleProperty.connect("button_down", Callable(self, "toggle_property"))
 
@@ -77,27 +79,23 @@ func match_property(property : Property):
 			line_edit.show()
 		
 		Property.Type.VECTOR2:
-			z_spinbox.hide()
-			w_spinbox.hide()
 			vector.show()
+			z_coords.hide()
+			w_coords.hide()
 		
 		Property.Type.VECTOR4:
-			z_spinbox.show()
-			w_spinbox.show()
 			vector.show()
+			z_coords.show()
+			w_coords.show()
 		
 		Property.Type.COLOR:
 			color_picker.show()
 		
 		Property.Type.TEXTURE:
 			pass
-		
-	show()
 
 
-func fill_field(property : Property):
-	var value_to_set = property.get_property()
-	
+func fill_field(property : Property, value_to_set):
 	match property.type:
 		Property.Type.BOOL:
 			checkbox.set_pressed(value_to_set)
@@ -131,34 +129,25 @@ func fill_field(property : Property):
 			pass
 
 
-func emit_field_change():
-	match matched_property.type:
-		Property.Type.BOOL:
-			field_changed.emit(checkbox.button_pressed)
-		
-		Property.Type.INT:
-			field_changed.emit(spinbox.value)
-		
-		Property.Type.FLOAT:
-			field_changed.emit(spinbox.value)
-		
-		Property.Type.VECTOR2:
-			var new_vector : Vector2 = Vector2.ZERO
-			new_vector.x = x_spinbox.value
-			new_vector.y = y_spinbox.value
-			field_changed.emit(new_vector)
-		
-		Property.Type.VECTOR4:
-			var new_vector : Vector4 = Vector4.ZERO
-			new_vector.x = x_spinbox.value
-			new_vector.y = y_spinbox.value
-			new_vector.z = z_spinbox.value
-			new_vector.w = w_spinbox.value
-			field_changed.emit(new_vector)
-		
-		Property.Type.TEXTURE:
-			pass
-
-
-func quick_emit_field_changed(value):
+func change_field(value):
 	field_changed.emit(value)
+
+
+func bool_change_field():
+	field_changed.emit(checkbox.button_pressed)
+
+
+func vector_change_field(_value):
+	if matched_property.type == Property.Type.VECTOR2:
+		var new_vector : Vector2 = Vector2.ZERO
+		new_vector.x = x_spinbox.value
+		new_vector.y = y_spinbox.value
+		field_changed.emit(new_vector)
+		
+	elif matched_property.type == Property.Type.VECTOR4:
+		var new_vector : Vector4 = Vector4.ZERO
+		new_vector.x = x_spinbox.value
+		new_vector.y = y_spinbox.value
+		new_vector.z = z_spinbox.value
+		new_vector.w = w_spinbox.value
+		field_changed.emit(new_vector)
