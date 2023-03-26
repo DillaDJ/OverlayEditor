@@ -32,12 +32,26 @@ func _ready() -> void:
 
 # Items
 func add_to_tree(overlay : Control) -> void:
+	var deep_children = sngl_Utility.get_nested_children(overlay)
 	var new_item : TreeItem = tree.create_item()
 	new_item.set_text(0, overlay.name)
 	
-	
+	if deep_children.size() > 0:
+		add_children_to_tree(new_item, deep_children)
 	
 	overlay.connect("name_changed", Callable(self, "update_item_text").bind(new_item))
+
+
+# child_array[0] can never be an array, see: sngl_Utility.get_nested_children()
+func add_children_to_tree(parent : TreeItem, child_array : Array) -> void:
+	var new_child
+	
+	for child in child_array:
+		if typeof(child) == TYPE_ARRAY:
+			add_children_to_tree(new_child, child)
+		else:
+			new_child = parent.create_child()
+			new_child.set_text(0, child.name)
 
 
 func remove_from_tree():

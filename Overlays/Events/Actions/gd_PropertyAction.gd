@@ -13,6 +13,18 @@ func _init():
 	type = Type.PROPERTY
 
 
+func duplicate(overlay) -> Action:
+	var duplicated_action = PropertyAction.new()
+	
+	if property:		
+		var matching_property = property.find_equivalent_property(overlay)
+		duplicated_action.change_property(matching_property)
+		duplicated_action.change_value(value)
+	duplicated_action.change_mode(mode)
+	
+	return duplicated_action
+
+
 func execute():
 	if property == null or value == null:
 		return

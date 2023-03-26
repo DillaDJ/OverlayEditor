@@ -7,6 +7,7 @@ signal reset()
 
 func _ready():
 	super()
+	type = Type.TEXTURE_PANEL
 	
 	overridable_properties.append(WriteProperty.new("Texture", 			Property.Type.TEXTURE, Callable(self, "get_texture"), Callable(self, "set_texture")))
 	overridable_properties.append(WriteProperty.new("Region Position",	Property.Type.VECTOR2, Callable(self, "get_rect_pos"), Callable(self, "set_rect_pos")))

@@ -2,84 +2,83 @@ class_name PropertySelect
 extends Control
 
 
-@onready var move_tool : MoveTool = %MoveTool
-@onready var item_list : ItemList = $PanelContainer/VBoxContainer/ItemList
-@onready var confirm_button : Button = $PanelContainer/VBoxContainer/HBoxContainer/Confirm
+@onready var property_item_scn : PackedScene = preload("res://Overlays/Properties/scn_OverlayPropertyItem.tscn")
 
-var cached_overlay : Overlay
-var event_property_count := 0
-var selected_idx := -1
+@onready var move_tool : MoveTool = %MoveTool
+@onready var property_container : Control = $PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer
+@onready var confirm_button : Button = $PanelContainer/VBoxContainer/ButtonLayout/Confirm
+
+var selected_property : Property
 
 signal property_selected(property : Property)
 signal cancelled()
 
 
 func _ready():
-	item_list.connect("item_selected", Callable(self, "set_selected_index"))
-	move_tool.connect("overlay_selected", Callable(self, "populate_properties"))
+	var event_menu = %Events
 	
-	%Events.connect("event_created", Callable(self, "add_event"))
-	$PanelContainer/VBoxContainer/HBoxContainer/Confirm.connect("button_down", Callable(self, "confirm"))
-	$PanelContainer/VBoxContainer/HBoxContainer/Cancel.connect("button_down", Callable(self, "cancel"))
+#	item_list.connect("item_selected", Callable(self, "set_selected_index"))
+	move_tool.connect("overlay_selected", Callable(self, "load_properties_from_overlay"))
+
+	event_menu.connect("event_created", Callable(self, "refresh_events"))
+	event_menu.connect("event_deleted", Callable(self, "refresh_events"))
+	$PanelContainer/VBoxContainer/ButtonLayout/Confirm.connect("button_down", Callable(self, "confirm"))
+	$PanelContainer/VBoxContainer/ButtonLayout/Cancel.connect("button_down", Callable(self, "cancel"))
 
 
-func populate_properties(overlay : Overlay):
-	event_property_count = 0
-	cached_overlay = overlay
+func load_properties_from_overlay(overlay : Overlay):
+	var overlays := sngl_Utility.get_nested_children_flat(overlay)
+	overlays.insert(0, overlay)
 	
-	item_list.clear()
-	item_list.add_item("Event Properties (Read Only):")
-	item_list.set_item_disabled(0, true)
+	var property_interface_count := property_container.get_child_count()
 	
-	for event in overlay.attached_events:
-		for property in event.properties:
-			item_list.add_item(property.prop_name)
-			event_property_count += 1
-	
-	item_list.add_item("")
-	item_list.add_item("Overlay Properties:")
-	item_list.set_item_disabled(event_property_count + 1, true)
-	item_list.set_item_disabled(event_property_count + 2, true)
-	
-	for property in overlay.overridable_properties:
-		item_list.add_item(property.prop_name)
-
-
-func add_event(event : Event):
-	for property in event.properties:
-			item_list.add_item(property.prop_name)
-			event_property_count += 1
+	for i in range(overlays.size()):
+		if i + 1 > property_interface_count:
+			var property_item = property_item_scn.instantiate()
+			property_container.add_child(property_item)
 			
-			item_list.move_item(item_list.item_count - 1, event_property_count)
-
-
-func disable_non_matching_type(type_to_match : Property.Type):
-	for i in range(cached_overlay.overridable_properties.size() + event_property_count):
-		var property := get_property_from_idx(i)
-		var new_idx := convert_to_item_list_idx(i)
-		
-		if (property.type == Property.Type.STRING or property.type == Property.Type.STRING_SHORT) and \
-		(type_to_match == Property.Type.STRING or type_to_match == Property.Type.STRING_SHORT):
-			item_list.set_item_disabled(new_idx, false)
-			continue
-		
-		if property.type == type_to_match:
-			item_list.set_item_disabled(new_idx, false)
+			property_item.connect("property_selected", Callable(self, "set_selected_property"))
+			property_item.populate_properties(overlays[i])
 		else:
-			item_list.set_item_disabled(new_idx, true)
+			var property_item = property_container.get_child(i)
+			property_item.populate_properties(overlays[i])
+			property_item.show()
+	
+	if overlays.size() < property_interface_count:
+		for i in range(property_interface_count - overlays.size()):
+			property_container.get_child(i + overlays.size()).hide()
+
+
+func set_selected_property(property : Property, selected_property_item):
+	for property_item in property_container.get_children():
+		if property_item == selected_property_item:
+			continue
+		property_item.deselect_all()
+	selected_property = property
+	
+	confirm_button.disabled = false
+
+
+func refresh_events(_event : Event = null):
+	property_container.get_child(0).refresh_event_properties()
+
+
+func disable_non_matching_types(type_to_match : Property.Type):
+	for property_item in property_container.get_children():
+		property_item.match_property_types(type_to_match)
 
 
 func start_select(mode : PropertySelectButton.Mode):
 	# Prevent writing into event properties
-	if mode == PropertySelectButton.Mode.Write:
-		for i in range(event_property_count):
-			item_list.set_item_disabled(i + 1, true)
-	
+	for property_item in property_container.get_children():
+		var is_disabled : bool = true if mode == PropertySelectButton.Mode.Write else false
+		property_item.set_event_properties_disabled(is_disabled)
+		property_item.deselect_all()
 	show()
 
 
 func confirm():
-	property_selected.emit(get_property_from_idx(selected_idx))
+	property_selected.emit(selected_property)
 	confirm_button.disabled = true
 	hide()
 
@@ -87,48 +86,3 @@ func confirm():
 func cancel():
 	cancelled.emit()
 	hide()
-
-
-# Utility
-func set_selected_index(idx : int) -> void:
-	if item_list.is_item_disabled(idx):
-		return
-	
-	selected_idx = convert_to_property_idx(idx)
-	confirm_button.disabled = false
-
-
-func convert_to_item_list_idx(idx : int) -> int:
-	var new_idx
-	
-	if idx < event_property_count:
-			new_idx = idx + 1
-	else:
-			new_idx = idx + 3
-	
-	return new_idx
-
-
-func convert_to_property_idx(idx : int) -> int:
-	var new_idx
-	
-	if idx < event_property_count + 1:
-			new_idx = idx - 1
-	else:
-			new_idx = idx - 3
-	
-	return new_idx
-
-
-func get_property_from_idx(idx : int) -> Property:
-	if idx >= event_property_count:
-		return cached_overlay.overridable_properties[idx - event_property_count]
-	else:
-		var i := 0
-		for event in cached_overlay.attached_events:
-			for property in event.properties:
-				if i == idx:
-					return property
-				i += 1
-	
-	return null

@@ -26,7 +26,7 @@ func link_property(property : Property) -> void:
 	text = property.prop_name.to_lower()
 	
 	if mode == Mode.Write:
-		property_select.disable_non_matching_type(property.type)
+		property_select.disable_non_matching_types(property.type)
 	
 	property_linked.emit(property)
 	

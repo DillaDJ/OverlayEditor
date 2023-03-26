@@ -37,6 +37,11 @@ func _notification(what):
 		client.close()
 
 
+func duplicate(_overlay : Overlay) -> Trigger:
+	var duplicated_trigger = TwitchChatTrigger.new()
+	return duplicated_trigger
+
+
 func poll():
 	client.poll()
 	

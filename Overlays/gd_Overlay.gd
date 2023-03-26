@@ -1,6 +1,8 @@
 class_name Overlay
 extends Control
 
+enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, BOX, GRID }
+var type : Type
 
 var overridable_properties 	: Array[Property] = []
 var attached_events 		: Array[Event] = []
@@ -58,3 +60,19 @@ func set_overlay_min_size(new_size) -> void:
 		size.y = new_size.y
 	
 	transformed.emit()
+
+
+func get_type_name() -> String:
+	match type:
+		Type.PANEL:
+			return "Panel Overlay"
+		Type.TEXTURE_PANEL:
+			return "Textured Panel Overlay"
+		Type.TEXT:
+			return "Text Overlay"
+		Type.BOX:
+			return "Box Layout Container"
+		Type.GRID:
+			return "Grid Container"
+	
+	return ""

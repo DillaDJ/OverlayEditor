@@ -18,6 +18,12 @@ func _init():
 	sngl_Utility.sync_timer.start()
 
 
+func duplicate(_overlay : Overlay) -> Trigger:
+	var duplicated_trigger = TimeTrigger.new()
+	duplicated_trigger.edit_time(trigger_time)
+	return duplicated_trigger
+
+
 func edit_time(new_time : float):
 	trigger_time = new_time
 	timer.wait_time = new_time

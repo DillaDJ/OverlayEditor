@@ -2,6 +2,7 @@ class_name  MoveTool
 extends Control
 
 
+@onready var overlay_container : Control = %OverlayElements
 @onready var grid : OverlayGrid = %Grid
 
 # Resize gizmo order
@@ -55,6 +56,7 @@ func _ready() -> void:
 	selection_stoppers.append(%ChangeMode/ToOverlayButton)
 	selection_stoppers.append(%HierarchyInspector/ToggleShow)
 	selection_stoppers.append(%HierarchyInspector/HBoxContainer)
+	selection_stoppers.append(%PropertySelect)
 	
 	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
 	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
@@ -95,7 +97,7 @@ func check_for_selections() -> void:
 		return
 	
 	var selection_group : Array[Node] = []
-	var overlays : Array[Node] = sngl_Utility.get_children_nested(%OverlayElements)
+	var overlays : Array[Node] = sngl_Utility.get_nested_children_flat(overlay_container)
 	overlays.reverse()
 	
 	for overlay in overlays:
@@ -220,6 +222,9 @@ func transform_selected_overlay() -> void:
 
 # Gizmos
 func reposition_gizmos() -> void:
+	if !selected_overlay:
+		return
+	
 	resize_gizmos[0].global_position = selected_overlay.global_position + Vector2(-10, -10)
 	resize_gizmos[2].global_position = selected_overlay.global_position + Vector2(selected_overlay.size.x, -10)
 	resize_gizmos[4].global_position = selected_overlay.global_position + selected_overlay.size
@@ -293,6 +298,6 @@ func drag_gizmo(pos : Vector2) -> void:
 func is_mouse_hovering_interface() -> bool:
 	if !Input.is_action_pressed("alt"):
 		for interface in selection_stoppers:
-			if interface.get_global_rect().has_point(mouse_pos):
+			if interface.is_visible_in_tree() and interface.get_global_rect().has_point(mouse_pos):
 				return true
 	return false

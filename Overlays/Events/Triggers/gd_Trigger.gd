@@ -8,5 +8,9 @@ var type : Type
 signal triggered()
 
 
+func duplicate(_overlay : Overlay) -> Trigger:
+	return Trigger.new()
+
+
 func trigger():
 	emit_signal("triggered")

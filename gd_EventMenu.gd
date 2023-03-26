@@ -21,6 +21,7 @@ var selected_action_idx 	: int = -1
 
 
 signal event_created(event : Event)
+signal event_deleted()
 signal event_selected(event : Event)
 
 

@@ -22,22 +22,29 @@ func _init(event_trigger : Trigger):
 	trigger.connect("triggered", Callable(self, "execute_actions"))
 
 
+func duplicate(attached_overlay : Overlay) -> Event:
+	var duplicated_event = Event.new(trigger.duplicate(attached_overlay))
+	for action in actions:
+		duplicated_event.add_action(action.duplicate(attached_overlay))
+	return duplicated_event
+
+
+func execute_actions() -> void:
+	for action in actions:
+		action.execute()
+
+
 func add_action(action : Action) -> void:
 	actions.append(action)
 
 
 func remove_action(action : Action) -> void:
 	actions.erase(action)
-	action.free()
 
 
 func remove_action_at(action_idx : int) -> void:
 	actions.remove_at(action_idx - 1)
 
-
-func execute_actions() -> void:
-	for action in actions:
-		action.execute()
 
 func delete():
 	actions.clear()

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://4p0qg27ta41y"]
+[gd_scene load_steps=3 format=3 uid="uid://4p0qg27ta41y"]
 
 [ext_resource type="Script" path="res://Overlays/gd_PanelOverlay.gd" id="1_wmdyf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e6kvc"]
 
 [node name="PanelOverlay" type="Panel"]
 custom_minimum_size = Vector2(40, 40)
@@ -15,4 +17,5 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e6kvc")
 script = ExtResource("1_wmdyf")

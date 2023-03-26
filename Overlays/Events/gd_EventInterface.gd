@@ -2,9 +2,6 @@ class_name EventInterface
 extends PanelContainer
 
 
-@export var caret_on : Texture2D
-@export var caret_off : Texture2D
-
 @onready var time_trigger_scn = preload("res://Overlays/Events/Triggers/scn_TimeTrigger.tscn")
 @onready var twitch_chat_trigger_scn = preload("res://Overlays/Events/Triggers/scn_TwitchChatTrigger.tscn")
 @onready var property_set_trigger_scn = preload("res://Overlays/Events/Triggers/scn_PropertySetTrigger.tscn")
@@ -69,7 +66,6 @@ func add_trigger_interface(trigger : Trigger):
 			prop_select.connect("property_linked", Callable(trigger, "change_property"))
 			prop_select.connect("property_linked", Callable(field_matcher, "match_property"))
 			field_matcher.connect("field_changed", Callable(trigger, "change_value"))
-	
 
 
 func add_action_interface(action) -> Control:
@@ -101,7 +97,7 @@ func remove_action_interface_at(action_idx) -> void:
 func toggle_action_visibility():
 	if action_container.is_visible_in_tree():
 		action_container.hide()
-		action_fold_button.icon = caret_off
+		action_fold_button.icon = sngl_Utility.caret_off
 	else:
 		action_container.show()
-		action_fold_button.icon = caret_on
+		action_fold_button.icon = sngl_Utility.caret_on

@@ -4,6 +4,9 @@ extends Node
 
 enum OverlayTypes { PANEL, TEXT }
 
+@onready var caret_on 	: Texture2D = preload("res://Icons/caret-on.png")
+@onready var caret_off 	: Texture2D = preload("res://Icons/caret-off.png")
+
 var sync_timer : Timer
 
 
@@ -48,13 +51,28 @@ func gcd(a, b):
 	return a
 
 
-func get_children_nested(node : Node) -> Array[Node]:
+# Formatted like: [parent, [child, [child of child], child], nochildren, parent, [child], ...]
+func get_nested_children(node : Node) -> Array:
+	var children : Array = []
+	
+	for child in node.get_children():
+		children.append(child)
+		
+		var deep_children = get_nested_children(child)
+		if deep_children.size() > 0:
+			children.append(deep_children)
+	
+	return children
+
+
+# Formatted in the same way as the above function but made into a 1D array
+func get_nested_children_flat(node : Node) -> Array[Node]:
 	var children : Array[Node] = []
 	
 	for child in node.get_children():
 		children.append(child)
 		
-		var deep_children = get_children_nested(child)
+		var deep_children = get_nested_children_flat(child)
 		for deep_child in deep_children:
 			children.append(deep_child)
 	

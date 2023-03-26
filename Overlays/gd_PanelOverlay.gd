@@ -3,6 +3,7 @@ extends Overlay
 
 func _ready() -> void:
 	super()
+	type = Type.PANEL
 	
 	# Properties
 	overridable_properties.append(WriteProperty.new("Color", Property.Type.COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color")))
@@ -11,6 +12,8 @@ func _ready() -> void:
 	overridable_properties.append(WriteProperty.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
 	
 	overridable_properties.append(WriteProperty.new("Rounding", Property.Type.VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding")))
+	
+	make_stylebox_unique()
 
 
 func get_overlay_color() -> Color:
@@ -69,13 +72,12 @@ func set_rounding(new_rounding : Vector4):
 	stylebox.set_corner_radius(CORNER_BOTTOM_RIGHT, int(new_rounding.w))
 
 
+func make_stylebox_unique() -> void:
+	var stylebox = get_theme_stylebox("panel").duplicate()
+	remove_theme_stylebox_override("panel")
+	add_theme_stylebox_override("panel", stylebox)
+
+
 func get_stylebox() -> StyleBoxFlat:
-	var stylebox
-
-	if has_theme_stylebox_override("panel"):
-		stylebox = get_theme_stylebox("panel")
-	else:
-		stylebox = StyleBoxFlat.new()
-		add_theme_stylebox_override("panel", stylebox)
-
+	var stylebox = get_theme_stylebox("panel")
 	return stylebox
