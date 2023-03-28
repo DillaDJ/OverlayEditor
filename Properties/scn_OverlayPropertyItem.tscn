@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Properties/gd_OverlayPropertyItem.gd" id="1_8aeew"]
+[ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="2_p38wg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwf73"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.168627, 0.352941, 0.54902, 1)
+border_width_bottom = 4
+border_color = Color(0.121569, 0.239216, 0.45098, 1)
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ydga"]
+content_margin_top = 4.0
+bg_color = Color(0.0431373, 0.0431373, 0.0431373, 0.784314)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a17c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_10sed"]
+
+[node name="OverlayPropertyItem" type="VBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_8aeew")
+
+[node name="HeaderBG" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qwf73")
+
+[node name="HeaderLayout" type="HBoxContainer" parent="HeaderBG"]
+layout_mode = 2
+
+[node name="Caret" type="Button" parent="HeaderBG/HeaderLayout"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+icon = ExtResource("2_p38wg")
+flat = true
+expand_icon = true
+
+[node name="OverlayInfo" type="Label" parent="HeaderBG/HeaderLayout"]
+layout_mode = 2
+text = "Overlay Name (OverlayType)"
+
+[node name="PropertyBG" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ydga")
+
+[node name="PropertyLists" type="VBoxContainer" parent="PropertyBG"]
+layout_mode = 2
+
+[node name="EventLabel" type="Label" parent="PropertyBG/PropertyLists"]
+layout_mode = 2
+text = "Event Properties (Read Only):"
+
+[node name="EventPropertyList" type="ItemList" parent="PropertyBG/PropertyLists"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6a17c")
+auto_height = true
+
+[node name="OverlayLabel" type="Label" parent="PropertyBG/PropertyLists"]
+layout_mode = 2
+text = "Overlay Properties:"
+
+[node name="OverlayPropertyList" type="ItemList" parent="PropertyBG/PropertyLists"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_10sed")
+auto_height = true

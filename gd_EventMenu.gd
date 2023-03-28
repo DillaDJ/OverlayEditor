@@ -1,7 +1,7 @@
 class_name EventMenu
 extends Panel
 
-@onready var event_interface_scn : PackedScene = preload("res://Overlays/Events/scn_EventInterface.tscn")
+@onready var event_interface_scn : PackedScene = preload("res://Events/scn_EventInterface.tscn")
 @onready var event_container 	: Control = $VBoxContainer/ScrollContainer/EventContainer
 @onready var new_event_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewEvent
 @onready var new_action_button 	: Button = $VBoxContainer/Toolbar/HBoxContainer/NewAction
@@ -26,6 +26,11 @@ signal event_selected(event : Event)
 
 
 func _ready() -> void:
+	var editor = sngl_Utility.get_scene_root()
+	
+	editor.connect("overlay_selected", Callable(self, "populate_events"))
+	editor.connect("overlay_deselected", Callable(self, "clear_events"))
+	
 	# Event Trigger
 	new_event_button.get_popup().connect("id_pressed", Callable(self, "create_event"))
 	
@@ -33,9 +38,6 @@ func _ready() -> void:
 	new_action_button.get_popup().connect("id_pressed", Callable(self, "create_action"))
 	
 	delete_button.connect("button_down", Callable(self, "delete_selected"))
-	
-	%MoveTool.connect("overlay_selected", Callable(self, "populate_events"))
-	%MoveTool.connect("overlay_deselected", Callable(self, "clear_events"))
 
 
 func create_event(trigger_type : int) -> void:
@@ -59,14 +61,6 @@ func create_event(trigger_type : int) -> void:
 	event_created.emit(event)
 
 
-func create_event_interface() -> EventInterface:
-	var event_interface : EventInterface = event_interface_scn.instantiate()
-	event_interface.get_node("HorizontalLayout/BurgerButton").connect("button_down", Callable(self, "select_interface").bind(event_interface))
-	event_container.add_child(event_interface)
-	
-	return event_interface
-
-
 func create_action(action_type : Action.Type) -> void:
 	var selected_interface : EventInterface = event_container.get_child(selected_interface_idx)
 	var selected_event : Event = selected_overlay.attached_events[selected_interface_idx]
@@ -84,6 +78,15 @@ func create_action(action_type : Action.Type) -> void:
 	selected_event.add_action(action)
 
 
+# Interface
+func create_event_interface() -> EventInterface:
+	var event_interface : EventInterface = event_interface_scn.instantiate()
+	event_interface.get_node("HorizontalLayout/BurgerButton").connect("button_down", Callable(self, "select_interface").bind(event_interface))
+	event_container.add_child(event_interface)
+	
+	return event_interface
+
+
 func create_action_interface(selected_interface : EventInterface, action : Action) -> void:
 	var action_interface : Control = selected_interface.add_action_interface(action)
 	var burger_button : Button = action_interface.get_node("HorizontalLayout/BurgerButton")
@@ -95,7 +98,7 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 			var prop_select : Button = action_interface.get_node("HorizontalLayout/PropertySelectButton") 
 			
 			if action.property:
-				prop_select.text = action.property.prop_name.to_lower()
+				prop_select.text = action.property.get_display_name()
 			
 			prop_select.connect("property_linked", Callable(action, "change_property"))
 		
@@ -107,25 +110,30 @@ func create_action_interface(selected_interface : EventInterface, action : Actio
 			action_interface.set_mode(action.mode)
 			mode_select.select(action.mode)
 			
-			if typeof(action.value) == TYPE_OBJECT:
-				field_matcher.property_selector.text = action.value.prop_name.to_lower()
-				field_matcher.matched_property = action.value
-				field_matcher.toggle_property()
-			elif action.property:
-				prop_select.text = action.property.prop_name.to_lower()
+			if action.property:
+				prop_select.text = action.property.get_display_name()
 				field_matcher.match_property(action.property)
 				
-				if action.value:
+				if typeof(action.value) == TYPE_OBJECT:
+					field_matcher.property_selector.text = action.value.get_display_name()
+					field_matcher.matched_property = action.value
+					field_matcher.toggle_property()
+				elif action.value != null:
 					field_matcher.fill_field(action.property, action.value)
 			
 			prop_select.connect("button_down", Callable(self, "select_interface").bind(action_interface, true))
 			prop_select.connect("property_linked", Callable(action, "change_property"))
+			
 			field_matcher.connect("field_changed", Callable(action, "change_value"))
+			action.connect("value_nulled", Callable(field_matcher, "reset_property"))
+			
 			mode_select.connect("item_selected", Callable(action, "change_mode"))
 
 
+# Selection
 func select_interface(interface : Control, ignore_action : bool = false) -> void:
 	var selected_interface : Control
+	var changed := false
 	
 	# Destyling
 	if selected_action_idx != -1:
@@ -150,6 +158,8 @@ func select_interface(interface : Control, ignore_action : bool = false) -> void
 	else:
 		selected_action_idx = -1
 	
+	if selected_interface_idx != interface.get_index():
+		changed = true
 	selected_interface_idx = interface.get_index()
 	selected_interface = event_container.get_child(selected_interface_idx)
 	
@@ -165,7 +175,8 @@ func select_interface(interface : Control, ignore_action : bool = false) -> void
 	new_action_button.disabled = false
 	delete_button.disabled = false
 	
-	event_selected.emit(selected_overlay.attached_events[selected_interface_idx])
+	if changed:
+		event_selected.emit(selected_overlay.attached_events[selected_interface_idx])
 
 
 func delete_selected():
@@ -189,14 +200,7 @@ func delete_selected():
 	delete_button.disabled = true
 
 
-func clear_events():
-	for child in event_container.get_children():
-		child.queue_free()
-	
-	selected_interface_idx = -1
-	selected_action_idx = -1
-
-
+# Load
 func populate_events(overlay) -> void:
 	new_event_button.disabled = false
 	selected_overlay = overlay
@@ -210,3 +214,10 @@ func populate_events(overlay) -> void:
 		for action in event.actions:
 			create_action_interface(event_interface, action)
 
+
+func clear_events():
+	for child in event_container.get_children():
+		child.queue_free()
+	
+	selected_interface_idx = -1
+	selected_action_idx = -1

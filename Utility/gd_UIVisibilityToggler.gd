@@ -6,7 +6,7 @@ extends Button
 @onready var change_mode: Control = %ChangeMode
 @onready var right_panel: Control = %HierarchyInspector
 @onready var bg_color 	: Control = %BGColorRect
-@onready var gizmos 	: Control = %ToolGizmos
+@onready var gizmos 	: Control = %TransformTool
 @onready var grid 		: Control = %Grid
 
 var interface_hidden := false

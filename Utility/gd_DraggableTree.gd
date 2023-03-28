@@ -48,15 +48,18 @@ func drop_tree_item(item : TreeItem, to_item : TreeItem, shift : int):
 		-1:
 			item.move_before(to_item)
 		0:
-			var child := reparent_tree_item(item, to_item)
-			tree_item_created.emit(child)
+			item = reparent_tree_item(item, to_item)
+			tree_item_created.emit(item)
 		1:
 			if to_item.get_child_count() != 0:
-				var child := reparent_tree_item(item, to_item)
-				child.move_before(to_item.get_child(0))
-				tree_item_created.emit(child)
+				item = reparent_tree_item(item, to_item)
+				item.move_before(to_item.get_child(0))
+				tree_item_created.emit(item)
+				
 			else:
 				item.move_after(to_item)
+	
+	item.select(0)
 
 
 func reparent_tree_item(tree_item : TreeItem, new_parent : TreeItem) -> TreeItem:

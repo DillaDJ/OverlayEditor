@@ -15,12 +15,12 @@ signal items_deselected()
 
 
 func _ready() -> void:
-	var move_tool = %MoveTool
+	var editor = sngl_Utility.get_scene_root()
 	
-	sngl_Utility.get_scene_root().connect("overlay_created", Callable(self, "add_to_tree"))
-	sngl_Utility.get_scene_root().connect("overlay_deleted", Callable(self, "remove_from_tree"))
-	move_tool.connect("overlay_click_selected", Callable(self, "select_by_overlay"))
-	move_tool.connect("overlay_deselected", Callable(tree, "deselect_all"))
+	editor.connect("overlay_created", Callable(self, "add_to_tree"))
+	editor.connect("overlay_deleted", Callable(self, "remove_from_tree"))
+	editor.connect("overlay_click_selected", Callable(self, "select_by_overlay"))
+	editor.connect("overlay_deselected", Callable(tree, "deselect_all"))
 	
 	tree.connect("item_selected", Callable(self, "select_by_hierarchy"))
 	tree.connect("empty_clicked", Callable(self, "deselect_all"))
@@ -44,14 +44,16 @@ func add_to_tree(overlay : Control) -> void:
 
 # child_array[0] can never be an array, see: sngl_Utility.get_nested_children()
 func add_children_to_tree(parent : TreeItem, child_array : Array) -> void:
-	var new_child
+	var new_child_item
 	
 	for child in child_array:
 		if typeof(child) == TYPE_ARRAY:
-			add_children_to_tree(new_child, child)
+			add_children_to_tree(new_child_item, child)
 		else:
-			new_child = parent.create_child()
-			new_child.set_text(0, child.name)
+			new_child_item = parent.create_child()
+			new_child_item.set_text(0, child.name)
+			
+			child.connect("name_changed", Callable(self, "update_item_text").bind(new_child_item))
 
 
 func remove_from_tree():
@@ -64,7 +66,8 @@ func remove_from_tree():
 
 func reregister_item(item : TreeItem):
 	var overlay = overlay_container.get_node(get_item_node_path(item))
-	if overlay.is_connected("name_changed", Callable(self, "update_item_text")):
+	
+	if overlay and overlay.is_connected("name_changed", Callable(self, "update_item_text")):
 		overlay.disconnect("name_changed", Callable(self, "update_item_text"))
 	overlay.connect("name_changed", Callable(self, "update_item_text").bind(item))
 

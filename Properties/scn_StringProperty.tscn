@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Properties/gd_StringProperty.gd" id="1_0gf6y"]
+
+[node name="StringProperty" type="VBoxContainer"]
+script = ExtResource("1_0gf6y")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "Text Overlay:"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+placeholder_text = "Text..."

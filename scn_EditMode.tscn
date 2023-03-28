@@ -1,12 +1,12 @@
-[gd_scene load_steps=62 format=3 uid="uid://d0ct1pavfqhaw"]
+[gd_scene load_steps=62 format=3 uid="uid://dkskb3qsl4c77"]
 
 [ext_resource type="PackedScene" uid="uid://debdglcdt2t2n" path="res://Utility/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
 [ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
 [ext_resource type="Script" path="res://Overlays/gd_OverlayContainer.gd" id="3_du7ip"]
 [ext_resource type="Texture2D" uid="uid://ctb6by47bruyw" path="res://Icons/eye.png" id="4_3qsby"]
-[ext_resource type="Script" path="res://Utility/gd_MoveTool.gd" id="4_7jnhf"]
 [ext_resource type="Script" path="res://Utility/gd_Grid.gd" id="4_33u1s"]
+[ext_resource type="Script" path="res://Utility/gd_TransformTool.gd" id="4_myewq"]
 [ext_resource type="Texture2D" uid="uid://bqcig2aovmk11" path="res://Icons/cog.png" id="7_5ii8i"]
 [ext_resource type="Texture2D" uid="uid://43sr7g3xlejg" path="res://Icons/panel.png" id="7_r0hrm"]
 [ext_resource type="Script" path="res://Utility/gd_OverlayCreator.gd" id="8_le8sj"]
@@ -36,10 +36,10 @@
 [ext_resource type="Script" path="res://Utility/gd_BarResizer.gd" id="24_u31f0"]
 [ext_resource type="Script" path="res://Utility/gd_TabDragNDrop.gd" id="25_r0gxd"]
 [ext_resource type="Script" path="res://gd_EventMenu.gd" id="27_ovmqj"]
-[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Overlays/Events/Actions/thm_ActionUnselected.tres" id="28_cj4j2"]
-[ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Overlays/Events/Actions/thm_ActionSelected.tres" id="29_loeoa"]
 [ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
 [ext_resource type="Script" path="res://gd_ConfirmationDialog.gd" id="34_emxxc"]
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="36_2f852"]
+[ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Events/Actions/thm_ActionSelected.tres" id="37_ukjw7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -256,7 +256,7 @@ _data = {
 script = ExtResource("1_w4h5f")
 metadata/_edit_horizontal_guides_ = [0.0]
 
-[node name="Utility" type="Control" parent="."]
+[node name="Background" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -265,7 +265,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BGColorRect" type="ColorRect" parent="Utility"]
+[node name="BGColorRect" type="ColorRect" parent="Background"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -276,7 +276,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Grid" type="Control" parent="Utility"]
+[node name="Grid" type="Control" parent="Background"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 3
@@ -297,23 +297,14 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_du7ip")
 
-[node name="ToolGizmos" type="Control" parent="."]
-unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="MoveTool" type="Control" parent="ToolGizmos"]
+[node name="TransformTool" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
+layout_mode = 3
 anchors_preset = 0
-script = ExtResource("4_7jnhf")
+script = ExtResource("4_myewq")
 
-[node name="TranslationGizmo" type="Button" parent="ToolGizmos/MoveTool"]
+[node name="TranslationGizmo" type="Button" parent="TransformTool"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -332,7 +323,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_vb07r")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_vb07r")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_h7kyx")
 
-[node name="ResizeGizmos" type="Control" parent="ToolGizmos/MoveTool"]
+[node name="ResizeGizmos" type="Control" parent="TransformTool"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -342,7 +333,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TL" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="TL" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -359,7 +350,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="T" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="T" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -376,7 +367,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="TR" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="TR" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -393,7 +384,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="R" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="R" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -410,7 +401,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="BR" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="BR" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -427,7 +418,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="B" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="B" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -444,7 +435,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="BL" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="BL" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -461,7 +452,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cgnbv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_r5361")
 
-[node name="L" type="Button" parent="ToolGizmos/MoveTool/ResizeGizmos"]
+[node name="L" type="Button" parent="TransformTool/ResizeGizmos"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -897,8 +888,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_2viwx")
 script = ExtResource("27_ovmqj")
 unselected_event_theme = SubResource("StyleBoxFlat_aqk5g")
 selected_event_theme = SubResource("StyleBoxFlat_bmma4")
-unselected_action_theme = ExtResource("28_cj4j2")
-selected_action_theme = ExtResource("29_loeoa")
+unselected_action_theme = ExtResource("36_2f852")
+selected_action_theme = ExtResource("37_ukjw7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events"]
 layout_mode = 1

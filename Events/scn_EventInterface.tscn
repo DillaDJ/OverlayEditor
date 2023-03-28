@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://Events/gd_EventInterface.gd" id="1_y3qy3"]
+[ext_resource type="Texture2D" uid="uid://b4neyce6jni2q" path="res://Icons/SideBurger.png" id="2_p68uf"]
+[ext_resource type="Texture2D" uid="uid://db7peum5fivf" path="res://Icons/caret-off.png" id="3_2pv3n"]
+[ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="3_f1ko8"]
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="3_yyr2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3jax"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.662745, 0.219608, 0.882353, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6uk4"]
+content_margin_left = 4.0
+bg_color = Color(0.196078, 0.196078, 0.196078, 0.862745)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fv35s"]
+content_margin_left = 4.0
+bg_color = Color(0.529412, 0.529412, 0.529412, 0.705882)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayu1d"]
+content_margin_left = 4.0
+bg_color = Color(0.0784314, 0.0784314, 0.0784314, 0.784314)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0aclt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmork"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 6.0
+bg_color = Color(0.168627, 0.352941, 0.54902, 1)
+border_width_bottom = 4
+border_color = Color(0.121569, 0.239216, 0.45098, 1)
+corner_radius_top_right = 4
+
+[node name="EventInterface" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_y3jax")
+script = ExtResource("1_y3qy3")
+caret_on = ExtResource("3_f1ko8")
+caret_off = ExtResource("3_2pv3n")
+
+[node name="HorizontalLayout" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="BurgerButton" type="Button" parent="HorizontalLayout"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_g6uk4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fv35s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ayu1d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0aclt")
+icon = ExtResource("2_p68uf")
+icon_alignment = 1
+expand_icon = true
+
+[node name="VerticalLayout" type="VBoxContainer" parent="HorizontalLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="TriggerBG" type="PanelContainer" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nmork")
+
+[node name="TriggerContainer" type="HBoxContainer" parent="HorizontalLayout/VerticalLayout/TriggerBG"]
+layout_mode = 2
+
+[node name="FoldActions" type="Button" parent="HorizontalLayout/VerticalLayout/TriggerBG/TriggerContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("3_f1ko8")
+flat = true
+expand_icon = true
+
+[node name="ActionContainer" type="VBoxContainer" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Preview" type="PanelContainer" parent="HorizontalLayout/VerticalLayout/ActionContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_yyr2a")
+
+[node name="Label" type="Label" parent="HorizontalLayout/VerticalLayout/ActionContainer/Preview"]
+custom_minimum_size = Vector2(0, 29)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.419608, 0.419608, 0.419608, 0.705882)
+text = "Add an action..."
+vertical_alignment = 1

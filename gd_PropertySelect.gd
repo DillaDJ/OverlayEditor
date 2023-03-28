@@ -2,9 +2,9 @@ class_name PropertySelect
 extends Control
 
 
-@onready var property_item_scn : PackedScene = preload("res://Overlays/Properties/scn_OverlayPropertyItem.tscn")
+@onready var property_item_scn : PackedScene = preload("res://Properties/scn_OverlayPropertyItem.tscn")
 
-@onready var move_tool : MoveTool = %MoveTool
+@onready var editor : Editor = sngl_Utility.get_scene_root()
 @onready var property_container : Control = $PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer
 @onready var confirm_button : Button = $PanelContainer/VBoxContainer/ButtonLayout/Confirm
 
@@ -17,13 +17,13 @@ signal cancelled()
 func _ready():
 	var event_menu = %Events
 	
-#	item_list.connect("item_selected", Callable(self, "set_selected_index"))
-	move_tool.connect("overlay_selected", Callable(self, "load_properties_from_overlay"))
-
 	event_menu.connect("event_created", Callable(self, "refresh_events"))
 	event_menu.connect("event_deleted", Callable(self, "refresh_events"))
+
 	$PanelContainer/VBoxContainer/ButtonLayout/Confirm.connect("button_down", Callable(self, "confirm"))
 	$PanelContainer/VBoxContainer/ButtonLayout/Cancel.connect("button_down", Callable(self, "cancel"))
+	
+	editor.connect("overlay_selected", Callable(self, "load_properties_from_overlay"))
 
 
 func load_properties_from_overlay(overlay : Overlay):
@@ -63,16 +63,13 @@ func refresh_events(_event : Event = null):
 	property_container.get_child(0).refresh_event_properties()
 
 
-func disable_non_matching_types(type_to_match : Property.Type):
-	for property_item in property_container.get_children():
-		property_item.match_property_types(type_to_match)
-
-
-func start_select(mode : PropertySelectButton.Mode):
+func start_select(mode : PropertySelectButton.Mode, type : Property.Type):
 	# Prevent writing into event properties
 	for property_item in property_container.get_children():
-		var is_disabled : bool = true if mode == PropertySelectButton.Mode.Write else false
-		property_item.set_event_properties_disabled(is_disabled)
+		var disable_events : bool = mode == PropertySelectButton.Mode.Write
+		
+		property_item.match_property_types(type)
+		property_item.set_event_properties_disabled(disable_events)
 		property_item.deselect_all()
 	show()
 

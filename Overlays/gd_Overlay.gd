@@ -9,7 +9,6 @@ var attached_events 		: Array[Event] = []
 
 signal name_changed(new_name : String)
 signal hierarchy_order_changed(idx : int)
-signal transformed()
 
 
 func _ready() -> void:
@@ -24,6 +23,7 @@ func _ready() -> void:
 	overridable_properties.append(WriteProperty.new("Minimum Size", Property.Type.VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size")))
 
 
+# Property Setters
 func set_overlay_index(idx : int) -> void:
 	var parent = get_parent()
 	var child_count = parent.get_child_count()
@@ -36,18 +36,18 @@ func set_overlay_index(idx : int) -> void:
 
 
 func set_overlay_name(new_name : String) -> void:
+	new_name = sngl_Utility.get_unique_name_amongst_siblings(new_name, self, get_parent())
 	set_name(new_name)
+	
 	name_changed.emit(new_name)
 
 
 func set_overlay_pos(new_pos) -> void:
 	set_global_position(new_pos)
-	transformed.emit()
 
 
 func set_overlay_size(new_size) -> void:
 	set_size(new_size)
-	transformed.emit()
 
 
 func set_overlay_min_size(new_size) -> void:
@@ -58,10 +58,9 @@ func set_overlay_min_size(new_size) -> void:
 	
 	if size.y < new_size.y:
 		size.y = new_size.y
-	
-	transformed.emit()
 
 
+# Utility
 func get_type_name() -> String:
 	match type:
 		Type.PANEL:
@@ -76,3 +75,10 @@ func get_type_name() -> String:
 			return "Grid Container"
 	
 	return ""
+
+
+func find_property(prop_name : String) -> Property:
+	for property in overridable_properties:
+		if property.prop_name == prop_name:
+			return property
+	return null
