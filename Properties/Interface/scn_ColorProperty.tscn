@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Properties/gd_ColorProperty.gd" id="1_plgjh"]
+[ext_resource type="Script" path="res://Properties/Interface/gd_ColorProperty.gd" id="1_plgjh"]
 
 [node name="ColorProperty" type="HBoxContainer"]
 script = ExtResource("1_plgjh")

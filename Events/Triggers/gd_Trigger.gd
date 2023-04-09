@@ -1,14 +1,15 @@
 class_name Trigger
+extends Resource
 
 
-enum Type { TIMED, TWITCH_CHAT, PROPERTY_SET }
-var type : Type
+enum Type { TIMED, TWITCH_CHAT, PROPERTY }
+@export var type : Type
 
 
 signal triggered()
 
 
-func duplicate() -> Trigger:
+func duplicate_trigger() -> Trigger:
 	return Trigger.new()
 
 

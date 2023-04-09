@@ -4,16 +4,18 @@ extends Node
 
 enum EditingTools { MOVE }
 
-@onready var hierarchy 		:= %Hierarchy
-
-@onready var confimation 	: Confirmation = %ConfirmationDialog
+@onready var hierarchy 	:= %Hierarchy
+@onready var system_io 	:= %System
 
 @onready var transform_tool		: TransformTool = %TransformTool
 @onready var overlay_container 	: Control = %OverlayElements
 
-var selection_stoppers : Array[Control]
+const selection_threshold := 0.2
 
+var selection_stoppers : Array[Control]
 var selected_overlay : Control
+
+var mouse_hold_time : float = 0
 
 
 signal overlay_created(overlay : Overlay)
@@ -23,7 +25,6 @@ signal overlay_click_selected(overlay)
 signal overlay_hierarchy_selected(overlay)
 signal overlay_selected(overlay : Overlay)
 signal overlay_deselected()
-
 
 
 func _ready():
@@ -38,6 +39,7 @@ func _ready():
 	selection_stoppers.append(%HierarchyInspector/ToggleShow)
 	selection_stoppers.append(%HierarchyInspector/HBoxContainer)
 	selection_stoppers.append(%PropertySelect)
+	selection_stoppers.append(%System)
 
 
 func _unhandled_input(event):
@@ -50,14 +52,18 @@ func _unhandled_input(event):
 		
 		if event.is_action_pressed("duplicate"):
 			duplicate_overlay(selected_overlay)
-	
-	if event.is_action_pressed("save"):
-		save_scene()
 
 
 func _input(_event):
 	if Input.is_action_just_released("left_click"):
-		check_for_selections(get_viewport().get_mouse_position())
+		if mouse_hold_time < selection_threshold:
+			check_for_selections(get_viewport().get_mouse_position())
+		mouse_hold_time = 0
+
+
+func _process(delta):
+	if Input.is_action_pressed("left_click"):
+		mouse_hold_time += delta
 
 
 # Creation
@@ -73,18 +79,13 @@ func duplicate_overlay(overlay : Overlay) -> void:
 	new_overlay.name = sngl_Utility.get_unique_name_amongst_siblings(new_overlay.name, new_overlay, overlay_container)
 	overlay_container.add_child(new_overlay)
 	
-	var old_overlays := sngl_Utility.get_nested_children_flat(overlay)
 	var new_overlays := sngl_Utility.get_nested_children_flat(new_overlay)
-	old_overlays.insert(0, overlay)
 	new_overlays.insert(0, new_overlay)
 	
-	for i in range(old_overlays.size()):
-		for j in range(old_overlays[i].attached_events.size()):
-			new_overlays[i].attached_events.append(old_overlays[i].attached_events[j].duplicate())
-	
-	for new_overlay_i in new_overlays:
-		for event in new_overlay.attached_events:
-			event.match_properties(new_overlay_i)
+	for i in range(new_overlays.size()):
+		for j in range(new_overlays[i].attached_events.size()):
+			new_overlays[i].attached_events[j] = new_overlays[i].attached_events[j].duplicate_event()
+			new_overlays[i].attached_events[j].match_properties(new_overlays[i])
 	
 	overlay_created.emit(new_overlay)
 
@@ -154,9 +155,9 @@ func is_point_in_interface(point : Vector2) -> bool:
 
 # Deletion
 func prompt_delete(overlay : Node) -> void:
-	confimation.prompt("Confirm Deletion", "Really delete overlay %s?" % overlay.name)
-	confimation.connect("confirmed", Callable(self, "delete_overlay").bind(overlay))
-	confimation.connect("canceled", Callable(self, "stop_delete").bind(overlay))
+	system_io.prompt_confirmation("Confirm Deletion", "Really delete overlay %s?" % overlay.name)
+	system_io.connect("confirmed", Callable(self, "delete_overlay").bind(overlay))
+	system_io.connect("unconfirmed", Callable(self, "stop_delete"))
 
 
 func delete_overlay(overlay : Node) -> void:
@@ -167,18 +168,33 @@ func delete_overlay(overlay : Node) -> void:
 
 
 func stop_delete() -> void:
-	confimation.disconnect("confirmed", Callable(self, "delete_overlay"))
-	confimation.disconnect("canceled", Callable(self, "stop_delete"))
+	system_io.disconnect("confirmed", Callable(self, "delete_overlay"))
+	system_io.disconnect("unconfirmed", Callable(self, "stop_delete"))
 
 
-# Saving
-func save_scene():
-	var saved_scene := PackedScene.new()
-	
-	var result = saved_scene.pack(overlay_container)
-	
-	if result == OK:
-		var error = ResourceSaver.save(saved_scene, "res://test_saved_scene.tscn")
-		if error:
-			printerr("Save failed")
+# Saving and Loading
+func prompt_save(_save_overlay : bool = false):
+	system_io.connect("file_selected", Callable(self, "save_overlay"))
+	system_io.connect("file_cancelled", Callable(self, "cancel_save"))
+	system_io.prompt_save_file()
 
+
+func cancel_save(_save_overlay : bool = false):
+	system_io.disconnect("file_selected", Callable(self, "save_overlay"))
+	system_io.disconnect("file_cancelled", Callable(self, "cancel_save"))
+
+
+func start_load():
+	var filters : Array[String] = ["*.tscn", "*.tres"]
+	system_io.connect("file_selected", Callable(self, "pre_load_overlay"))
+	system_io.connect("file_cancelled", Callable(self, "cancel_load"))
+	system_io.prompt_load_file(filters)
+
+
+func cancel_load():
+	system_io.disconnect("file_selected", Callable(self, "pre_load_overlay"))
+	system_io.disconnect("file_cancelled", Callable(self, "cancel_load"))
+
+
+func placeholder():
+	print("This function is here to stop signals from giving errors")

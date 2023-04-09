@@ -9,15 +9,16 @@ func _ready():
 	super()
 	type = Type.TEXTURE_PANEL
 	
-	overridable_properties.append(WriteProperty.new("Texture", 			Property.Type.TEXTURE, Callable(self, "get_texture"), Callable(self, "set_texture")))
-	overridable_properties.append(WriteProperty.new("Region Position",	Property.Type.VECTOR2, Callable(self, "get_rect_pos"), Callable(self, "set_rect_pos")))
-	overridable_properties.append(WriteProperty.new("Region Size", 		Property.Type.VECTOR2, Callable(self, "get_rect_size"), Callable(self, "set_rect_size")))
+	Property.create_write(overridable_properties, "Texture", TYPE_PROJECTION, Callable(self, "get_texture"), Callable(self, "set_texture"))
+	Property.create_write(overridable_properties, "Region Position", TYPE_VECTOR2, Callable(self, "get_rect_pos"), Callable(self, "set_rect_pos"))
+	Property.create_write(overridable_properties, "Region Size", TYPE_VECTOR2, Callable(self, "get_rect_size"), Callable(self, "set_rect_size"))
 	
-	overridable_properties.append(WriteProperty.new("Region Margin", 	Property.Type.VECTOR4, Callable(self, "get_region_margin"), Callable(self, "set_region_margin")))
+	Property.create_write(overridable_properties, "Region Margin", TYPE_VECTOR4, Callable(self, "get_region_margin"), Callable(self, "set_region_margin"))
 	
-	overridable_properties.append(WriteProperty.EnumProperty.new("Stretch Horizontal", ["Stretch", "Tile", "Tile Fit"], Callable(self, "get_h_stretch"), Callable(self, "set_h_stretch")))
-	overridable_properties.append(WriteProperty.EnumProperty.new("Stretch Vertical", ["Stretch", "Tile", "Tile Fit"], Callable(self, "get_v_stretch"), Callable(self, "set_v_stretch")))
-	overridable_properties.append(WriteProperty.new("Draw Center", 		Property.Type.BOOL, Callable(self, "get_b_draw_center"), Callable(self, "set_b_draw_center")))
+	EnumProperty.create_enum(overridable_properties, "Stretch Horizontal", ["Stretch", "Tile", "Tile Fit"], Callable(self, "get_h_stretch"), Callable(self, "set_h_stretch"))
+	EnumProperty.create_enum(overridable_properties, "Stretch Vertical", ["Stretch", "Tile", "Tile Fit"], Callable(self, "get_v_stretch"), Callable(self, "set_v_stretch"))
+	
+	Property.create_write(overridable_properties, "Draw Center", TYPE_BOOL, Callable(self, "get_b_draw_center"), Callable(self, "set_b_draw_center"))
 
 
 func get_texture() -> Texture2D:

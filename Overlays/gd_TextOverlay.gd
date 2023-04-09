@@ -6,9 +6,9 @@ func _ready():
 	type = Type.TEXT
 	
 	# Properties
-	overridable_properties.append(WriteProperty.new("Text", Property.Type.STRING, Callable(self, "get_text"), Callable(self, "set_text")))
-	overridable_properties.append(WriteProperty.new("Text Size", Property.Type.INT, Callable(self, "get_text_size"), Callable(self, "set_text_size")))
-	overridable_properties.append(WriteProperty.new("Text Color", Property.Type.COLOR, Callable(self, "get_text_color"), Callable(self, "set_text_color")))
+	Property.create_write(overridable_properties, "Text", TYPE_STRING_NAME, Callable(self, "get_text"), Callable(self, "set_text"))
+	Property.create_write(overridable_properties, "Text Size", TYPE_INT, Callable(self, "get_text_size"), Callable(self, "set_text_size"))
+	Property.create_write(overridable_properties, "Text Color", TYPE_COLOR, Callable(self, "get_text_color"), Callable(self, "set_text_color"))
 
 
 func get_text():

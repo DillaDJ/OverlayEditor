@@ -1,7 +1,7 @@
 extends Tree
 
 
-var preview_scn : PackedScene = preload("res://Utility/scn_TreePreview.tscn")
+var preview_scn : PackedScene = preload("res://Utility/OtherInterface/scn_TreePreview.tscn")
 
 signal tree_item_reordered(item, to_item, shift)
 signal tree_item_created(item : TreeItem)
@@ -64,8 +64,10 @@ func drop_tree_item(item : TreeItem, to_item : TreeItem, shift : int):
 
 func reparent_tree_item(tree_item : TreeItem, new_parent : TreeItem) -> TreeItem:
 	var child : TreeItem = new_parent.create_child()
+	child.set_icon(0, tree_item.get_icon(0))
 	child.set_text(0, tree_item.get_text(0))
-				
+	child.set_icon_max_width(0, 20)
+	
 	populate_deep_children_items(tree_item, child)
 	
 	tree_item.free()
@@ -77,6 +79,8 @@ func populate_deep_children_items(from : TreeItem, to : TreeItem) -> void:
 	for child in from.get_children():
 		var new_child = to.create_child(0)
 		new_child.set_text(0, child.get_text(0))
+		child.set_icon_max_width(0, 20)
+		new_child.set_icon(0, child.get_icon(0))
 		tree_item_created.emit(new_child)
 		
 		populate_deep_children_items(child, new_child)

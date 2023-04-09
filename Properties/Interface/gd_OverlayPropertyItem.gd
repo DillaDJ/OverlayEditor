@@ -1,3 +1,4 @@
+class_name PropertySelectItem
 extends VBoxContainer
 
 
@@ -12,7 +13,7 @@ extends VBoxContainer
 
 var attached_overlay : Overlay
 
-signal property_selected(property : Property, selected_property_item)
+signal property_selected(property : Property, selected_property_item : PropertySelectItem)
 
 
 func _ready():
@@ -42,8 +43,8 @@ func populate_properties(overlay : Overlay):
 	refresh_event_properties()
 
 
-func match_property_types(type_to_match : Property.Type):
-	if type_to_match == Property.Type.NONE:
+func match_property_types(type_to_match : Variant.Type):
+	if type_to_match == TYPE_NIL:
 		set_overlay_properties_disabled(false)
 		return
 	
@@ -57,9 +58,9 @@ func match_property_types(type_to_match : Property.Type):
 		check_property_match(property, type_to_match, overlay_list, i)
 
 
-func check_property_match(property : Property, type_to_match : Property.Type, list : ItemList,  item_idx : int):
-	if (property.type == Property.Type.STRING or property.type == Property.Type.STRING_SHORT) and \
-		(type_to_match == Property.Type.STRING or type_to_match == Property.Type.STRING_SHORT):
+func check_property_match(property : Property, type_to_match : Variant.Type, list : ItemList,  item_idx : int):
+	if (property.type == TYPE_STRING or property.type == TYPE_STRING_NAME) and \
+		(type_to_match == TYPE_STRING or type_to_match == TYPE_STRING_NAME):
 			list.set_item_disabled(item_idx, false)
 			return
 

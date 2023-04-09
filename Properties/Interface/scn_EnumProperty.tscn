@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Properties/gd_EnumProperty.gd" id="1_txuck"]
+[ext_resource type="Script" path="res://Properties/Interface/gd_EnumProperty.gd" id="1_txuck"]
 
 [node name="EnumProperty" type="HBoxContainer"]
 script = ExtResource("1_txuck")

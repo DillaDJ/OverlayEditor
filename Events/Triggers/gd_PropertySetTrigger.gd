@@ -1,24 +1,28 @@
 class_name PropertySetTrigger
 extends Trigger
 
+enum Mode { ANY, LESS, MORE }
+@export var mode : Mode = Mode.ANY
+@export var equal := false
 
-var property : WriteProperty
+@export var property : Property
+@export var value_container : VariantDataContainer
 
-var specific_value := false
-var value
+signal property_nulled()
 
 
 func _init():
-	type = Type.PROPERTY_SET
+	type = Type.PROPERTY
 
 
-func duplicate() -> Trigger:
+func reset(overlay : Overlay):
+	property.find_equivalent_property(overlay)
+
+
+func duplicate_trigger() -> Trigger:
 	var duplicated_trigger = PropertySetTrigger.new()
 	
-	if specific_value:
-		duplicated_trigger.toggle_specific_value()
-		duplicated_trigger.change_value(value)
-	
+	duplicated_trigger.set_mode(mode)
 	duplicated_trigger.change_property(property)
 	
 	return duplicated_trigger
@@ -28,9 +32,9 @@ func match_properties(overlay : Overlay) -> void:
 	var prop = property.find_equivalent_property(overlay)
 	change_property(prop)
 	
-	if typeof(value) == TYPE_OBJECT:
-		var matched_value = value.find_equivalent_property(overlay)
-		value = matched_value
+	if value_container.current_data_type == TYPE_OBJECT:
+		var matched_value = value_container.get_property().find_equivalent_property(overlay)
+		value_container.change_property(matched_value)
 
 
 func change_property(new_property : Property):
@@ -39,23 +43,49 @@ func change_property(new_property : Property):
 	
 	property = new_property
 	
-	if new_property:
+	if property:
 		property.connect("property_set", Callable(self, "check_for_trigger"))
+		
+		if value_container.get_property() and value_container.get_property().type != property.type:
+			value_container.set_property(null)
+			property_nulled.emit()
 
 
 func check_for_trigger():
-	if specific_value:
-		var value_to_check = value if typeof(value) != TYPE_OBJECT else value.get_property()
+	match mode:
+		Mode.ANY:
+			if equal:
+				if property.get_value() == value_container.get_value():
+					trigger()
+			else:
+				trigger()
 		
-		if property.get_property() == value_to_check:
-			trigger()
-	else:
-		trigger()
+		Mode.LESS:
+			if equal:
+				if property.get_value() <= value_container.get_value():
+					trigger()
+			elif property.get_value() < value_container.get_value():
+				trigger()
+		
+		Mode.MORE:
+			if equal:
+				if property.get_value() >= value_container.get_value():
+					trigger()
+			elif property.get_value() > value_container.get_value():
+				trigger()
 
 
-func toggle_specific_value():
-	specific_value = !specific_value
+func toggle_equal():
+	equal = !equal
+
+
+func set_mode(new_mode : Mode):
+	mode = new_mode
 
 
 func change_value(new_value):
-	value = new_value
+	if typeof(new_value) == TYPE_OBJECT:
+		value_container.set_property(new_value)
+		return
+	
+	value_container.set_value(new_value)

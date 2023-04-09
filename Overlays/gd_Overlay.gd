@@ -1,11 +1,11 @@
 class_name Overlay
 extends Control
 
-enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, BOX, GRID }
+enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, HBOX, VBOX, GRID }
 var type : Type
 
 var overridable_properties 	: Array[Property] = []
-var attached_events 		: Array[Event] = []
+@export var attached_events : Array[Event] = []
 
 signal name_changed(new_name : String)
 signal hierarchy_order_changed(idx : int)
@@ -13,14 +13,19 @@ signal hierarchy_order_changed(idx : int)
 
 func _ready() -> void:
 	# Hidden Properties
-	overridable_properties.append(WriteProperty.new("Visibility", Property.Type.BOOL, Callable(self, "is_visible"), Callable(self, "set_visible"), true))
-	overridable_properties.append(WriteProperty.new("Hierarchy Order", Property.Type.INT, Callable(self, "get_index"), Callable(self, "set_overlay_index"), true))
+	Property.create_write(overridable_properties, "Visibility", 	TYPE_BOOL, Callable(self, "is_visible"), Callable(self, "set_visible"), true)
+	Property.create_write(overridable_properties, "Hierarchy Order",TYPE_INT, Callable(self, "get_index"), Callable(self, "set_overlay_index"), true)
 	
 	# Properties
-	overridable_properties.append(WriteProperty.new("Name", 		Property.Type.STRING_SHORT, Callable(self, "get_name"), Callable(self, "set_overlay_name")))
-	overridable_properties.append(WriteProperty.new("Position", 	Property.Type.VECTOR2, Callable(self, "get_global_position"), Callable(self, "set_overlay_pos")))
-	overridable_properties.append(WriteProperty.new("Size", 		Property.Type.VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size")))
-	overridable_properties.append(WriteProperty.new("Minimum Size", Property.Type.VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size")))
+	Property.create_write(overridable_properties, "Name", 			TYPE_STRING, Callable(self, "get_name"), Callable(self, "set_overlay_name"))
+	Property.create_write(overridable_properties, "Position", 		TYPE_VECTOR2, Callable(self, "get_global_position"), Callable(self, "set_overlay_pos"))
+	Property.create_write(overridable_properties, "Size", 			TYPE_VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size"))
+	Property.create_write(overridable_properties, "Minimum Size", 	TYPE_VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size"))
+
+
+func _process(delta):
+	for event in attached_events:
+		event.process(delta)
 
 
 # Property Setters
@@ -69,8 +74,10 @@ func get_type_name() -> String:
 			return "Textured Panel Overlay"
 		Type.TEXT:
 			return "Text Overlay"
-		Type.BOX:
-			return "Box Layout Container"
+		Type.HBOX:
+			return "Horizontal Box Container"
+		Type.VBOX:
+			return "Vertical Box Container"
 		Type.GRID:
 			return "Grid Container"
 	

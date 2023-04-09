@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmo8spby8yoka"]
+[gd_scene load_steps=2 format=3 uid="uid://c2i4lctekek5y"]
 
-[ext_resource type="Script" path="res://Overlays/gd_BoxContainerOverlay.gd" id="1_0bcm7"]
+[ext_resource type="Script" path="res://Overlays/gd_HBoxContainerOverlay.gd" id="1_q5bbf"]
 
 [node name="HBoxContainer" type="VBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
@@ -11,4 +11,4 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0bcm7")
+script = ExtResource("1_q5bbf")

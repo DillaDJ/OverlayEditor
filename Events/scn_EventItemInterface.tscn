@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3]
 
-[ext_resource type="Script" path="res://Events/gd_EventInterface.gd" id="1_y3qy3"]
+[ext_resource type="Script" path="res://Events/gd_EventItemInterface.gd" id="1_y3qy3"]
 [ext_resource type="Texture2D" uid="uid://b4neyce6jni2q" path="res://Icons/SideBurger.png" id="2_p68uf"]
 [ext_resource type="Texture2D" uid="uid://db7peum5fivf" path="res://Icons/caret-off.png" id="3_2pv3n"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="3_f1ko8"]

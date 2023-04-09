@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://Properties/gd_OverlayPropertyItem.gd" id="1_8aeew"]
+[ext_resource type="Script" path="res://Properties/Interface/gd_OverlayPropertyItem.gd" id="1_8aeew"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="2_p38wg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwf73"]

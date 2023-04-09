@@ -37,7 +37,7 @@ func _notification(what):
 		client.close()
 
 
-func duplicate() -> Trigger:
+func duplicate_trigger() -> Trigger:
 	var duplicated_trigger = TwitchChatTrigger.new()
 	return duplicated_trigger
 

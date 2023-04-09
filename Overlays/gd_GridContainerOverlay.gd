@@ -6,4 +6,4 @@ func _ready() -> void:
 	type = Type.GRID
 	
 	# Properties
-	overridable_properties.append(WriteProperty.new("Columns", Property.Type.INT, Callable(self, "get_columns"), Callable(self, "set_columns")))
+	Property.create_write(overridable_properties, "Columns", TYPE_INT, Callable(self, "get_columns"), Callable(self, "set_columns"))

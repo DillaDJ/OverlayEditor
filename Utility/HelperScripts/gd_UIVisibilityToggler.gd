@@ -1,7 +1,7 @@
 extends Button
 
 
-@onready var message 	: Control = %Message
+@onready var systemIO 	: Control = %System
 @onready var top_menu 	: Control = %TopMenu
 @onready var change_mode: Control = %ChangeMode
 @onready var right_panel: Control = %HierarchyInspector
@@ -28,7 +28,7 @@ func _process(_delta):
 
 
 func hide_interface():
-	message.show_message("Interface Hidden", "To unhide the interface, press any key after this message fades out")
+	systemIO.show_message("Interface Hidden", "To unhide the interface, press any key after this message fades out")
 	change_mode.hide()
 	top_menu.hide()
 	right_panel.hide()

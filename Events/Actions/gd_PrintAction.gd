@@ -2,14 +2,18 @@ class_name PrintAction
 extends Action
 
 
-var property : Property
+@export var property : Property
 
 
 func _init():
 	type = Type.PRINT
 
 
-func duplicate() -> Action:
+func reset(overlay : Overlay):
+	property = property.find_equivalent_property(overlay)
+
+
+func duplicate_action() -> Action:
 	var duplicated_action = PrintAction.new()
 	
 	duplicated_action.property = property
@@ -24,7 +28,7 @@ func match_properties(overlay : Overlay) -> void:
 
 func execute():
 	if property:
-		print(property.get_property())
+		print(property.get_value())
 
 
 func change_property(new_property : Property) -> void:

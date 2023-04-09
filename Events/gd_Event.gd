@@ -1,34 +1,42 @@
 class_name Event
+extends Resource
 
 
-var trigger : Trigger
-
-var properties : Array[Property]
-
-var actions : Array[Action] = []
+@export var trigger : Trigger
+@export var actions : Array[Action] = []
+var properties 		: Array[Property]
 
 
-func _init(event_trigger : Trigger):
+func process(delta):
+	for action in actions:
+		if action.type == Action.Type.PROPERTY:
+			action.property_animator.animate(delta)
+
+
+func reset(overlay : Overlay):
+	attach_trigger(trigger)
+	trigger.reset()
+	
+	for action in actions:
+		action.reset(overlay)
+
+
+func attach_trigger(event_trigger : Trigger):
 	trigger = event_trigger
 	
 	match trigger.type:
 		Trigger.Type.TIMED:
-			properties.append(Property.new("Time Remaining", Property.Type.FLOAT, Callable(trigger, "get_time")))
+			Property.create_read(properties, "Time Remaining", TYPE_FLOAT, Callable(trigger, "get_time"))
+		
+		Trigger.Type.PROPERTY:
+			if trigger.value_container == null:
+				trigger.value_container = VariantDataContainer.new()
 		
 		Trigger.Type.TWITCH_CHAT:
-			properties.append(Property.new("Chatter Username", Property.Type.STRING_SHORT, Callable(trigger, "get_message_user")))
-			properties.append(Property.new("Chat Message", Property.Type.STRING, Callable(trigger, "get_message_contents")))
+			Property.create_read(properties, "Chatter Username", TYPE_STRING, Callable(trigger, "get_message_user"))
+			Property.create_read(properties, "Chat Message", TYPE_STRING_NAME, Callable(trigger, "get_message_contents"))
 	
 	trigger.connect("triggered", Callable(self, "execute_actions"))
-
-
-func duplicate() -> Event:
-	var duplicated_event = Event.new(trigger.duplicate())
-	
-	for action in actions:
-		duplicated_event.add_action(action.duplicate())
-	
-	return duplicated_event
 
 
 func match_properties(overlay : Overlay):
@@ -36,6 +44,17 @@ func match_properties(overlay : Overlay):
 	
 	for action in actions:
 		action.match_properties(overlay)
+
+
+# Event
+func duplicate_event() -> Event:
+	var duplicated_event := Event.new()
+	duplicated_event.attach_trigger(trigger.duplicate_trigger())
+	
+	for action in actions:
+		duplicated_event.add_action(action.duplicate_action())
+	
+	return duplicated_event
 
 
 func execute_actions() -> void:

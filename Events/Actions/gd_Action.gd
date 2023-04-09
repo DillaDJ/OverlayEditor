@@ -1,11 +1,16 @@
 class_name Action
+extends Resource
 
 
 enum Type { PRINT, PROPERTY }
-var type : Type
+@export var type : Type
 
 
-func duplicate() -> Action:
+func reset(_overlay : Overlay):
+	pass
+
+
+func duplicate_action() -> Action:
 	return self
 
 

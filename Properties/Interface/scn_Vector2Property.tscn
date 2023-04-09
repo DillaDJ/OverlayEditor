@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Properties/gd_Vector2Property.gd" id="1_imgd5"]
+[ext_resource type="Script" path="res://Properties/Interface/gd_Vector2Property.gd" id="1_imgd5"]
 
 [node name="Vector2Property" type="VBoxContainer"]
 script = ExtResource("1_imgd5")

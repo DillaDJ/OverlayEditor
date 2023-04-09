@@ -115,3 +115,7 @@ func get_unique_name_amongst_siblings(new_name : String, node : Node, parent : N
 				break
 	
 	return node_name
+
+
+func get_screen_size() -> Vector2:
+	return get_viewport().get_visible_rect().size

@@ -18,10 +18,10 @@ extends HBoxContainer
 
 @onready var property_selector : PropertySelectButton = $PropertySelector
 
-
 var using_property_field : bool = false
 
 var matched_property : Property
+
 
 signal field_changed(new_value)
 
@@ -47,8 +47,8 @@ func toggle_property():
 		match_property(matched_property)
 
 
-func match_property(property : Property):
-	matched_property = property
+func match_property(match_prop : Property):
+	matched_property = match_prop
 	
 	checkbox.hide()
 	spinbox.hide()
@@ -58,46 +58,46 @@ func match_property(property : Property):
 	property_selector.hide()
 	
 	if using_property_field:
-		property_selector.set_type_lock(property.type)
+		property_selector.set_type_lock(match_prop.type)
 		property_selector.show()
 		return
 	
-	match property.type:
-		Property.Type.BOOL:
+	match match_prop.type:
+		TYPE_BOOL:
 			checkbox.show()
 		
-		Property.Type.INT:
+		TYPE_INT:
 			spinbox.step = 1
 			spinbox.show()
 		
-		Property.Type.FLOAT:
+		TYPE_FLOAT:
 			spinbox.step = .1
 			spinbox.show()
 		
-		Property.Type.STRING_SHORT:
+		TYPE_STRING:
 			line_edit.show()
 		
-		Property.Type.STRING:
+		TYPE_STRING_NAME:
 			line_edit.show()
 		
-		Property.Type.VECTOR2:
+		TYPE_VECTOR2:
 			vector.show()
 			z_coords.hide()
 			w_coords.hide()
 		
-		Property.Type.VECTOR4:
+		TYPE_VECTOR4:
 			vector.show()
 			z_coords.show()
 			w_coords.show()
 		
-		Property.Type.COLOR:
+		TYPE_COLOR:
 			color_picker.show()
 		
-		Property.Type.TEXTURE:
+		TYPE_PROJECTION:
 			pass
 
 
-func reset_property():
+func reset():
 	checkbox.hide()
 	spinbox.hide()
 	line_edit.hide()
@@ -107,37 +107,41 @@ func reset_property():
 	property_selector.reset()
 
 
+func reset_property():
+	property_selector.reset()
+
+
 func fill_field(property : Property, value_to_set):
 	match property.type:
-		Property.Type.BOOL:
+		TYPE_BOOL:
 			checkbox.set_pressed(value_to_set)
 		
-		Property.Type.INT:
+		TYPE_INT:
 			spinbox.value = value_to_set
 		
-		Property.Type.FLOAT:
+		TYPE_FLOAT:
 			spinbox.value = value_to_set
 		
-		Property.Type.STRING_SHORT:
+		TYPE_STRING:
 			line_edit.text = value_to_set
 		
-		Property.Type.STRING:
+		TYPE_STRING_NAME:
 			line_edit.text = value_to_set
 		
-		Property.Type.VECTOR2:
+		TYPE_VECTOR2:
 			x_spinbox.value = value_to_set.x
 			y_spinbox.value = value_to_set.y
 		
-		Property.Type.VECTOR4:
+		TYPE_VECTOR4:
 			x_spinbox.value = value_to_set.x
 			y_spinbox.value = value_to_set.y
 			z_spinbox.value = value_to_set.z
 			w_spinbox.value = value_to_set.w
 		
-		Property.Type.COLOR:
+		TYPE_COLOR:
 			color_picker.color = value_to_set
 		
-		Property.Type.TEXTURE:
+		TYPE_PROJECTION:
 			pass
 
 
@@ -150,13 +154,13 @@ func bool_change_field():
 
 
 func vector_change_field(_value):
-	if matched_property.type == Property.Type.VECTOR2:
+	if matched_property.type == TYPE_VECTOR2:
 		var new_vector : Vector2 = Vector2.ZERO
 		new_vector.x = x_spinbox.value
 		new_vector.y = y_spinbox.value
 		field_changed.emit(new_vector)
 		
-	elif matched_property.type == Property.Type.VECTOR4:
+	elif matched_property.type == TYPE_VECTOR4:
 		var new_vector : Vector4 = Vector4.ZERO
 		new_vector.x = x_spinbox.value
 		new_vector.y = y_spinbox.value

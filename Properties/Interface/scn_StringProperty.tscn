@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Properties/gd_StringProperty.gd" id="1_0gf6y"]
+[ext_resource type="Script" path="res://Properties/Interface/gd_StringProperty.gd" id="1_0gf6y"]
 
 [node name="StringProperty" type="VBoxContainer"]
 script = ExtResource("1_0gf6y")

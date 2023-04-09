@@ -5,8 +5,8 @@ extends Panel
 @onready var subtitle 	: Label = $MessageLayout/Subtitle
 
 
-func show_message(title_msg, subtitle_msg):
-	title.text = title_msg
-	subtitle.text = subtitle_msg
-	
-	anim.play("fadeinout")
+signal message_expired()
+
+
+func finish_fade():
+	message_expired.emit()

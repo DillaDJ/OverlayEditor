@@ -6,12 +6,12 @@ func _ready() -> void:
 	type = Type.PANEL
 	
 	# Properties
-	overridable_properties.append(WriteProperty.new("Color", Property.Type.COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color")))
+	Property.create_write(overridable_properties, "Color", TYPE_COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color"))
 	
-	overridable_properties.append(WriteProperty.new("Border Color", Property.Type.COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color")))
-	overridable_properties.append(WriteProperty.new("Border", Property.Type.VECTOR4, Callable(self, "get_border"), Callable(self, "set_border")))
+	Property.create_write(overridable_properties, "Border Color", TYPE_COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color"))
+	Property.create_write(overridable_properties, "Border", TYPE_VECTOR4, Callable(self, "get_border"), Callable(self, "set_border"))
 	
-	overridable_properties.append(WriteProperty.new("Rounding", Property.Type.VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding")))
+	Property.create_write(overridable_properties, "Rounding", TYPE_VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding"))
 	
 	make_stylebox_unique()
 

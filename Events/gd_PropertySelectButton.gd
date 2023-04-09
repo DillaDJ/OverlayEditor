@@ -8,7 +8,7 @@ enum Mode { Read, Write }
 
 @onready var property_select : PropertySelect = sngl_Utility.get_scene_root().get_node("%PropertySelect")
 
-var type_lock : Property.Type = Property.Type.NONE
+var type_lock : Variant.Type = TYPE_NIL
 
 signal property_linked(property : Property)
 
@@ -42,5 +42,5 @@ func reset():
 	text = "property"
 
 
-func set_type_lock(type : Property.Type) -> void:
+func set_type_lock(type : Variant.Type) -> void:
 	type_lock = type

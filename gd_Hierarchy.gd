@@ -1,9 +1,14 @@
 extends Panel
 
+@onready var panel_icon : Texture2D = preload("res://Icons/panel.png")
+@onready var texture_icon : Texture2D = preload("res://Icons/texturerect.png")
+@onready var text_icon : Texture2D = preload("res://Icons/text.png")
+@onready var hbox_icon : Texture2D = preload("res://Icons/hlayout.png")
+@onready var vbox_icon : Texture2D = preload("res://Icons/vlayout.png")
+@onready var grid_icon : Texture2D = preload("res://Icons/gridlayout.png")
 
 @onready var overlay_container : Control = %OverlayElements
 @onready var tree : Tree = $Tree
-
 
 var root : TreeItem
 
@@ -35,6 +40,7 @@ func add_to_tree(overlay : Control) -> void:
 	var deep_children = sngl_Utility.get_nested_children(overlay)
 	var new_item : TreeItem = tree.create_item()
 	new_item.set_text(0, overlay.name)
+	set_item_icon(overlay.type, new_item)
 	
 	if deep_children.size() > 0:
 		add_children_to_tree(new_item, deep_children)
@@ -52,6 +58,7 @@ func add_children_to_tree(parent : TreeItem, child_array : Array) -> void:
 		else:
 			new_child_item = parent.create_child()
 			new_child_item.set_text(0, child.name)
+			set_item_icon(child.type, new_child_item)
 			
 			child.connect("name_changed", Callable(self, "update_item_text").bind(new_child_item))
 
@@ -149,3 +156,20 @@ func get_tree_item_from_path(path : Array[int]) -> TreeItem:
 		item = item.get_child(path[i])
 	return item
 
+
+func set_item_icon(overlay_type : Overlay.Type, item : TreeItem) -> void:
+	match overlay_type:
+		Overlay.Type.PANEL:
+			item.set_icon(0, panel_icon)
+		Overlay.Type.TEXTURE_PANEL:
+			item.set_icon(0, texture_icon)
+		Overlay.Type.TEXT:
+			item.set_icon(0, text_icon)
+		Overlay.Type.HBOX:
+			item.set_icon(0, hbox_icon)
+		Overlay.Type.VBOX:
+			item.set_icon(0, vbox_icon)
+		Overlay.Type.GRID:
+			item.set_icon(0, grid_icon)
+	
+	item.set_icon_max_width(0, 20)
