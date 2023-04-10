@@ -2,7 +2,7 @@ class_name Action
 extends Resource
 
 
-enum Type { PRINT, PROPERTY }
+enum Type { PRINT, PROPERTY, WAIT }
 @export var type : Type
 
 

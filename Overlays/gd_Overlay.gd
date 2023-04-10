@@ -23,7 +23,7 @@ func _ready() -> void:
 	Property.create_write(overridable_properties, "Minimum Size", 	TYPE_VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size"))
 
 
-func _process(delta):
+func _physics_process(delta):
 	for event in attached_events:
 		event.process(delta)
 

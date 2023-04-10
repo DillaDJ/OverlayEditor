@@ -30,28 +30,18 @@ func duplicate_trigger() -> Trigger:
 
 func match_properties(overlay : Overlay) -> void:
 	var prop = property.find_equivalent_property(overlay)
-	change_property(prop)
+	set_property(prop)
 	
 	if value_container.current_data_type == TYPE_OBJECT:
 		var matched_value = value_container.get_property().find_equivalent_property(overlay)
 		value_container.change_property(matched_value)
 
 
-func change_property(new_property : Property):
-	if property and property.is_connected("property_set", Callable(self, "check_for_trigger")):
-		property.disconnect("property_set", Callable(self, "check_for_trigger"))
-	
-	property = new_property
-	
-	if property:
-		property.connect("property_set", Callable(self, "check_for_trigger"))
-		
-		if value_container.get_property() and value_container.get_property().type != property.type:
-			value_container.set_property(null)
-			property_nulled.emit()
-
 
 func check_for_trigger():
+	if value_container.get_value() == null:
+		return
+	
 	match mode:
 		Mode.ANY:
 			if equal:
@@ -83,7 +73,23 @@ func set_mode(new_mode : Mode):
 	mode = new_mode
 
 
-func change_value(new_value):
+func set_property(new_property : Property):
+	if property and property.is_connected("property_set", Callable(self, "check_for_trigger")):
+		property.disconnect("property_set", Callable(self, "check_for_trigger"))
+	
+	property = new_property
+	
+	if property:
+		if value_container.get_property() and value_container.get_property().type != property.type:
+			value_container.set_property(null)
+			property_nulled.emit()
+		else:
+			set_value(new_property.get_value())
+		
+		property.connect("property_set", Callable(self, "check_for_trigger"))
+
+
+func set_value(new_value):
 	if typeof(new_value) == TYPE_OBJECT:
 		value_container.set_property(new_value)
 		return

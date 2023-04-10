@@ -31,7 +31,7 @@ func set_prop_y(new_y : float) -> void:
 		emit_signal("value_changed", Vector2(x_coord.value, y_coord.value))
 
 
-func set_prop_value_suppressed(new_vector : Vector2) -> void:
+func set_value_suppressed(new_vector : Vector2) -> void:
 	supress_signals = true
 	
 	x_coord.value = new_vector.x

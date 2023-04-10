@@ -1,7 +1,7 @@
 class_name EventEditor
 extends Panel
 
-@onready var interface_creator 	: EventInterfaceCreator = $VerticalLayout/ScrollContainer/EventContainer
+@onready var interface_container: EventInterfaceContainer = $VerticalLayout/ScrollContainer/EventContainer
 @onready var new_event_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewEvent
 @onready var new_action_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewAction
 @onready var delete_button 		: Button = $VerticalLayout/Toolbar/HBoxContainer/Delete
@@ -50,7 +50,7 @@ func create_event(trigger_type : int) -> void:
 	
 	event.attach_trigger(trigger)
 	selected_overlay.attached_events.append(event)
-	interface_creator.create_event_interface(self, event)
+	interface_container.create_event_interface(self, event)
 	event_created.emit(event)
 
 
@@ -67,14 +67,16 @@ func create_action(action_type : Action.Type) -> void:
 			action = PropertyAction.new()
 			action.value_container = VariantDataContainer.new()
 			action.property_animator = PropertyAnimator.new()
+		
+		Action.Type.WAIT:
+			action = WaitAction.new()
 	
-	interface_creator.create_action_interface(self, selected_event_interface, action)
+	selected_event_interface.add_action(self, action)
 	selected_event.add_action(action)
 
 
 func select_interface(interface : PanelContainer, ignore_action : bool = false) -> void:
 	var new_event_idx : int
-	var changed := false
 	
 	# Destyle
 	style_interface(get_selected_interface(), unselected_action_theme if selected_action_idx != -1 else unselected_event_theme)
@@ -96,10 +98,10 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 func delete_selected() -> void:
 	if selected_event_idx != -1:
 		if selected_action_idx != -1:
-			interface_creator.get_child(selected_event_idx).remove_action_interface_at(selected_action_idx)
+			interface_container.get_child(selected_event_idx).remove_action_at(selected_action_idx)
 			selected_overlay.attached_events[selected_event_idx].remove_action_at(selected_action_idx)
 		else:
-			interface_creator.get_child(selected_event_idx).queue_free()
+			interface_container.get_child(selected_event_idx).queue_free()
 			selected_overlay.attached_events[selected_event_idx].delete()
 			selected_overlay.attached_events.remove_at(selected_event_idx)
 			selected_event_idx = -1
@@ -114,43 +116,45 @@ func populate(overlay : Overlay) -> void:
 	clear()
 	
 	for event in selected_overlay.attached_events:
-		var event_interface = interface_creator.create_event_interface(self, event)
+		var event_interface = interface_container.create_event_interface(self, event)
 		
 		for action in event.actions:
-			interface_creator.create_action_interface(self, event_interface, action)
+			event_interface.add_action(self, action)
 	
 	new_event_button.disabled = false
 
 
 func clear() -> void:
 	new_event_button.disabled = true
-	interface_creator.clear()
+	new_action_button.disabled = true
+	interface_container.clear()
 	selected_event_idx = -1
 	selected_action_idx = -1
 
 
 # Util
 func style_interface(interface : PanelContainer, stylebox : StyleBoxFlat) -> void:
-	interface.remove_theme_stylebox_override("panel")
-	interface.add_theme_stylebox_override("panel", stylebox)
+	if interface:
+		interface.remove_theme_stylebox_override("panel")
+		interface.add_theme_stylebox_override("panel", stylebox)
 
 
 func get_selected_interface(force_event := false) -> PanelContainer:
 	if selected_action_idx != -1 and !force_event:
-		return interface_creator.get_child(selected_event_idx).action_container.get_child(selected_action_idx)
+		return interface_container.get_child(selected_event_idx).action_container.get_child(selected_action_idx)
 	elif selected_event_idx != -1:
-		return interface_creator.get_child(selected_event_idx)
+		return interface_container.get_child(selected_event_idx)
 	return null
 
 
-func get_event_idx(interface : PanelContainer) -> int:
-	while interface.get_parent() != interface_creator:
+func get_event_idx(interface : Control) -> int:
+	while interface.get_parent() != interface_container:
 		interface = interface.get_parent()
 	return interface.get_index()
 
 
 func get_action_idx(interface : PanelContainer, ignore_action : bool) -> int:
-	if interface.get_parent() != interface_creator:
+	if interface.get_parent() != interface_container:
 		if !ignore_action:
 			return interface.get_index()
 		else:

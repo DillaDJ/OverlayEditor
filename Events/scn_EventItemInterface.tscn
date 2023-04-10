@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://kcjh3vmhxryr"]
 
-[ext_resource type="Script" path="res://Events/gd_EventItemInterface.gd" id="1_y3qy3"]
+[ext_resource type="Script" path="res://Events/gd_EventItemInterface.gd" id="1_1p33c"]
 [ext_resource type="Texture2D" uid="uid://b4neyce6jni2q" path="res://Icons/SideBurger.png" id="2_p68uf"]
-[ext_resource type="Texture2D" uid="uid://db7peum5fivf" path="res://Icons/caret-off.png" id="3_2pv3n"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="3_f1ko8"]
 [ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="3_yyr2a"]
 
@@ -49,9 +48,7 @@ corner_radius_top_right = 4
 
 [node name="EventInterface" type="PanelContainer"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_y3jax")
-script = ExtResource("1_y3qy3")
-caret_on = ExtResource("3_f1ko8")
-caret_off = ExtResource("3_2pv3n")
+script = ExtResource("1_1p33c")
 
 [node name="HorizontalLayout" type="HBoxContainer" parent="."]
 layout_mode = 2

@@ -64,33 +64,49 @@ func match_property(match_prop : Property):
 	
 	match match_prop.type:
 		TYPE_BOOL:
+			checkbox.set_pressed(match_prop.get_value())
 			checkbox.show()
 		
 		TYPE_INT:
+			spinbox.value = match_prop.get_value()
 			spinbox.step = 1
 			spinbox.show()
 		
 		TYPE_FLOAT:
+			spinbox.value = match_prop.get_value()
 			spinbox.step = .1
 			spinbox.show()
 		
 		TYPE_STRING:
+			line_edit.text = match_prop.get_value()
 			line_edit.show()
 		
 		TYPE_STRING_NAME:
+			line_edit.text = match_prop.get_value()
 			line_edit.show()
 		
 		TYPE_VECTOR2:
+			var fill_vector = match_prop.get_value()
+			x_spinbox.value = fill_vector.x
+			y_spinbox.value = fill_vector.y
+			
 			vector.show()
 			z_coords.hide()
 			w_coords.hide()
 		
 		TYPE_VECTOR4:
+			var fill_vector = match_prop.get_value()
+			x_spinbox.value = fill_vector.x
+			y_spinbox.value = fill_vector.y
+			z_spinbox.value = fill_vector.z
+			w_spinbox.value = fill_vector.w
+			
 			vector.show()
 			z_coords.show()
 			w_coords.show()
 		
 		TYPE_COLOR:
+			color_picker.color = match_prop.get_value()
 			color_picker.show()
 		
 		TYPE_PROJECTION:
@@ -111,7 +127,10 @@ func reset_property():
 	property_selector.reset()
 
 
-func fill_field(property : Property, value_to_set):
+func fill_field(property : Property, value_to_set : Variant):
+	if value_to_set == null:
+		return
+	
 	match property.type:
 		TYPE_BOOL:
 			checkbox.set_pressed(value_to_set)
@@ -145,6 +164,7 @@ func fill_field(property : Property, value_to_set):
 			pass
 
 
+# Emitters
 func change_field(value):
 	field_changed.emit(value)
 

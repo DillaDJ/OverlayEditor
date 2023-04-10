@@ -60,6 +60,10 @@ func duplicate_event() -> Event:
 func execute_actions() -> void:
 	for action in actions:
 		action.execute()
+		
+		if action.type == Action.Type.WAIT:
+			await(action.timer.timeout)
+			continue
 
 
 func add_action(action : Action) -> void:

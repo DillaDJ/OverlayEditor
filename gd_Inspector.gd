@@ -64,9 +64,9 @@ func populate_properties(overlay : Overlay):
 				# Size and position changes with gizmo manipulations
 				var transform_tool = %TransformTool
 				if property.prop_name == "Position":
-					transform_tool.connect("overlay_translated", Callable(property_interface, "set_prop_value_suppressed"))
+					transform_tool.connect("overlay_translated", Callable(property_interface, "set_value_suppressed"))
 				elif property.prop_name == "Size":
-					transform_tool.connect("overlay_resized", Callable(property_interface, "set_prop_value_suppressed"))
+					transform_tool.connect("overlay_resized", Callable(property_interface, "set_value_suppressed"))
 				
 				# Texture panel reset after loading new image
 				elif property.prop_name == "Region Position":
@@ -108,7 +108,7 @@ func add_enum_property_interface(property : EnumProperty) -> void:
 	for option_name in property.types:
 		property_interface.add_option(option_name)
 	
-	var current_value = property.get_property()
+	var current_value = property.get_value()
 	property_interface.set_prop_value(current_value)
 	property_interface.set_prop_name(property.prop_name + ":")
 	

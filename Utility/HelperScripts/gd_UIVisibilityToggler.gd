@@ -45,7 +45,9 @@ func show_interface():
 	top_menu.show()
 	right_panel.show()
 	bg_color.show()
-	gizmos.show()
+	
+	if sngl_Utility.get_scene_root().selected_overlay != null:
+		gizmos.show()
 	
 	interface_hidden = false
 

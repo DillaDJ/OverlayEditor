@@ -2,12 +2,13 @@ class_name EventItemInterface
 extends PanelContainer
 
 
-@onready var time_trigger_scn = preload("res://Events/Triggers/scn_TimeTrigger.tscn")
-@onready var twitch_chat_trigger_scn = preload("res://Events/Triggers/scn_TwitchChatTrigger.tscn")
-@onready var property_set_trigger_scn = preload("res://Events/Triggers/scn_PropertySetTrigger.tscn")
+@onready var time_trigger_scn : PackedScene = preload("res://Events/Triggers/scn_TimeTrigger.tscn")
+@onready var twitch_chat_trigger_scn : PackedScene = preload("res://Events/Triggers/scn_TwitchChatTrigger.tscn")
+@onready var property_set_trigger_scn : PackedScene = preload("res://Events/Triggers/scn_PropertySetTrigger.tscn")
 
 @onready var print_action_scn = preload("res://Events/Actions/scn_PrintAction.tscn")
 @onready var property_action_scn = preload("res://Events/Actions/scn_PropertyAction.tscn")
+@onready var wait_action_scn = preload("res://Events/Actions/scn_WaitAction.tscn")
 
 @onready var trigger_container 	: Control = $HorizontalLayout/VerticalLayout/TriggerBG/TriggerContainer
 @onready var action_container 	: Control = $HorizontalLayout/VerticalLayout/ActionContainer
@@ -20,47 +21,51 @@ func _ready() -> void:
 	action_fold_button.connect("button_down", Callable(self, "toggle_action_visibility"))
 
 
+# Triggers
 func set_trigger_interface(trigger : Trigger) -> void:
-	var event_menu : EventEditor = sngl_Utility.get_scene_root().get_node("%Events")
 	var interface
 	
 	match trigger.type:
 		Trigger.Type.TIMED:
-			interface = setup_timed_trigger(trigger)
+			interface = time_trigger_scn.instantiate()
+			trigger_container.add_child(interface)
+			setup_timed_trigger(interface, trigger)
 		
 		Trigger.Type.TWITCH_CHAT:
-			interface = setup_twitch_chat_trigger()
+			interface = twitch_chat_trigger_scn.instantiate()
+			trigger_container.add_child(interface)
+			setup_twitch_chat_trigger(interface, trigger)
 			
 		Trigger.Type.PROPERTY:
-			interface = setup_property_trigger(trigger)
-		
-	trigger_container.add_child(interface)
+			interface = property_set_trigger_scn.instantiate()
+			trigger_container.add_child(interface)
+			setup_property_trigger(interface, trigger)
+	
 	trigger_container.move_child(interface, 0)
 
 
-func setup_timed_trigger(trigger : Trigger) -> Control:
-	var interface : Control = time_trigger_scn.instantiate()
-	var spinbox : SpinBox = interface.get_node("SpinBox")
-	
+func setup_timed_trigger(trigger_interface : Control, trigger : Trigger) -> void:
+	var spinbox : SpinBox = trigger_interface.get_node("SpinBox")
+		
 	spinbox.value = trigger.trigger_time
 	spinbox.connect("value_changed", Callable(trigger, "edit_time"))
-	
-	return interface
 
 
-func setup_twitch_chat_trigger() -> Control:
-	var interface = twitch_chat_trigger_scn.instantiate()
-	return interface
+func setup_twitch_chat_trigger(_trigger_interface : Control, _trigger : Trigger) -> void:
+	return
 
 
-func setup_property_trigger(trigger : Trigger) -> Control:
-	var interface 		: Control = property_set_trigger_scn.instantiate()
-	var checkbox	 	: CheckBox = interface.get_node("CheckBox")
-	var options	 		: OptionButton = interface.get_node("FieldLayout/OptionButton")
-	var prop_select 	: PropertySelectButton = interface.get_node("FieldLayout/PropertySelectButton")
-	var field_matcher 	: FieldMatcher = interface.get_node("FieldLayout/FieldMatcher")
+func setup_property_trigger(trigger_interface : Control, trigger : Trigger):
+	var checkbox	 	: CheckBox = trigger_interface.get_node("CheckBox")
+	var mode_select	 	: OptionButton = trigger_interface.get_node("FieldLayout/OptionButton")
+	var prop_select 	: PropertySelectButton = trigger_interface.get_node("FieldLayout/PropertySelectButton")
+	var field_matcher 	: FieldMatcher = trigger_interface.get_node("FieldLayout/FieldMatcher")
 	
 	# Set fields
+	checkbox.set_pressed(trigger.equal)
+	mode_select.select(trigger.mode)
+	trigger_interface.set_mode(trigger.mode)
+	
 	if typeof(trigger.value_container.get_value()) == TYPE_OBJECT:
 		field_matcher.property_selector.text = trigger.value_container.get_value().prop_name.to_lower()
 		field_matcher.matched_property = trigger.value_container.get_value()
@@ -69,44 +74,101 @@ func setup_property_trigger(trigger : Trigger) -> Control:
 		prop_select.text = trigger.property.prop_name.to_lower()
 		field_matcher.match_property(trigger.property)
 		
-		if trigger.value_container.get_value():
+		if trigger.value_container.get_value() != null:
 			field_matcher.fill_field(trigger.property, trigger.value_container.get_value())
-	checkbox.set_pressed(trigger.equal)
 	
 	# Connections
 	trigger.connect("property_nulled", Callable(field_matcher, "reset_property"))
 	checkbox.connect("button_down", Callable(trigger, "toggle_equal"))
-	options.connect("item_selected", Callable(trigger, "set_mode"))
+	mode_select.connect("item_selected", Callable(trigger, "set_mode"))
 	
-	prop_select.connect("property_linked", Callable(trigger, "change_property"))
+	prop_select.connect("property_linked", Callable(trigger, "set_property"))
 	prop_select.connect("property_linked", Callable(field_matcher, "match_property"))
-	prop_select.connect("property_linked", Callable(interface, "disable_disallowed_modes"))
+	prop_select.connect("property_linked", Callable(trigger_interface, "disable_disallowed_modes"))
 	
-	field_matcher.connect("field_changed", Callable(trigger, "change_value"))
-	
-	return interface
+	field_matcher.connect("field_changed", Callable(trigger, "set_value"))
 
 
-func add_action_interface(action) -> Control:
+# Actions
+func add_action(event_editor : EventEditor, action : Action) -> void:
 	var interface
 	
+	# Instantiate, add to scene then setup as _ready and @onready needs to
+	# Run before setup and _ready only runs when a node is added to the scene 
 	match action.type:
 		Action.Type.PRINT:
 			interface = print_action_scn.instantiate()
-		
+			action_container.add_child(interface)
+			setup_print_action_interface(interface, action)
 		Action.Type.PROPERTY:
 			interface = property_action_scn.instantiate()
+			action_container.add_child(interface)
+			setup_property_action_interface(event_editor, interface, action)
+		Action.Type.WAIT:
+			interface = wait_action_scn.instantiate()
+			action_container.add_child(interface)
+			setup_wait_action_interface(interface, action)
 	
-	action_container.add_child(interface)
+	var burger_button : Button = interface.get_node("HorizontalLayout/BurgerButton")
+	burger_button.connect("button_down", Callable(event_editor, "select_interface").bind(interface))
 	
 	if !action_container.is_visible_in_tree():
 		toggle_action_visibility()
 	preview.hide()
+
+
+func setup_print_action_interface(action_interface : Control, action : PrintAction) -> void:
+	var prop_select : Button = action_interface.get_node("HorizontalLayout/PropertySelectButton") 
+			
+	if action.property:
+		prop_select.text = action.property.get_display_name()
 	
-	return interface
+	prop_select.connect("property_linked", Callable(action, "change_property"))
 
 
-func remove_action_interface_at(action_idx) -> void:
+func setup_property_action_interface(event_editor : EventEditor, action_interface : Control, action : PropertyAction) -> void:
+	var prop_select 	: Button = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/PropertySelector")
+	var mode_select 	: OptionButton = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/Mode")
+	var field_matcher 	: FieldMatcher = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/FieldMatcher")
+	var anim_time 		: SpinBox = action_interface.get_node("HorizontalLayout/VerticalLayout/Options/SpinBox")
+	var anim_type 		: OptionButton = action_interface.get_node("HorizontalLayout/VerticalLayout/Options/OptionButton")
+	
+	# Set fields
+	action_interface.set_mode(action.mode)
+	mode_select.select(action.mode)
+	anim_time.value = action.property_animator.length
+	anim_type.select(action.property_animator.type)
+	
+	if action.property:
+		prop_select.text = action.property.get_display_name()
+		field_matcher.match_property(action.property)
+		
+		if typeof(action.value_container.get_value()) == TYPE_OBJECT:
+			field_matcher.property_selector.text = action.value.get_display_name()
+			field_matcher.matched_property = action.value
+			field_matcher.toggle_property()
+		else:
+			field_matcher.fill_field(action.property, action.value_container.get_value())
+	
+	# Connect property signals
+	prop_select.connect("button_down", Callable(event_editor, "select_interface").bind(action_interface, true))
+	prop_select.connect("property_linked", Callable(action_interface, "disable_disallowed_modes"))
+	prop_select.connect("property_linked", Callable(action, "set_property"))
+	
+	action.connect("value_nulled", Callable(field_matcher, "reset_property"))
+	field_matcher.connect("field_changed", Callable(action, "set_value"))
+	mode_select.connect("item_selected", Callable(action, "set_mode"))
+	
+	anim_time.connect("value_changed", Callable(action.property_animator, "set_anim_length"))
+	anim_type.connect("item_selected", Callable(action.property_animator, "set_anim_type"))
+
+
+func setup_wait_action_interface(action_interface : Control, action : WaitAction):
+	var spinbox : SpinBox = action_interface.get_node("HorizontalLayout/SpinBox") 
+	spinbox.connect("value_changed", Callable(action, "set_wait_time"))
+
+
+func remove_action_at(action_idx : int) -> void:
 	if action_container.get_child_count() == 2:
 		preview.show()
 	

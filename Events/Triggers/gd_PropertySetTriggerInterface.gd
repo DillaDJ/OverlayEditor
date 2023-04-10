@@ -13,7 +13,7 @@ extends VBoxContainer
 
 func _ready():
 	checkbox.connect("toggled", Callable(self, "toggle_equals"))
-	options.connect("item_selected", Callable(self, "set_field_layout"))
+	options.connect("item_selected", Callable(self, "set_mode"))
 
 
 func toggle_equals(pressed : bool) -> void:
@@ -22,12 +22,11 @@ func toggle_equals(pressed : bool) -> void:
 		layout_container.move_child(checkbox, 6)
 	else:
 		checkbox.reparent(self)
-		
 	
-	set_field_layout(options.selected)
+	set_mode(options.selected)
 
 
-func set_field_layout(idx : int) -> void:
+func set_mode(idx : int) -> void:
 	if checkbox.is_pressed():
 		if idx == 0:
 			or_label.hide()
@@ -37,7 +36,6 @@ func set_field_layout(idx : int) -> void:
 			and_label.hide()
 			or_label.show()
 			field_matcher.show()
-			
 	else:
 		if idx == 0:
 			or_label.hide()

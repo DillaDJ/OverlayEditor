@@ -69,27 +69,29 @@ func execute():
 				new_value = value_container.get_value() - property.get_value()
 
 
-	if property_animator.anim_length != 0:
+	if property_animator.length != 0:
 		property_animator.start(new_value)
 		return
 
 	property.set_value(new_value)
 
 
-func change_mode(new_mode : Mode) -> void:
+func set_mode(new_mode : Mode) -> void:
 	mode = new_mode
 
 
-func change_property(new_property : Property) -> void:
+func set_property(new_property : Property) -> void:
 	if typeof(value_container.get_value()) == TYPE_OBJECT and value_container.current_data_type != new_property.type:
 		value_container.set_property(null)
 		value_nulled.emit()
+	else:
+		set_value(new_property.get_value())
 	
 	property_animator.property = new_property
 	property = new_property
 
 
-func change_value(new_value):
+func set_value(new_value):
 	if typeof(new_value) == TYPE_OBJECT:
 		value_container.set_property(new_value)
 		return

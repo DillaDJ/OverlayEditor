@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://mt2vk3j1yjsq"]
+[gd_scene load_steps=77 format=3 uid="uid://ccm5l8gwc248k"]
 
 [ext_resource type="PackedScene" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -43,7 +43,7 @@
 [ext_resource type="Script" path="res://gd_EventEditor.gd" id="38_6jkux"]
 [ext_resource type="Script" path="res://gd_SystemIO.gd" id="39_cyawd"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_Message.gd" id="40_5724f"]
-[ext_resource type="Script" path="res://gd_EventInterfaceCreator.gd" id="41_c8s17"]
+[ext_resource type="Script" path="res://Events/gd_EventInterfaceCreator.gd" id="41_mjeom"]
 [ext_resource type="Script" path="res://Properties/Interface/gd_GlobalPropertyItem.gd" id="42_hfu21"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="43_32rvk"]
 
@@ -1009,7 +1009,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="EventEditor" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
+[node name="Events" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -1020,7 +1020,7 @@ selected_event_theme = SubResource("StyleBoxFlat_bmma4")
 unselected_action_theme = ExtResource("36_2f852")
 selected_action_theme = ExtResource("37_ukjw7")
 
-[node name="VerticalLayout" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor"]
+[node name="VerticalLayout" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1032,13 +1032,13 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout"]
+[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/Toolbar"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
 layout_mode = 2
 
-[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Create new event"
@@ -1052,38 +1052,40 @@ popup/item_1/id = 1
 popup/item_2/text = "Property Set Event"
 popup/item_2/id = 2
 
-[node name="NewAction" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="NewAction" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
 text = "A"
-item_count = 2
+item_count = 3
 popup/item_0/text = "Print Action"
 popup/item_0/id = 0
 popup/item_1/text = "Property Action"
 popup/item_1/id = 1
+popup/item_2/text = "Wait Action"
+popup/item_2/id = 2
 
-[node name="Spacer" type="Control" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="Spacer" type="Control" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Delete" type="Button" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="Delete" type="Button" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
 text = "X"
 flat = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_mmgyb")
 
-[node name="EventContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/EventEditor/VerticalLayout/ScrollContainer"]
+[node name="EventContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
-script = ExtResource("41_c8s17")
+script = ExtResource("41_mjeom")
 
 [node name="PropertySelect" type="Control" parent="."]
 unique_name_in_owner = true

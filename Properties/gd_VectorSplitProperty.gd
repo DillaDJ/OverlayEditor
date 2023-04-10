@@ -6,6 +6,8 @@ var vector_property : Property
 var split_axis : Vector4 = Vector4.ZERO
 var last_seen
 
+var check_suppressed := false
+
 
 static func split_vector(property : Property, is_hidden : bool = false) -> Array[VectorSplitProperty]:
 	if property.type != TYPE_VECTOR2 and property.type != TYPE_VECTOR4:
@@ -69,6 +71,14 @@ func setup_vec_split(vector_prop : Property, axis : Vector4, is_hidden : bool = 
 	vector_prop.connect("property_set", Callable(self, "check_if_changed"))
 
 
+func set_value(new_value) -> void:
+	if !write:
+		printerr("Property: %s is read only" % prop_name)
+		return
+	
+	setter.call(new_value)
+
+
 func get_vector_value_from_axis() -> float:
 	var vector = vector_property.get_value()
 	
@@ -95,10 +105,16 @@ func set_vector_value_from_axis(value_to_set) -> void:
 	elif split_axis.w == 1:
 		vector.w = value_to_set
 	
+	check_suppressed = true
 	vector_property.set_value(vector)
+	property_set.emit()
 
 
 func check_if_changed():
+	if check_suppressed:
+		check_suppressed = false
+		return
+	
 	var vector = vector_property.get_value()
 	
 	if split_axis.x == 1 and last_seen.x != vector.x:

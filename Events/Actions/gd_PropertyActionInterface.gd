@@ -8,6 +8,7 @@ extends PanelContainer
 @onready var property_selector : Control = $HorizontalLayout/VerticalLayout/HorizontalLayout/PropertySelector
 @onready var options : OptionButton = $HorizontalLayout/VerticalLayout/HorizontalLayout/Mode
 
+
 func _ready():
 	var field_matcher = $HorizontalLayout/VerticalLayout/HorizontalLayout/FieldMatcher
 	

@@ -162,6 +162,9 @@ func resize(pos : Vector2) -> void:
 
 # Gizmos
 func recenter_gizmos() -> void:
+	if !transforming_overlay:
+		return
+	
 	# Position corners around overlay
 	resizing_gizmos[0].global_position = transforming_overlay.global_position + Vector2(-gizmo_offset, -gizmo_offset)
 	resizing_gizmos[2].global_position = transforming_overlay.global_position + Vector2(transforming_overlay.size.x, -gizmo_offset)

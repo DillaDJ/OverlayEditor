@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="1_yf3m7"]
 [ext_resource type="Script" path="res://Events/Actions/gd_PropertyActionInterface.gd" id="2_ro3nc"]
 [ext_resource type="PackedScene" path="res://Events/scn_PropertySelector.tscn" id="4_qhr5o"]
-[ext_resource type="PackedScene" path="res://Events/scn_FieldMatcher.tscn" id="5_kpq2v"]
+[ext_resource type="PackedScene" uid="uid://cd2ujxubk3c1d" path="res://Events/scn_FieldMatcher.tscn" id="5_kpq2v"]
 
 [node name="PropertyAction" type="PanelContainer"]
 size_flags_horizontal = 3
@@ -68,6 +68,8 @@ text = "Over"
 
 [node name="SpinBox" type="SpinBox" parent="HorizontalLayout/VerticalLayout/Options"]
 layout_mode = 2
+max_value = 9999.0
+step = 0.1
 
 [node name="Label2" type="Label" parent="HorizontalLayout/VerticalLayout/Options"]
 layout_mode = 2
@@ -75,8 +77,44 @@ text = "seconds,"
 
 [node name="OptionButton" type="OptionButton" parent="HorizontalLayout/VerticalLayout/Options"]
 layout_mode = 2
-item_count = 1
+item_count = 19
 selected = 0
 fit_to_longest_item = false
 popup/item_0/text = "linear"
 popup/item_0/id = 0
+popup/item_1/text = "sin in"
+popup/item_1/id = 2
+popup/item_2/text = "sin out"
+popup/item_2/id = 1
+popup/item_3/text = "sin in-out"
+popup/item_3/id = 3
+popup/item_4/text = "cubic in"
+popup/item_4/id = 4
+popup/item_5/text = "cubic out"
+popup/item_5/id = 5
+popup/item_6/text = "cubic in-out"
+popup/item_6/id = 6
+popup/item_7/text = "circle in"
+popup/item_7/id = 7
+popup/item_8/text = "circle out"
+popup/item_8/id = 8
+popup/item_9/text = "circle in-out"
+popup/item_9/id = 9
+popup/item_10/text = "elastic in"
+popup/item_10/id = 10
+popup/item_11/text = "elastic out"
+popup/item_11/id = 11
+popup/item_12/text = "elastic in-out"
+popup/item_12/id = 12
+popup/item_13/text = "back in"
+popup/item_13/id = 13
+popup/item_14/text = "back out"
+popup/item_14/id = 14
+popup/item_15/text = "back in-out"
+popup/item_15/id = 15
+popup/item_16/text = "bounce in"
+popup/item_16/id = 16
+popup/item_17/text = "bounce out"
+popup/item_17/id = 17
+popup/item_18/text = "bounce in-out"
+popup/item_18/id = 18
