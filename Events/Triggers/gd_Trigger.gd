@@ -9,8 +9,8 @@ enum Type { TIMED, TWITCH_CHAT, PROPERTY }
 signal triggered()
 
 
-func duplicate_trigger() -> Trigger:
-	return Trigger.new()
+func reset(_overlay : Overlay):
+	return
 
 
 func match_properties(_overlay : Overlay) -> void:

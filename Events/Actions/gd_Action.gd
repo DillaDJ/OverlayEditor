@@ -10,10 +10,6 @@ func reset(_overlay : Overlay):
 	pass
 
 
-func duplicate_action() -> Action:
-	return self
-
-
 func match_properties(_overlay_from : Overlay) -> void:
 	return
 

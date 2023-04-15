@@ -123,7 +123,7 @@ func setup_print_action_interface(action_interface : Control, action : PrintActi
 	if action.property:
 		prop_select.text = action.property.get_display_name()
 	
-	prop_select.connect("property_linked", Callable(action, "change_property"))
+	prop_select.connect("property_linked", Callable(action, "set_property"))
 
 
 func setup_property_action_interface(event_editor : EventEditor, action_interface : Control, action : PropertyAction) -> void:

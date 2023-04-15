@@ -19,23 +19,13 @@ func reset(overlay : Overlay):
 	property.find_equivalent_property(overlay)
 
 
-func duplicate_trigger() -> Trigger:
-	var duplicated_trigger = PropertySetTrigger.new()
-	
-	duplicated_trigger.set_mode(mode)
-	duplicated_trigger.change_property(property)
-	
-	return duplicated_trigger
-
-
 func match_properties(overlay : Overlay) -> void:
 	var prop = property.find_equivalent_property(overlay)
-	set_property(prop)
+	set_property(prop, true)
 	
 	if value_container.current_data_type == TYPE_OBJECT:
 		var matched_value = value_container.get_property().find_equivalent_property(overlay)
-		value_container.change_property(matched_value)
-
+		value_container.set_property(matched_value)
 
 
 func check_for_trigger():
@@ -73,7 +63,7 @@ func set_mode(new_mode : Mode):
 	mode = new_mode
 
 
-func set_property(new_property : Property):
+func set_property(new_property : Property, suppress_fill_in := false):
 	if property and property.is_connected("property_set", Callable(self, "check_for_trigger")):
 		property.disconnect("property_set", Callable(self, "check_for_trigger"))
 	
@@ -83,7 +73,7 @@ func set_property(new_property : Property):
 		if value_container.get_property() and value_container.get_property().type != property.type:
 			value_container.set_property(null)
 			property_nulled.emit()
-		else:
+		elif !suppress_fill_in:
 			set_value(new_property.get_value())
 		
 		property.connect("property_set", Callable(self, "check_for_trigger"))

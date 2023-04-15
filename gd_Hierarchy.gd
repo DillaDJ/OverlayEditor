@@ -36,9 +36,9 @@ func _ready() -> void:
 
 
 # Items
-func add_to_tree(overlay : Control) -> void:
+func add_to_tree(overlay : Overlay) -> void:
 	var deep_children = sngl_Utility.get_nested_children(overlay)
-	var new_item : TreeItem = tree.create_item()
+	var new_item : TreeItem = tree.create_item(root)
 	new_item.set_text(0, overlay.name)
 	set_item_icon(overlay.type, new_item)
 	
@@ -69,6 +69,20 @@ func remove_from_tree():
 	
 	tree.deselect_all()
 	emit_signal("items_deselected")
+
+
+func clear():
+	if root.get_child_count() == 0:
+		return
+	
+	var next_child := root.get_child(0)
+	var child = next_child
+	
+	while next_child:
+		child = next_child
+		next_child = child.get_next()
+		
+		child.free()
 
 
 func reregister_item(item : TreeItem):

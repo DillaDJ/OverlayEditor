@@ -18,14 +18,8 @@ func _init():
 	reset_timer()
 
 
-func reset() -> void:
+func reset(_overlay : Overlay) -> void:
 	reset_timer()
-
-
-func duplicate_trigger() -> Trigger:
-	var duplicated_trigger = TimeTrigger.new()
-	duplicated_trigger.edit_time(trigger_time)
-	return duplicated_trigger
 
 
 func edit_time(new_time : float):

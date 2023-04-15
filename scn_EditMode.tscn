@@ -78,23 +78,26 @@ corner_radius_bottom_left = 16
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
 bg_color = Color(1, 1, 1, 0.0392157)
 
+[sub_resource type="InputEventAction" id="InputEventAction_o4kjv"]
+action = &"save"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_je5hc"]
+events = [SubResource("InputEventAction_o4kjv")]
+
 [sub_resource type="InputEventAction" id="InputEventAction_bc5dh"]
 action = &"hard_save"
+pressed = true
 
 [sub_resource type="Shortcut" id="Shortcut_c4wby"]
 events = [SubResource("InputEventAction_bc5dh")]
 
-[sub_resource type="InputEventAction" id="InputEventAction_gpco5"]
+[sub_resource type="InputEventAction" id="InputEventAction_hpdet"]
 action = &"full_save"
+pressed = true
 
-[sub_resource type="Shortcut" id="Shortcut_ue5xn"]
-events = [SubResource("InputEventAction_gpco5")]
-
-[sub_resource type="InputEventAction" id="InputEventAction_kftpr"]
-action = &"save"
-
-[sub_resource type="Shortcut" id="Shortcut_nn3br"]
-events = [SubResource("InputEventAction_kftpr")]
+[sub_resource type="Shortcut" id="Shortcut_2ccj8"]
+events = [SubResource("InputEventAction_hpdet")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytkeg"]
 content_margin_left = 20.0
@@ -799,23 +802,23 @@ custom_minimum_size = Vector2(0, 0)
 [node name="Bot" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer" index="2"]
 custom_minimum_size = Vector2(0, 0)
 
-[node name="SaveScene" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
-layout_mode = 2
-tooltip_text = "Saves the entire scene including any overlay that is inside it"
-shortcut = SubResource("Shortcut_c4wby")
-text = "Save Scene"
-
-[node name="SaveNode" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
-layout_mode = 2
-tooltip_text = "Saves the currently selected node"
-shortcut = SubResource("Shortcut_ue5xn")
-text = "Save Selected Node"
-
-[node name="SaveLast" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
+[node name="Save" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
 layout_mode = 2
 tooltip_text = "Resaves the last thing you saved be it the scene or overlay (if nothing was saved and an overlay is selected this will save that overlay otherwise it will save the scene)"
-shortcut = SubResource("Shortcut_nn3br")
-text = "Resave Previous Save"
+shortcut = SubResource("Shortcut_je5hc")
+text = "Save"
+
+[node name="SaveAs" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
+layout_mode = 2
+tooltip_text = "Saves the selected overlay or the scen (if nothing is selected) as a new file"
+shortcut = SubResource("Shortcut_c4wby")
+text = "Save as"
+
+[node name="SaveScene" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
+layout_mode = 2
+tooltip_text = "Saves the entire scene specifically"
+shortcut = SubResource("Shortcut_2ccj8")
+text = "Save Scene"
 
 [node name="Spacer2" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout" instance=ExtResource("27_plnp8")]
 layout_mode = 2
@@ -830,9 +833,9 @@ custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 text = "Load Scene"
 
-[node name="LoadNode" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
+[node name="LoadOverlay" type="Button" parent="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout"]
 layout_mode = 2
-text = "Load Node"
+text = "Load Overlay"
 
 [node name="Settings" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
@@ -1205,14 +1208,6 @@ position = Vector2i(500, 500)
 size = Vector2i(300, 100)
 theme = ExtResource("1_vu2ib")
 
-[node name="FileDialog" type="FileDialog" parent="System"]
-position = Vector2i(500, 500)
-size = Vector2i(800, 600)
-always_on_top = true
-theme = ExtResource("1_vu2ib")
-ok_button_text = "Save"
-access = 2
-
 [node name="Message" type="Panel" parent="System"]
 visible = false
 custom_minimum_size = Vector2(620, 120)
@@ -1260,6 +1255,8 @@ theme_override_colors/font_color = Color(0.588235, 0.623529, 0.682353, 1)
 text = "Subtitle"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="."]
 
 [editable path="TopMenu"]
 [editable path="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer"]

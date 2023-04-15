@@ -2,7 +2,7 @@ class_name Overlay
 extends Control
 
 enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, HBOX, VBOX, GRID }
-var type : Type
+@export var type : Type
 
 var overridable_properties 	: Array[Property] = []
 @export var attached_events : Array[Event] = []

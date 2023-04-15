@@ -1,5 +1,9 @@
 class_name PropertyAnimator
+extends Resource
 
+
+enum  Type { LINEAR, SIN_IN, SIN_OUT, SIN_INOUT, CUBIC_IN, CUBIC_OUT, CUBIC_INOUT, CIRC_IN, CIRC_OUT, CIRC_INOUT, 
+			ELASTIC_IN, ELASTIC_OUT, ELASTIC_INOUT, BACK_IN, BACK_OUT, BACK_INOUT, BOUNCE_IN, BOUNCE_OUT, BOUNCE_INOUT }
 
 # Easing constants
 const c1 = 1.70158;
@@ -10,28 +14,17 @@ const c5 = (2 * PI) / 4.5;
 const n1 = 7.5625;
 const d1 = 2.75;
 
+@export var type : Type = Type.LINEAR
+@export var from 	: VariantDataContainer
+@export var to 		: VariantDataContainer
+@export var length 	:= 0.0
+@export var time 	:= 0.0
 
 var property : Property
-
-enum  Type { LINEAR, SIN_IN, SIN_OUT, SIN_INOUT, CUBIC_IN, CUBIC_OUT, CUBIC_INOUT, CIRC_IN, CIRC_OUT, CIRC_INOUT, 
-			ELASTIC_IN, ELASTIC_OUT, ELASTIC_INOUT, BACK_IN, BACK_OUT, BACK_INOUT, BOUNCE_IN, BOUNCE_OUT, BOUNCE_INOUT }
-var type : Type = Type.LINEAR
-
-var from 	: VariantDataContainer
-var to 		: VariantDataContainer
-
-var length 	:= 0.0
-var time 	:= 0.0
-
 var animating := false
 
 
 signal animation_finished()
-
-
-func _init() -> void:
-	from 	= VariantDataContainer.new()
-	to 		= VariantDataContainer.new()
 
 
 func start(to_value : Variant) -> void:

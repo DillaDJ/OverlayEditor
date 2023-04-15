@@ -21,9 +21,9 @@ func _process(_delta):
 		show_interface()
 	
 	elif !interface_hidden:
-		if Input.is_action_just_pressed("alt"):
+		if Input.is_action_just_pressed("alt") and !Input.is_action_pressed("control"):
 			hide_for_editing()
-		elif Input.is_action_just_released("alt"):
+		elif Input.is_action_just_released("alt") or Input.is_action_pressed("control"):
 			show_interface()
 
 

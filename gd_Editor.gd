@@ -2,8 +2,6 @@ class_name Editor
 extends Node
 
 
-enum EditingTools { MOVE }
-
 @onready var hierarchy 	:= %Hierarchy
 @onready var system_io 	:= %System
 
@@ -52,6 +50,13 @@ func _unhandled_input(event):
 		
 		if event.is_action_pressed("duplicate"):
 			duplicate_overlay(selected_overlay)
+	
+	if event.is_action_pressed("save"):
+		prompt_save(0)
+	elif event.is_action_pressed("hard_save"):
+		prompt_save(1)
+	elif event.is_action_pressed("full_save"):
+		prompt_save(2)
 
 
 func _input(_event):
@@ -86,6 +91,7 @@ func duplicate_overlay(overlay : Overlay) -> void:
 		for j in range(new_overlays[i].attached_events.size()):
 			new_overlays[i].attached_events[j] = new_overlays[i].attached_events[j].duplicate_event()
 			new_overlays[i].attached_events[j].match_properties(new_overlays[i])
+			new_overlays[i].attached_events[j].reset(new_overlays[i])
 	
 	overlay_created.emit(new_overlay)
 
@@ -173,28 +179,75 @@ func stop_delete() -> void:
 
 
 # Saving and Loading
-func prompt_save(_save_overlay : bool = false):
-	system_io.connect("file_selected", Callable(self, "save_overlay"))
-	system_io.connect("file_cancelled", Callable(self, "cancel_save"))
-	system_io.prompt_save_file()
+func new_scene():
+	deselect_overlay()
+	overlay_container.clear()
 
 
-func cancel_save(_save_overlay : bool = false):
-	system_io.disconnect("file_selected", Callable(self, "save_overlay"))
-	system_io.disconnect("file_cancelled", Callable(self, "cancel_save"))
+func prompt_save(save_type : int) -> void:
+	var title := ""
+	
+	if save_type == 0: # SAVE
+		var result := sngl_SaveLoad.save_previous()
+			
+		if result != "":
+			system_io.display_message("Save Successful", result)
+			return
+	
+	if save_type == 0 or save_type == 1:
+		if selected_overlay:
+			system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_overlay").bind(selected_overlay))
+			title = "Save Selected Overlay: %s" % selected_overlay.name
+		else:
+			system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(overlay_container, "Save Scene"))
+			title = "Save Scene"
+	else: # SAVE_SCENE
+		system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(selected_overlay, "Save Scene"))
+		title = "Save Scene"
+	
+	system_io.connect("file_cancelled", Callable(self, "disconnect_file_signals"))
+	system_io.prompt_save_file(title)
 
 
-func start_load():
+func prompt_load(load_type : int):
 	var filters : Array[String] = ["*.tscn", "*.tres"]
-	system_io.connect("file_selected", Callable(self, "pre_load_overlay"))
-	system_io.connect("file_cancelled", Callable(self, "cancel_load"))
+	
+	match load_type:
+		0: # Scene
+			system_io.connect("file_selected", Callable(self, "load_scene"))
+		1: # Overlay
+			system_io.connect("file_selected", Callable(self, "load_overlay"))
+	
+	system_io.connect("file_cancelled", Callable(self, "disconnect_file_signals"))
 	system_io.prompt_load_file(filters)
 
 
-func cancel_load():
-	system_io.disconnect("file_selected", Callable(self, "pre_load_overlay"))
-	system_io.disconnect("file_cancelled", Callable(self, "cancel_load"))
+func load_overlay(path : String):
+	var overlay = sngl_SaveLoad.load_overlay_into_scene(path, overlay_container)
+	overlay_created.emit(overlay)
+	
+	disconnect_file_signals()
 
 
-func placeholder():
-	print("This function is here to stop signals from giving errors")
+func load_scene(path : String):
+	new_scene()
+	sngl_SaveLoad.load_scene_to_container(path, overlay_container)
+	
+	for overlay in overlay_container.get_children():
+		overlay_created.emit(overlay)
+	
+	disconnect_file_signals()
+
+
+func disconnect_file_signals():
+	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "save_overlay")):
+		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "save_overlay"))
+		
+	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "save_scene")):
+		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "save_scene"))
+	
+	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "load_overlay")):
+		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "load_overlay"))
+	
+	if system_io.is_connected("file_cancelled", Callable(self, "disconnect_file_signals")):
+		system_io.disconnect("file_cancelled", Callable(self, "disconnect_file_signals"))

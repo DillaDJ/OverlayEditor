@@ -15,12 +15,8 @@ func _init():
 	sngl_Utility.get_scene_root().add_child(timer)
 
 
-func duplicate_action() -> Action:
-	var duplicated_action = WaitAction.new()
-	
-	duplicated_action.timer.wait_time = timer.wait_time
-	
-	return duplicated_action
+func reset(_overlay):
+	set_wait_time(wait_time)
 
 
 func execute():

@@ -1,0 +1,155 @@
+[gd_resource type="Resource" script_class="OverlayData" load_steps=26 format=3]
+
+[ext_resource type="Script" path="res://Overlays/gd_PanelOverlay.gd" id="1_ca4jq"]
+[ext_resource type="Script" path="res://Properties/gd_VectorSplitProperty.gd" id="2_rq1uy"]
+[ext_resource type="Script" path="res://Utility/gd_VariantDataContainer.gd" id="3_ymlnk"]
+[ext_resource type="Script" path="res://Properties/gd_PropertyAnimator.gd" id="4_7avl0"]
+[ext_resource type="Script" path="res://Events/Actions/gd_PropertyAction.gd" id="5_5e7v3"]
+[ext_resource type="Script" path="res://Events/Actions/gd_WaitAction.gd" id="6_wsrf4"]
+[ext_resource type="Script" path="res://Events/gd_Event.gd" id="7_g1gei"]
+[ext_resource type="Script" path="res://Events/Triggers/gd_TimeTrigger.gd" id="8_2pg1o"]
+[ext_resource type="Script" path="res://Utility/gd_OverlayData.gd" id="9_yl8to"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2v43j"]
+
+[sub_resource type="Resource" id="Resource_imy3v"]
+script = ExtResource("2_rq1uy")
+prop_name = "Position.x"
+prop_path = "."
+
+[sub_resource type="Resource" id="Resource_gjekk"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = 900.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_0q801"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = 1000.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_xrcpr"]
+script = ExtResource("4_7avl0")
+type = 6
+from = SubResource("Resource_gjekk")
+to = SubResource("Resource_0q801")
+length = 1.0
+time = 1.0
+
+[sub_resource type="Resource" id="Resource_w08gs"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = 100.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_4qpv1"]
+script = ExtResource("5_5e7v3")
+mode = 1
+property = SubResource("Resource_imy3v")
+value_container = SubResource("Resource_w08gs")
+property_animator = SubResource("Resource_xrcpr")
+type = 1
+
+[sub_resource type="Resource" id="Resource_knjjx"]
+script = ExtResource("6_wsrf4")
+wait_time = 1.5
+type = 2
+
+[sub_resource type="Resource" id="Resource_hco6e"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = 1000.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_ckabf"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = 900.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_g2wpc"]
+script = ExtResource("4_7avl0")
+type = 6
+from = SubResource("Resource_hco6e")
+to = SubResource("Resource_ckabf")
+length = 1.0
+time = 0.266667
+
+[sub_resource type="Resource" id="Resource_044ml"]
+script = ExtResource("3_ymlnk")
+current_data_type = 3
+bool_data = false
+int_data = 0
+float_data = -100.0
+string_data = ""
+vector2_data = Vector2(0, 0)
+vector4_data = Vector4(0, 0, 0, 0)
+color_data = Color(0, 0, 0, 1)
+texture_data = Vector4(0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_3edqo"]
+script = ExtResource("5_5e7v3")
+mode = 1
+property = SubResource("Resource_imy3v")
+value_container = SubResource("Resource_044ml")
+property_animator = SubResource("Resource_g2wpc")
+type = 1
+
+[sub_resource type="Resource" id="Resource_dskpl"]
+script = ExtResource("8_2pg1o")
+trigger_time = 3.0
+type = 0
+
+[sub_resource type="Resource" id="Resource_5pwem"]
+script = ExtResource("7_g1gei")
+trigger = SubResource("Resource_dskpl")
+actions = Array[Resource("res://Events/Actions/gd_Action.gd")]([SubResource("Resource_4qpv1"), SubResource("Resource_knjjx"), SubResource("Resource_3edqo")])
+
+[sub_resource type="PackedScene" id="PackedScene_7flh0"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("Mover", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, 33.75, -105.0, 73.75, -65.0, 2, SubResource("StyleBoxFlat_2v43j"), ExtResource("1_ca4jq"), 1, Array[ExtResource("7_g1gei")]([SubResource("Resource_5pwem")])],
+"version": 3
+}
+
+[resource]
+script = ExtResource("9_yl8to")
+packed_scene = SubResource("PackedScene_7flh0")
+child_overlay_data = Array[ExtResource("9_yl8to")]([])

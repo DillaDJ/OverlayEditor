@@ -4,11 +4,16 @@ extends Control
 @onready var hierarchy : Control = %Hierarchy
 
 
+signal hierarchy_cleared()
+
+
 func _ready():
-	%Hierarchy/Tree.connect("tree_item_reordered", Callable(self, "rearrange_overlay_hierarchy"))
+	var tree = %Hierarchy/Tree
+	tree.connect("tree_item_reordered", Callable(self, "move_overlay"))
+	connect("hierarchy_cleared", Callable(hierarchy, "clear"))
 
 
-func rearrange_overlay_hierarchy(from_item : TreeItem, to_item : TreeItem, shift):
+func move_overlay(from_item : TreeItem, to_item : TreeItem, shift):
 	var from_path = hierarchy.get_item_node_path(from_item)
 	var from := get_node(from_path)
 	var old_name := from.name
@@ -42,3 +47,9 @@ func rearrange_overlay_hierarchy(from_item : TreeItem, to_item : TreeItem, shift
 	from.reparent(parent)
 	parent.move_child(from, new_idx)
 	from.set_overlay_name(old_name)
+
+
+func clear():
+	for overlay in get_children():
+		overlay.queue_free()
+	hierarchy_cleared.emit()

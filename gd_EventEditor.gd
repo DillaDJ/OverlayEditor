@@ -67,6 +67,8 @@ func create_action(action_type : Action.Type) -> void:
 			action = PropertyAction.new()
 			action.value_container = VariantDataContainer.new()
 			action.property_animator = PropertyAnimator.new()
+			action.property_animator.from = VariantDataContainer.new()
+			action.property_animator.to = VariantDataContainer.new()
 		
 		Action.Type.WAIT:
 			action = WaitAction.new()

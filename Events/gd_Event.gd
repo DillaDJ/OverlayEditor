@@ -13,14 +13,7 @@ func process(delta):
 			action.property_animator.animate(delta)
 
 
-func reset(overlay : Overlay):
-	attach_trigger(trigger)
-	trigger.reset()
-	
-	for action in actions:
-		action.reset(overlay)
-
-
+# Setup
 func attach_trigger(event_trigger : Trigger):
 	trigger = event_trigger
 	
@@ -33,10 +26,20 @@ func attach_trigger(event_trigger : Trigger):
 				trigger.value_container = VariantDataContainer.new()
 		
 		Trigger.Type.TWITCH_CHAT:
-			Property.create_read(properties, "Chatter Username", TYPE_STRING, Callable(trigger, "get_message_user"))
+			Property.create_read(properties, "Username", TYPE_STRING, Callable(trigger, "get_message_user"))
+			Property.create_read(properties, "Username Color", TYPE_STRING_NAME, Callable(trigger, "get_message_user_color"))
 			Property.create_read(properties, "Chat Message", TYPE_STRING_NAME, Callable(trigger, "get_message_contents"))
 	
-	trigger.connect("triggered", Callable(self, "execute_actions"))
+	if !trigger.is_connected("triggered", Callable(self, "execute_actions")):
+		trigger.connect("triggered", Callable(self, "execute_actions"))
+
+
+func reset(overlay : Overlay):
+	attach_trigger(trigger)
+	trigger.reset(overlay)
+	
+	for action in actions:
+		action.reset(overlay)
 
 
 func match_properties(overlay : Overlay):
@@ -49,10 +52,11 @@ func match_properties(overlay : Overlay):
 # Event
 func duplicate_event() -> Event:
 	var duplicated_event := Event.new()
-	duplicated_event.attach_trigger(trigger.duplicate_trigger())
+	
+	duplicated_event.trigger = trigger.duplicate(true)
 	
 	for action in actions:
-		duplicated_event.add_action(action.duplicate_action())
+		duplicated_event.add_action(action.duplicate(true))
 	
 	return duplicated_event
 
