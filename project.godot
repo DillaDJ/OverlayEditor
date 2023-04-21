@@ -8,6 +8,11 @@
 
 config_version=5
 
+[app_protocol]
+
+enable_app_protocol=true
+protocol_name="overlayeditor"
+
 [application]
 
 config/name="OverlayEditor"
@@ -19,7 +24,7 @@ config/icon="res://Icons/icon.svg"
 
 sngl_Utility="*res://Utility/gd_Utility.gd"
 sngl_SaveLoad="*res://Utility/gd_SaveLoad.gd"
-sngl_Twitch="*res://Utility/gd_TwitchIntegration.gd"
+sngl_Twitch="*res://Utility/Twitch/gd_TwitchIntegration.gd"
 
 [display]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://ccm5l8gwc248k"]
+[gd_scene load_steps=78 format=3 uid="uid://ccm5l8gwc248k"]
 
 [ext_resource type="PackedScene" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://ba7gu60xhrtr4" path="res://Icons/bgcolor.png" id="12_6m7qe"]
 [ext_resource type="PackedScene" uid="uid://mye4mfsbdv8b" path="res://Overlays/scn_TextOverlay.tscn" id="13_4c2hw"]
 [ext_resource type="Texture2D" uid="uid://bxlbqv5xkdqrh" path="res://Icons/gridlayout.png" id="13_jw6up"]
+[ext_resource type="PackedScene" uid="uid://cj5uftw3esyfo" path="res://Overlays/scn_RichTextLabelOverlay.tscn" id="14_r02hh"]
 [ext_resource type="Texture2D" uid="uid://bqp1s4fptl3nf" path="res://Icons/LeaveIcon.png" id="14_x8hgr"]
 [ext_resource type="PackedScene" uid="uid://c2i4lctekek5y" path="res://Overlays/scn_HBoxContainerOverlay.tscn" id="15_m1adh"]
 [ext_resource type="Texture2D" uid="uid://crp8k21rcldio" path="res://Icons/sliders.png" id="16_7tuxj"]
@@ -606,6 +607,18 @@ icon = ExtResource("9_xg22w")
 expand_icon = true
 script = ExtResource("8_6pttf")
 overlay_scn = ExtResource("13_4c2hw")
+
+[node name="CreateRichText" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Create a text label"
+theme_override_font_sizes/font_size = 23
+text = "R"
+expand_icon = true
+script = ExtResource("8_6pttf")
+overlay_scn = ExtResource("14_r02hh")
 
 [node name="Spacer" type="Panel" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(2, 0)
@@ -1255,8 +1268,6 @@ theme_override_colors/font_color = Color(0.588235, 0.623529, 0.682353, 1)
 text = "Subtitle"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="FileDialog" type="FileDialog" parent="."]
 
 [editable path="TopMenu"]
 [editable path="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer"]

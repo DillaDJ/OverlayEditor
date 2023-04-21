@@ -1,0 +1,16 @@
+[configuration]
+
+entry_symbol = "gdprotocol_init"
+
+[libraries]
+
+macos.debug = "bin/libGDProtocol.macos.debug.framework"
+macos.release = "bin/libGDProtocol.macos.release.framework"
+windows.debug.x86_64 = "bin/libGDProtocol.windows.debug.x86_64.dll"
+windows.release.x86_64 = "bin/libGDProtocol.windows.release.x86_64.dll"
+linux.debug.x86_64 = "bin/libGDProtocol.linux.debug.x86_64.so"
+linux.release.x86_64 = "bin/libGDProtocol.linux.release.x86_64.so"
+linux.debug.arm64 = "bin/libGDProtocol.linux.debug.arm64.so"
+linux.release.arm64 = "bin/libGDProtocol.linux.release.arm64.so"
+linux.debug.rv64 = "bin/libGDProtocol.linux.debug.rv64.so"
+linux.release.rv64 = "bin/libGDProtocol.linux.release.rv64.so"

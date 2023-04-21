@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj5uftw3esyfo"]
+
+[ext_resource type="Script" path="res://Overlays/gd_RichTextLabelOverlay.gd" id="1_tg02r"]
+
+[node name="RichTextOverlay" type="RichTextLabel"]
+custom_minimum_size = Vector2(200, 30)
+offset_left = 800.0
+offset_top = 500.0
+offset_right = 1224.0
+offset_bottom = 630.0
+bbcode_enabled = true
+text = "Lorem Ipsum"
+script = ExtResource("1_tg02r")
