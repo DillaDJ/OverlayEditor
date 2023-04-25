@@ -5,8 +5,8 @@ const server 	:= "wss://irc-ws.chat.twitch.tv:443"
 
 var client : WebSocketPeer
 
+var parameters_sent := false
 var connected := false
-var finished_connecting := false
 
 var broadcaster : TwitchUser
 var latest_message : TwitchChatMessage
@@ -37,16 +37,17 @@ func poll():
 	
 	var state = client.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
-		if !connected:
+		if !parameters_sent:
 			client.send_text("PASS oauth:%s" % sngl_Twitch.access_token)
 			client.send_text("NICK %s" % sngl_Twitch.username)
 			client.send_text("JOIN #%s" % broadcaster.username)
-			connected = true
+			parameters_sent = true
 		else:
 			while client.get_available_packet_count():
-				if finished_connecting:
-					var message = client.get_packet().get_string_from_utf8()
-					
+				var message = client.get_packet().get_string_from_utf8()
+				print(message)
+				
+				if connected:
 					if message.split(" ")[0] == "PING":
 						client.send_text("PONG :tmi.twitch.tv")
 						
@@ -54,15 +55,13 @@ func poll():
 						latest_message = TwitchChatMessage.new(message)
 						chat_message_recieved.emit(latest_message)
 				else: 
-					var message = client.get_packet().get_string_from_utf8()
-					
 					if message.split(":")[-1] == "End of /NAMES list\r\n":
-						finished_connecting = true
+						connected = true
 		
 	elif state == WebSocketPeer.STATE_CLOSED:
 		var code = client.get_close_code()
 		var reason = client.get_close_reason()
-		finished_connecting = false
+		parameters_sent = false
 		connected = false
 		
 		print("WebSocket closed with code: %d, reason %s. Clean: %s" % [code, reason, code != -1])

@@ -5,6 +5,8 @@ extends Resource
 enum Type { TIMED, TWITCH_CHAT, PROPERTY }
 @export var type : Type
 
+var enabled := false
+
 
 signal triggered()
 
@@ -18,4 +20,5 @@ func match_properties(_overlay : Overlay) -> void:
 
 
 func trigger():
-	emit_signal("triggered")
+	if enabled:
+		emit_signal("triggered")

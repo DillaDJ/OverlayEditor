@@ -15,6 +15,8 @@ var selected_overlay : Control
 
 var mouse_hold_time : float = 0
 
+var events_enabled := false
+
 
 signal overlay_created(overlay : Overlay)
 signal overlay_deleted()
@@ -23,6 +25,8 @@ signal overlay_click_selected(overlay)
 signal overlay_hierarchy_selected(overlay)
 signal overlay_selected(overlay : Overlay)
 signal overlay_deselected()
+
+signal events_toggled(value)
 
 
 func _ready():
@@ -251,3 +255,8 @@ func disconnect_file_signals():
 	
 	if system_io.is_connected("file_cancelled", Callable(self, "disconnect_file_signals")):
 		system_io.disconnect("file_cancelled", Callable(self, "disconnect_file_signals"))
+
+
+func toggle_events():
+	events_enabled = !events_enabled
+	events_toggled.emit(events_enabled)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://ccm5l8gwc248k"]
+[gd_scene load_steps=82 format=3 uid="uid://c7kybmiahemy8"]
 
 [ext_resource type="PackedScene" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://ba7gu60xhrtr4" path="res://Icons/bgcolor.png" id="12_6m7qe"]
 [ext_resource type="PackedScene" uid="uid://mye4mfsbdv8b" path="res://Overlays/scn_TextOverlay.tscn" id="13_4c2hw"]
 [ext_resource type="Texture2D" uid="uid://bxlbqv5xkdqrh" path="res://Icons/gridlayout.png" id="13_jw6up"]
+[ext_resource type="Texture2D" uid="uid://b1xre0swkywh0" path="res://Icons/rich-text.png" id="14_5j1p5"]
 [ext_resource type="PackedScene" uid="uid://cj5uftw3esyfo" path="res://Overlays/scn_RichTextLabelOverlay.tscn" id="14_r02hh"]
 [ext_resource type="Texture2D" uid="uid://bqp1s4fptl3nf" path="res://Icons/LeaveIcon.png" id="14_x8hgr"]
 [ext_resource type="PackedScene" uid="uid://c2i4lctekek5y" path="res://Overlays/scn_HBoxContainerOverlay.tscn" id="15_m1adh"]
@@ -33,8 +34,11 @@
 [ext_resource type="Script" path="res://Utility/HelperScripts/gd_UIVisibilityToggler.gd" id="25_osvkd"]
 [ext_resource type="Texture2D" uid="uid://dovpdxo6bi5q8" path="res://Icons/save.png" id="26_5t0ix"]
 [ext_resource type="Script" path="res://gd_SaveToggler.gd" id="27_0dc2x"]
+[ext_resource type="Texture2D" uid="uid://cgkchbp3sqqgg" path="res://Icons/play.png" id="27_380fe"]
 [ext_resource type="PackedScene" uid="uid://be2wo7fk5ffns" path="res://Utility/OtherInterface/scn_Spacer.tscn" id="27_plnp8"]
+[ext_resource type="Script" path="res://gd_EventToggleButton.gd" id="28_2olqp"]
 [ext_resource type="Script" path="res://Utility/HelperScripts/gd_ChangeSceneButton.gd" id="28_uk5qy"]
+[ext_resource type="Texture2D" uid="uid://tmuilxh33711" path="res://Icons/stop.png" id="29_2cvot"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_BarResizer.gd" id="30_2sbud"]
 [ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_TabDragNDrop.gd" id="31_vp4v7"]
@@ -613,9 +617,9 @@ custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-tooltip_text = "Create a text label"
+tooltip_text = "Create a rich text label"
 theme_override_font_sizes/font_size = 23
-text = "R"
+icon = ExtResource("14_5j1p5")
 expand_icon = true
 script = ExtResource("8_6pttf")
 overlay_scn = ExtResource("14_r02hh")
@@ -774,6 +778,19 @@ script = ExtResource("25_osvkd")
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
+
+[node name="ToggleEvents" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Toggle whether events are triggered or not (useful things liken when you are editing events that move overlay but you don't want them to fly away until you test them)"
+icon = ExtResource("27_380fe")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("28_2olqp")
+play_icon = ExtResource("27_380fe")
+stop_icon = ExtResource("29_2cvot")
 
 [node name="Save" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)

@@ -25,7 +25,7 @@ signal tokens_loaded()
 
 func _ready() -> void:
 	AppProtocol.connect("on_url_received", Callable(self, "request_oauth_token"))
-	connect("tokens_loaded", Callable(self, "test"))
+	#connect("tokens_loaded", Callable(self, "test"))
 	
 	poll_timer = Timer.new()
 	add_child(poll_timer)
@@ -67,7 +67,7 @@ func connect_to_channel(channel_name : String) -> TwitchChannelData:
 
 
 func test():
-	connect_to_channel("binQ7Q")
+	connect_to_channel("CohhCarnage")
 
 
 # Tokens
@@ -189,8 +189,6 @@ func download_image(url : String):
 
 # Parse HTTP responses
 enum ResponseType { AUTH_CODE, AUTH_REFRESH, USER_DATA, COLOR_DATA, EMOTE, IMAGE }
-
-
 func validate_http_response(response_code : int, body : PackedByteArray) -> bool:
 	if response_code == 200:
 		return true

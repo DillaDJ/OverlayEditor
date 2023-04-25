@@ -7,7 +7,7 @@ var channel_data : TwitchChannelData
 
 func _init():
 	type = Type.TWITCH_CHAT
-	connect_to_channel("binq7q")
+	connect_to_channel("shroud")
 
 
 func connect_to_channel(channel : String) -> void:
@@ -24,8 +24,8 @@ func process_message(message : TwitchChatMessage):
 		user.connect("finished_setup", Callable(self, "trigger"))
 	
 	elif !channel_data.connected_users[login].user_setup: 
-		if !channel_data.is_connected("finished_setup", Callable(self, "trigger")):
-			channel_data.connect("finished_setup", Callable(self, "trigger"))
+		if !channel_data.connected_users[login].is_connected("finished_setup", Callable(self, "trigger")):
+			channel_data.connected_users[login].connect("finished_setup", Callable(self, "trigger"))
 	
 	else:
 		trigger()

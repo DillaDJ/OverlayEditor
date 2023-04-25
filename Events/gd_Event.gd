@@ -6,11 +6,22 @@ extends Resource
 @export var actions : Array[Action] = []
 var properties 		: Array[Property]
 
+var enabled = false
+
+
+func _init(is_enabled : bool):
+	enabled = is_enabled
+
 
 func process(delta):
 	for action in actions:
 		if action.type == Action.Type.PROPERTY:
 			action.property_animator.animate(delta)
+
+
+func toggle(value : bool):
+	enabled = value
+	trigger.enabled = enabled
 
 
 # Setup
@@ -51,12 +62,13 @@ func match_properties(overlay : Overlay):
 
 # Event
 func duplicate_event() -> Event:
-	var duplicated_event := Event.new()
+	var duplicated_event := Event.new(false)
 	
 	duplicated_event.trigger = trigger.duplicate(true)
 	
 	for action in actions:
 		duplicated_event.add_action(action.duplicate(true))
+	duplicated_event.enabled = enabled
 	
 	return duplicated_event
 

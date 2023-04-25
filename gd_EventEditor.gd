@@ -2,6 +2,7 @@ class_name EventEditor
 extends Panel
 
 @onready var interface_container: EventInterfaceContainer = $VerticalLayout/ScrollContainer/EventContainer
+@onready var editor 			: Editor = sngl_Utility.get_scene_root()
 @onready var new_event_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewEvent
 @onready var new_action_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewAction
 @onready var delete_button 		: Button = $VerticalLayout/Toolbar/HBoxContainer/Delete
@@ -10,6 +11,7 @@ extends Panel
 @export var selected_event_theme 	: StyleBoxFlat
 @export var unselected_action_theme : StyleBoxFlat
 @export var selected_action_theme 	: StyleBoxFlat
+
 
 # For mapping interface to event/action
 var selected_event_idx 	: int = -1
@@ -23,7 +25,7 @@ signal event_selected(event : Event)
 
 
 func _ready() -> void:
-	var editor = sngl_Utility.get_scene_root()
+	editor = sngl_Utility.get_scene_root()
 	
 	editor.connect("overlay_selected", Callable(self, "populate"))
 	editor.connect("overlay_deselected", Callable(self, "clear"))
@@ -35,7 +37,7 @@ func _ready() -> void:
 
 
 func create_event(trigger_type : int) -> void:
-	var event := Event.new()
+	var event := Event.new(editor.events_enabled)
 	var trigger
 	
 	match trigger_type as Trigger.Type:
@@ -51,6 +53,8 @@ func create_event(trigger_type : int) -> void:
 	event.attach_trigger(trigger)
 	selected_overlay.attached_events.append(event)
 	interface_container.create_event_interface(self, event)
+	
+	editor.connect("events_toggled", Callable(event, "toggle"))
 	event_created.emit(event)
 
 

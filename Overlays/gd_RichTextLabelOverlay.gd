@@ -1,7 +1,7 @@
 extends Overlay
 
 
-var channel_login = "binq7q"
+var channel_login = "shroud"
 
 
 func _ready():
