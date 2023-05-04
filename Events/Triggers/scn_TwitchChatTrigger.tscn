@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cmcuquyl4hjyd"]
+[gd_scene load_steps=2 format=3 uid="uid://cmcuquyl4hjyd"]
+
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="1_u8wwv"]
 
 [node name="TwitchChatTrigger" type="HBoxContainer"]
 size_flags_horizontal = 3
@@ -8,4 +10,5 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "When a message appears in Twitch chat:"
+label_settings = ExtResource("1_u8wwv")
 autowrap_mode = 3

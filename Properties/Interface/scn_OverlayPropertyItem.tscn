@@ -1,17 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://xd0kjmcecvgr"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_OverlayPropertyItem.gd" id="1_8aeew"]
+[ext_resource type="StyleBox" uid="uid://dtudci3yxsvff" path="res://Utility/Theme/thm_header.tres" id="2_bxkdx"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="2_p38wg"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwf73"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 16.0
-content_margin_bottom = 6.0
-bg_color = Color(0.168627, 0.352941, 0.54902, 1)
-border_width_bottom = 4
-border_color = Color(0.121569, 0.239216, 0.45098, 1)
-corner_radius_top_right = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ydga"]
 content_margin_top = 4.0
@@ -27,7 +18,7 @@ script = ExtResource("1_8aeew")
 
 [node name="HeaderBG" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qwf73")
+theme_override_styles/panel = ExtResource("2_bxkdx")
 
 [node name="HeaderLayout" type="HBoxContainer" parent="HeaderBG"]
 layout_mode = 2

@@ -1,12 +1,12 @@
-[gd_scene load_steps=82 format=3 uid="uid://c7kybmiahemy8"]
+[gd_scene load_steps=89 format=3 uid="uid://cttbku4lnibr8"]
 
-[ext_resource type="PackedScene" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
-[ext_resource type="Theme" uid="uid://petgjparscw7" path="res://thm_Base.tres" id="1_vu2ib"]
+[ext_resource type="PackedScene" uid="uid://bddye7g80a4he" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_Grid.gd" id="2_uu4ku"]
 [ext_resource type="Script" path="res://Overlays/gd_OverlayContainer.gd" id="3_du7ip"]
 [ext_resource type="Texture2D" uid="uid://ctb6by47bruyw" path="res://Icons/eye.png" id="4_3qsby"]
 [ext_resource type="Script" path="res://Utility/gd_TransformTool.gd" id="4_myewq"]
+[ext_resource type="Theme" uid="uid://bt2jigixvdmji" path="res://Utility/Theme/thm_Base.tres" id="6_6be1u"]
 [ext_resource type="Texture2D" uid="uid://bqcig2aovmk11" path="res://Icons/cog.png" id="7_5ii8i"]
 [ext_resource type="Texture2D" uid="uid://43sr7g3xlejg" path="res://Icons/panel.png" id="7_r0hrm"]
 [ext_resource type="Script" path="res://Utility/HelperScripts/gd_OverlayCreator.gd" id="8_6pttf"]
@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://bqp1s4fptl3nf" path="res://Icons/LeaveIcon.png" id="14_x8hgr"]
 [ext_resource type="PackedScene" uid="uid://c2i4lctekek5y" path="res://Overlays/scn_HBoxContainerOverlay.tscn" id="15_m1adh"]
 [ext_resource type="Texture2D" uid="uid://crp8k21rcldio" path="res://Icons/sliders.png" id="16_7tuxj"]
-[ext_resource type="PackedScene" path="res://Overlays/scn_VBoxContainerOverlay.tscn" id="17_bv2bc"]
+[ext_resource type="PackedScene" uid="uid://d3230ynp1mu7o" path="res://Overlays/scn_VBoxContainerOverlay.tscn" id="17_bv2bc"]
 [ext_resource type="Script" path="res://gd_Inspector.gd" id="17_woalc"]
 [ext_resource type="Script" path="res://gd_Hierarchy.gd" id="18_yihel"]
 [ext_resource type="PackedScene" uid="uid://d4cui0l1xlprd" path="res://Overlays/scn_GridContainerOverlay.tscn" id="19_35d8y"]
@@ -35,7 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://dovpdxo6bi5q8" path="res://Icons/save.png" id="26_5t0ix"]
 [ext_resource type="Script" path="res://gd_SaveToggler.gd" id="27_0dc2x"]
 [ext_resource type="Texture2D" uid="uid://cgkchbp3sqqgg" path="res://Icons/play.png" id="27_380fe"]
-[ext_resource type="PackedScene" uid="uid://be2wo7fk5ffns" path="res://Utility/OtherInterface/scn_Spacer.tscn" id="27_plnp8"]
+[ext_resource type="PackedScene" uid="uid://be2wo7fk5ffns" path="res://Utility/OtherInterface/scn_Separator.tscn" id="27_plnp8"]
 [ext_resource type="Script" path="res://gd_EventToggleButton.gd" id="28_2olqp"]
 [ext_resource type="Script" path="res://Utility/HelperScripts/gd_ChangeSceneButton.gd" id="28_uk5qy"]
 [ext_resource type="Texture2D" uid="uid://tmuilxh33711" path="res://Icons/stop.png" id="29_2cvot"]
@@ -43,14 +43,23 @@
 [ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_TabDragNDrop.gd" id="31_vp4v7"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_DraggableTree.gd" id="33_iw3tt"]
-[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="36_2f852"]
-[ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Events/Actions/thm_ActionSelected.tres" id="37_ukjw7"]
 [ext_resource type="Script" path="res://gd_EventEditor.gd" id="38_6jkux"]
 [ext_resource type="Script" path="res://gd_SystemIO.gd" id="39_cyawd"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_Message.gd" id="40_5724f"]
+[ext_resource type="StyleBox" uid="uid://b2hthedqgu1xp" path="res://Utility/Theme/thm_primary_unrounded.tres" id="40_xrn00"]
 [ext_resource type="Script" path="res://Events/gd_EventInterfaceCreator.gd" id="41_mjeom"]
 [ext_resource type="Script" path="res://Properties/Interface/gd_GlobalPropertyItem.gd" id="42_hfu21"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="43_32rvk"]
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Utility/Theme/thm_ActionUnselected.tres" id="45_ow33u"]
+[ext_resource type="StyleBox" uid="uid://bgsosmtioawnt" path="res://Utility/Theme/thm_ActionSelected.tres" id="46_snww2"]
+[ext_resource type="StyleBox" uid="uid://2r0k7he0d0w1" path="res://Utility/Theme/thm_secondary.tres" id="47_qqs2y"]
+[ext_resource type="Texture2D" uid="uid://dcktrgmxao57o" path="res://Icons/event.png" id="48_ll3mu"]
+[ext_resource type="StyleBox" uid="uid://dtudci3yxsvff" path="res://Utility/Theme/thm_header.tres" id="49_5fp4m"]
+[ext_resource type="Texture2D" uid="uid://bc6lyuxawaul" path="res://Icons/action.png" id="49_sijv2"]
+[ext_resource type="Script" path="res://Events/gd_EventSettings.gd" id="50_28hmv"]
+[ext_resource type="Texture2D" uid="uid://dmpu4dlcw7h72" path="res://Icons/bin.png" id="50_h3ly2"]
+[ext_resource type="StyleBox" uid="uid://cq47281n1gbce" path="res://Utility/Theme/thm_button_nonflat_normal.tres" id="57_n511e"]
+[ext_resource type="StyleBox" uid="uid://cywgduc0vv6a5" path="res://Utility/Theme/thm_button_nonflat_hover.tres" id="58_yavqg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -58,7 +67,7 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.258824, 0.494118, 0.898039, 1)
+border_color = Color(0.392157, 0.623529, 0.929412, 1)
 expand_margin_left = 1.0
 expand_margin_top = 1.0
 expand_margin_right = 1.0
@@ -72,7 +81,7 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.752941, 0.878431, 0.996078, 1)
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -81,7 +90,11 @@ corner_radius_bottom_left = 16
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r5361"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
-bg_color = Color(1, 1, 1, 0.0392157)
+bg_color = Color(1, 1, 1, 0.588235)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="InputEventAction" id="InputEventAction_o4kjv"]
 action = &"save"
@@ -107,11 +120,10 @@ events = [SubResource("InputEventAction_hpdet")]
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytkeg"]
 content_margin_left = 20.0
 content_margin_right = 20.0
-bg_color = Color(0.196078, 0.235294, 0.329412, 0.862745)
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
 border_color = Color(0.345098, 0.384314, 0.709804, 0.941176)
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sqy4d"]
 
@@ -125,15 +137,12 @@ border_color = Color(0.419608, 0.427451, 0.447059, 0.392157)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jej8d"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kseq"]
-bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp2y1"]
+bg_color = Color(0, 0, 0, 0.392157)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n73x3"]
-bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2oeht"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2viwx"]
-bg_color = Color(0.262745, 0.286275, 0.396078, 0.784314)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nkbpt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aqk5g"]
 content_margin_left = 2.0
@@ -158,25 +167,12 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmgyb"]
-bg_color = Color(0.121569, 0.129412, 0.160784, 0.784314)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1v8pv"]
 bg_color = Color(0.141176, 0.14902, 0.184314, 0.784314)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwf73"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 16.0
-content_margin_bottom = 6.0
-bg_color = Color(0.168627, 0.352941, 0.54902, 1)
-border_width_bottom = 4
-border_color = Color(0.121569, 0.239216, 0.45098, 1)
-corner_radius_top_right = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ydga"]
 content_margin_top = 4.0
@@ -569,11 +565,12 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme = ExtResource("1_vu2ib")
+theme = ExtResource("6_6be1u")
 
 [node name="ButtonLayout" type="HBoxContainer" parent="TopMenu/BGPanel"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 6
 alignment = 1
 
 [node name="CreatePanel" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
@@ -625,7 +622,7 @@ script = ExtResource("8_6pttf")
 overlay_scn = ExtResource("14_r02hh")
 
 [node name="Spacer" type="Panel" parent="TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
 
@@ -666,7 +663,7 @@ script = ExtResource("8_6pttf")
 overlay_scn = ExtResource("19_35d8y")
 
 [node name="Spacer3" type="Panel" parent="TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
 
@@ -703,6 +700,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Grid Enabled"
 
 [node name="CheckBox" type="CheckBox" parent="TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG/FieldsLayout/ToggleGridLayout"]
@@ -775,7 +773,7 @@ expand_icon = true
 script = ExtResource("25_osvkd")
 
 [node name="Spacer2" type="Panel" parent="TopMenu/BGPanel/ButtonLayout"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mujvi")
 
@@ -916,14 +914,12 @@ grow_horizontal = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_ytkeg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ytkeg")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ytkeg")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_ytkeg")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_sqy4d")
 text = "Overlay Mode"
 script = ExtResource("28_uk5qy")
 scene_name = "overlay"
 
-[node name="HierarchyInspector" parent="." instance=ExtResource("1_ehu1h")]
+[node name="RightMenu" parent="." instance=ExtResource("1_ehu1h")]
 unique_name_in_owner = true
 anchors_preset = 11
 anchor_bottom = 1.0
@@ -933,7 +929,7 @@ grow_vertical = 2
 docked_edge = 2
 move_width = 368
 
-[node name="ToggleShow" parent="HierarchyInspector" index="1"]
+[node name="ToggleShow" parent="RightMenu" index="1"]
 anchors_preset = 6
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -951,7 +947,7 @@ icon = ExtResource("16_7tuxj")
 icon_alignment = 1
 expand_icon = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector"]
+[node name="HBoxContainer" type="HBoxContainer" parent="RightMenu"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 1
 anchors_preset = 9
@@ -961,7 +957,7 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 script = ExtResource("30_2sbud")
 
-[node name="Resize" type="Button" parent="HierarchyInspector/HBoxContainer"]
+[node name="Resize" type="Button" parent="RightMenu/HBoxContainer"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 10
@@ -970,35 +966,37 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_f2k8a")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_f2k8a")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jej8d")
 
-[node name="BGPanel" type="Panel" parent="HierarchyInspector/HBoxContainer"]
+[node name="BGPanel" type="Panel" parent="RightMenu/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("6_6be1u")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hp2y1")
 
-[node name="VSplitContainer" type="VSplitContainer" parent="HierarchyInspector/HBoxContainer/BGPanel"]
+[node name="VSplitContainer" type="VSplitContainer" parent="RightMenu/HBoxContainer/BGPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_vu2ib")
-split_offset = 420
+theme_override_constants/separation = 0
+split_offset = 450
 
-[node name="TopTabContainer" type="TabContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer"]
+[node name="TopTabContainer" type="TabContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer"]
 layout_mode = 2
-theme_override_constants/side_margin = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2oeht")
 drag_to_rearrange_enabled = true
 tabs_rearrange_group = 0
 use_hidden_tabs_for_min_size = true
 script = ExtResource("31_vp4v7")
 
-[node name="Hierarchy" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer"]
+[node name="Hierarchy" type="Panel" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_6kseq")
+theme_override_styles/panel = ExtResource("40_xrn00")
 script = ExtResource("18_yihel")
 
-[node name="Tree" type="Tree" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer/Hierarchy"]
+[node name="Tree" type="Tree" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/TopTabContainer/Hierarchy"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1009,23 +1007,24 @@ offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("47_qqs2y")
 hide_root = true
 script = ExtResource("33_iw3tt")
 
-[node name="BottomTabContainer" type="TabContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer"]
+[node name="BottomTabContainer" type="TabContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer"]
 layout_mode = 2
-theme_override_constants/side_margin = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nkbpt")
 drag_to_rearrange_enabled = true
 tabs_rearrange_group = 0
 script = ExtResource("31_vp4v7")
 
-[node name="Inspector" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
+[node name="Inspector" type="Panel" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_n73x3")
+theme_override_styles/panel = ExtResource("40_xrn00")
 script = ExtResource("17_woalc")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector"]
+[node name="ScrollContainer" type="ScrollContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1037,23 +1036,23 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PropertyContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector/ScrollContainer"]
+[node name="PropertyContainer" type="VBoxContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Inspector/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="Events" type="Panel" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
+[node name="Events" type="Panel" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2viwx")
+theme_override_styles/panel = ExtResource("40_xrn00")
 script = ExtResource("38_6jkux")
 unselected_event_theme = SubResource("StyleBoxFlat_aqk5g")
 selected_event_theme = SubResource("StyleBoxFlat_bmma4")
-unselected_action_theme = ExtResource("36_2f852")
-selected_action_theme = ExtResource("37_ukjw7")
+unselected_action_theme = ExtResource("45_ow33u")
+selected_action_theme = ExtResource("46_snww2")
 
-[node name="VerticalLayout" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events"]
+[node name="VerticalLayout" type="VBoxContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1065,18 +1064,16 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Toolbar" type="PanelContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
+[node name="Toolbar" type="HBoxContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
-layout_mode = 2
-
-[node name="NewEvent" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="NewEvent" type="MenuButton" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Create new event"
 disabled = true
-text = "+"
+icon = ExtResource("48_ll3mu")
+expand_icon = true
 item_count = 3
 popup/item_0/text = "Timed Event"
 popup/item_0/id = 0
@@ -1085,11 +1082,13 @@ popup/item_1/id = 1
 popup/item_2/text = "Property Set Event"
 popup/item_2/id = 2
 
-[node name="NewAction" type="MenuButton" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="NewAction" type="MenuButton" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Create a new action attached to the selected event"
 disabled = true
-text = "A"
+icon = ExtResource("49_sijv2")
+expand_icon = true
 item_count = 3
 popup/item_0/text = "Print Action"
 popup/item_0/id = 0
@@ -1098,23 +1097,81 @@ popup/item_1/id = 1
 popup/item_2/text = "Wait Action"
 popup/item_2/id = 2
 
-[node name="Spacer" type="Control" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="Spacer" type="Control" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Delete" type="Button" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/HBoxContainer"]
+[node name="EventSettings" type="Button" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 disabled = true
-text = "X"
+icon = ExtResource("7_5ii8i")
 flat = true
+expand_icon = true
+script = ExtResource("50_28hmv")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
+[node name="Triggers" type="Control" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/EventSettings"]
+anchors_preset = 0
+
+[node name="Property" type="MenuButton" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/EventSettings/Triggers"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 40.0
+disabled = true
+item_count = 5
+popup/item_0/text = "Changed"
+popup/item_0/checkable = 2
+popup/item_0/id = 0
+popup/item_1/text = "Less than"
+popup/item_1/checkable = 2
+popup/item_1/id = 1
+popup/item_2/text = "More than"
+popup/item_2/checkable = 2
+popup/item_2/id = 2
+popup/item_3/text = ""
+popup/item_3/id = 3
+popup/item_3/separator = true
+popup/item_4/text = "Equal to"
+popup/item_4/checkable = 1
+popup/item_4/id = 4
+
+[node name="Actions" type="Control" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/EventSettings"]
+anchors_preset = 0
+
+[node name="Property" type="MenuButton" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar/EventSettings/Actions"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 40.0
+disabled = true
+item_count = 4
+popup/item_0/text = "Set"
+popup/item_0/checkable = 2
+popup/item_0/id = 0
+popup/item_1/text = "Add"
+popup/item_1/checkable = 2
+popup/item_1/id = 1
+popup/item_2/text = ""
+popup/item_2/id = 2
+popup/item_2/separator = true
+popup/item_3/text = "Animated"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
+
+[node name="Delete" type="Button" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/Toolbar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Delete the selected event or action"
+disabled = true
+icon = ExtResource("50_h3ly2")
+flat = true
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_mmgyb")
+theme_override_styles/panel = ExtResource("47_qqs2y")
 
-[node name="EventContainer" type="VBoxContainer" parent="HierarchyInspector/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/ScrollContainer"]
+[node name="EventContainer" type="VBoxContainer" parent="RightMenu/HBoxContainer/BGPanel/VSplitContainer/BottomTabContainer/Events/VerticalLayout/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
@@ -1129,7 +1186,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_vu2ib")
+theme = ExtResource("6_6be1u")
 script = ExtResource("30_jjmu8")
 
 [node name="PanelContainer" type="PanelContainer" parent="PropertySelect"]
@@ -1174,7 +1231,7 @@ script = ExtResource("42_hfu21")
 
 [node name="HeaderBG" type="PanelContainer" parent="PropertySelect/PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer/GlobalProperties"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qwf73")
+theme_override_styles/panel = ExtResource("49_5fp4m")
 
 [node name="HeaderLayout" type="HBoxContainer" parent="PropertySelect/PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer/GlobalProperties/HeaderBG"]
 layout_mode = 2
@@ -1214,12 +1271,16 @@ layout_mode = 2
 [node name="Confirm" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/ButtonLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = ExtResource("57_n511e")
+theme_override_styles/hover = ExtResource("58_yavqg")
 disabled = true
 text = "Confirm"
 
 [node name="Cancel" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/ButtonLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = ExtResource("57_n511e")
+theme_override_styles/hover = ExtResource("58_yavqg")
 text = "Cancel"
 
 [node name="System" type="Control" parent="."]
@@ -1236,7 +1297,7 @@ script = ExtResource("39_cyawd")
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="System"]
 position = Vector2i(500, 500)
 size = Vector2i(300, 100)
-theme = ExtResource("1_vu2ib")
+theme = ExtResource("6_6be1u")
 
 [node name="Message" type="Panel" parent="System"]
 visible = false
@@ -1290,4 +1351,4 @@ vertical_alignment = 1
 [editable path="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer"]
 [editable path="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer2"]
 [editable path="ChangeMode"]
-[editable path="HierarchyInspector"]
+[editable path="RightMenu"]

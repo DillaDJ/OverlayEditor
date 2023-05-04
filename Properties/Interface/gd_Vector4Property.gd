@@ -1,10 +1,10 @@
 extends PropertyInterface
 
 
-@onready var x_coord = $CoordinateLayout/XLayout/XCoords
-@onready var y_coord = $CoordinateLayout/YLayout/YCoords
-@onready var z_coord = $CoordinateLayout/ZLayout/ZCoords
-@onready var w_coord = $CoordinateLayout/WLayout/WCoords
+@onready var x_coord = $CoordinateLayout/XY/XLayout/XCoords
+@onready var y_coord = $CoordinateLayout/XY/YLayout/YCoords
+@onready var z_coord = $CoordinateLayout/ZW/ZLayout/ZCoords
+@onready var w_coord = $CoordinateLayout/ZW/WLayout/WCoords
 
 
 func _ready():

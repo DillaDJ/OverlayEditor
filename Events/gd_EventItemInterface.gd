@@ -56,37 +56,33 @@ func setup_twitch_chat_trigger(_trigger_interface : Control, _trigger : Trigger)
 
 
 func setup_property_trigger(trigger_interface : Control, trigger : Trigger):
-	var checkbox	 	: CheckBox = trigger_interface.get_node("CheckBox")
-	var mode_select	 	: OptionButton = trigger_interface.get_node("FieldLayout/OptionButton")
 	var prop_select 	: PropertySelectButton = trigger_interface.get_node("FieldLayout/PropertySelectButton")
 	var field_matcher 	: FieldMatcher = trigger_interface.get_node("FieldLayout/FieldMatcher")
 	
 	# Set fields
-	checkbox.set_pressed(trigger.equal)
-	mode_select.select(trigger.mode)
-	trigger_interface.set_mode(trigger.mode)
+	trigger_interface.mode = trigger.mode
+	trigger_interface.toggle_equal(trigger.equal)
 	
-	if typeof(trigger.value_container.get_value()) == TYPE_OBJECT:
-		field_matcher.property_selector.text = trigger.value_container.get_value().prop_name.to_lower()
-		field_matcher.matched_property = trigger.value_container.get_value()
-		field_matcher.toggle_property()
-	elif trigger.property:
-		prop_select.text = trigger.property.prop_name.to_lower()
-		field_matcher.match_property(trigger.property)
+	# Trigger property
+	if trigger.property:
+		prop_select.text = trigger.property.get_display_name()
 		
-		if trigger.value_container.get_value() != null:
+		if trigger.value_container.current_data_type == TYPE_OBJECT:
+			var property : Property = trigger.value_container.get_property()
+			field_matcher.fill_property(property)
+		
+		elif trigger.value_container.current_data_type != TYPE_NIL:
+			field_matcher.match_property(trigger.property)
 			field_matcher.fill_field(trigger.property, trigger.value_container.get_value())
 	
-	# Connections
 	trigger.connect("property_nulled", Callable(field_matcher, "reset_property"))
-	checkbox.connect("button_down", Callable(trigger, "toggle_equal"))
-	mode_select.connect("item_selected", Callable(trigger, "set_mode"))
 	
 	prop_select.connect("property_linked", Callable(trigger, "set_property"))
 	prop_select.connect("property_linked", Callable(field_matcher, "match_property"))
 	prop_select.connect("property_linked", Callable(trigger_interface, "disable_disallowed_modes"))
 	
 	field_matcher.connect("field_changed", Callable(trigger, "set_value"))
+	field_matcher.connect("property_field_toggled", Callable(trigger, "toggle_property"))
 
 
 # Actions
@@ -128,14 +124,13 @@ func setup_print_action_interface(action_interface : Control, action : PrintActi
 
 func setup_property_action_interface(event_editor : EventEditor, action_interface : Control, action : PropertyAction) -> void:
 	var prop_select 	: Button = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/PropertySelector")
-	var mode_select 	: OptionButton = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/Mode")
 	var field_matcher 	: FieldMatcher = action_interface.get_node("HorizontalLayout/VerticalLayout/HorizontalLayout/FieldMatcher")
 	var anim_time 		: SpinBox = action_interface.get_node("HorizontalLayout/VerticalLayout/Options/SpinBox")
 	var anim_type 		: OptionButton = action_interface.get_node("HorizontalLayout/VerticalLayout/Options/OptionButton")
 	
 	# Set fields
-	action_interface.set_mode(action.mode)
-	mode_select.select(action.mode)
+	action_interface.set_mode(action.add_mode)
+	action_interface.toggle_animating(action.animating)
 	anim_time.value = action.property_animator.length
 	anim_type.select(action.property_animator.type)
 	
@@ -143,21 +138,20 @@ func setup_property_action_interface(event_editor : EventEditor, action_interfac
 		prop_select.text = action.property.get_display_name()
 		field_matcher.match_property(action.property)
 		
-		if typeof(action.value_container.get_value()) == TYPE_OBJECT:
-			field_matcher.property_selector.text = action.value.get_display_name()
-			field_matcher.matched_property = action.value
+		if action.value_container.current_data_type == TYPE_OBJECT:
+			field_matcher.property_selector.text = action.value_container.get_property().get_display_name()
+			field_matcher.matched_property = action.value_container.get_property()
 			field_matcher.toggle_property()
 		else:
 			field_matcher.fill_field(action.property, action.value_container.get_value())
 	
 	# Connect property signals
-	prop_select.connect("button_down", Callable(event_editor, "select_interface").bind(action_interface, true))
+	prop_select.connect("button_down", Callable(event_editor, "select_interface").bind(action_interface))
 	prop_select.connect("property_linked", Callable(action_interface, "disable_disallowed_modes"))
 	prop_select.connect("property_linked", Callable(action, "set_property"))
 	
 	action.connect("value_nulled", Callable(field_matcher, "reset_property"))
 	field_matcher.connect("field_changed", Callable(action, "set_value"))
-	mode_select.connect("item_selected", Callable(action, "set_mode"))
 	
 	anim_time.connect("value_changed", Callable(action.property_animator, "set_anim_length"))
 	anim_type.connect("item_selected", Callable(action.property_animator, "set_anim_type"))

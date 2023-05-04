@@ -3,6 +3,7 @@ extends Panel
 @onready var panel_icon : Texture2D = preload("res://Icons/panel.png")
 @onready var texture_icon : Texture2D = preload("res://Icons/texturerect.png")
 @onready var text_icon : Texture2D = preload("res://Icons/text.png")
+@onready var rich_text_icon : Texture2D = preload("res://Icons/rich-text.png")
 @onready var hbox_icon : Texture2D = preload("res://Icons/hlayout.png")
 @onready var vbox_icon : Texture2D = preload("res://Icons/vlayout.png")
 @onready var grid_icon : Texture2D = preload("res://Icons/gridlayout.png")
@@ -179,6 +180,8 @@ func set_item_icon(overlay_type : Overlay.Type, item : TreeItem) -> void:
 			item.set_icon(0, texture_icon)
 		Overlay.Type.TEXT:
 			item.set_icon(0, text_icon)
+		Overlay.Type.RICH_TEXT:
+			item.set_icon(0, rich_text_icon)
 		Overlay.Type.HBOX:
 			item.set_icon(0, hbox_icon)
 		Overlay.Type.VBOX:

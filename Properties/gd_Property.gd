@@ -3,7 +3,7 @@ extends Resource
 
 # TYPE_NIL, TYPE_BOOL, TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_STRING_NAME (long string), TYPE_VECTOR2, 
 # TYPE_VECTOR4, TYPE_COLOR, TYPE_PROJECTION (texture), TYPE_PACKED_INT32_ARRAY (enum)
-var type : Variant.Type
+@export var type : Variant.Type
 var write := false
 
 @export var prop_name : String
@@ -32,7 +32,7 @@ static func create_read(property_array : Array[Property], p_name : String, prop_
 			property_array.append(axis)
 
 
-static func create_write(property_array : Array[Property], p_name : String, prop_type : Variant.Type, p_getter : Callable, p_setter : Callable, prop_hidden = false):
+static func create_write(property_array : Array[Property], p_name : String, prop_type : Variant.Type, p_getter : Callable, p_setter : Callable, prop_hidden = false) -> Property:
 	var property := Property.new()
 	property.setup_write(p_name, prop_type, p_getter, p_setter, prop_hidden)
 	property_array.append(property)
@@ -42,6 +42,16 @@ static func create_write(property_array : Array[Property], p_name : String, prop
 		for axis in split_axis:
 			property_array.append(axis)
 			axis.write = true
+	return property
+
+
+static func create_formatting(property_array : Array[Property]) -> Property:
+	var property := Property.new()
+	property.type = TYPE_NIL
+	property.prop_name = "Separator"
+	property_array.append(property)
+	
+	return property
 
 
 func setup_write(new_name : String, new_type : Variant.Type, new_getter : Callable, new_setter : Callable, is_hidden : bool = false):
@@ -93,3 +103,4 @@ func find_equivalent_property(overlay : Overlay) -> Property:
 					return property
 	
 	return null
+

@@ -32,12 +32,18 @@ func toggle_item_visibility(showing : bool):
 
 
 func populate_properties(overlay : Overlay):
+	if attached_overlay == overlay:
+		return
+	
 	overlay_info.text = "%s (%s)" % [overlay.name, overlay.get_type_name()]
 	attached_overlay = overlay
 	
 	overlay_list.clear()
 	
 	for property in overlay.overridable_properties:
+		if property.type == TYPE_NIL:
+			continue
+		
 		overlay_list.add_item(property.prop_name)
 	
 	refresh_event_properties()

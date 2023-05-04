@@ -25,7 +25,6 @@ signal tokens_loaded()
 
 func _ready() -> void:
 	AppProtocol.connect("on_url_received", Callable(self, "request_oauth_token"))
-	#connect("tokens_loaded", Callable(self, "test"))
 	
 	poll_timer = Timer.new()
 	add_child(poll_timer)
@@ -34,6 +33,7 @@ func _ready() -> void:
 	poll_timer.start()
 	
 	load_tokens()
+	#request_oauth_token("code=ub9np2sob9fw694b1cg5yoeri0bek9&scope=chat%3Aread+chat%3Aedit")
 
 
 func spawn_http_request() -> HTTPRequest:
@@ -49,6 +49,7 @@ func despawn_http_request(http_request : HTTPRequest) -> void:
 	http_request.queue_free()
 
 
+# Channels
 func poll_channels() -> void:
 	if expecting_uri_response:
 		AppProtocol.poll_server()
@@ -66,8 +67,11 @@ func connect_to_channel(channel_name : String) -> TwitchChannelData:
 	return connected_channels[channel_name]
 
 
-func test():
-	connect_to_channel("CohhCarnage")
+func get_channel_from_last_message(value : String) -> String:
+	for channel in connected_channels:
+		if connected_channels[channel].latest_message.get_contents() == value:
+			return channel
+	return ""
 
 
 # Tokens

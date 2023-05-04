@@ -3,7 +3,7 @@ extends Control
 
 @onready var confirm_dialog : ConfirmationDialog = $ConfirmationDialog
 @onready var message 		: Control = $Message
-@onready var base_theme		: Theme = preload("res://thm_Base.tres")
+@onready var base_theme		: Theme = preload("res://Utility/Theme/thm_Base.tres")
 
 var file_dialog : FileDialog
 

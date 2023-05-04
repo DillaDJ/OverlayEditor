@@ -70,11 +70,14 @@ func toggle_enabled() -> void:
 func set_transforming_overlay(overlay : Overlay) -> void:
 	var pos_prop : Property = overlay.find_property("Position")
 	var size_prop : Property = overlay.find_property("Size")
+	var text_prop : Property = overlay.find_property("Text")
 	
 	if pos_prop and !pos_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
 		pos_prop.connect("property_set", Callable(self, "recenter_gizmos"))
 	if size_prop and !size_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
 		size_prop.connect("property_set", Callable(self, "recenter_gizmos"))
+	if text_prop and !text_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
+		text_prop.connect("property_set", Callable(self, "recenter_gizmos"))
 	
 	transforming_overlay = overlay
 	recenter_gizmos()
@@ -84,11 +87,14 @@ func set_transforming_overlay(overlay : Overlay) -> void:
 func unset_transforming_overlay() -> void:
 	var pos_prop : Property = transforming_overlay.find_property("Position")
 	var size_prop : Property = transforming_overlay.find_property("Size")
+	var text_prop : Property = transforming_overlay.find_property("Text")
 	
 	if pos_prop and pos_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
 		pos_prop.disconnect("property_set", Callable(self, "recenter_gizmos"))
 	if size_prop and size_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
 		size_prop.disconnect("property_set", Callable(self, "recenter_gizmos"))
+	if text_prop and text_prop.is_connected("property_set", Callable(self, "recenter_gizmos")):
+		text_prop.disconnect("property_set", Callable(self, "recenter_gizmos"))
 	
 	transforming_overlay = null
 	hide()

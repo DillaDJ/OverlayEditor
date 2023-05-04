@@ -1,7 +1,7 @@
 class_name TwitchChannelData
 
 
-const server 	:= "wss://irc-ws.chat.twitch.tv:443"
+const server 	:= "ws://irc-ws.chat.twitch.tv:80"
 
 var client : WebSocketPeer
 
@@ -40,17 +40,17 @@ func poll():
 		if !parameters_sent:
 			client.send_text("PASS oauth:%s" % sngl_Twitch.access_token)
 			client.send_text("NICK %s" % sngl_Twitch.username)
-			client.send_text("JOIN #%s" % broadcaster.username)
+			client.send_text("JOIN #%s" % broadcaster.login)
 			parameters_sent = true
 		else:
 			while client.get_available_packet_count():
 				var message = client.get_packet().get_string_from_utf8()
-				print(message)
+				# print(message) # Debug
 				
 				if connected:
 					if message.split(" ")[0] == "PING":
 						client.send_text("PONG :tmi.twitch.tv")
-						
+
 					else:
 						latest_message = TwitchChatMessage.new(message)
 						chat_message_recieved.emit(latest_message)

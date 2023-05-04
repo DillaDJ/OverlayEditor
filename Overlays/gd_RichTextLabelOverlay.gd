@@ -1,10 +1,13 @@
 extends Overlay
 
 
-var channel_login = "shroud"
-
-
 func _ready():
+	super()
+	type = Type.RICH_TEXT
+	
+	# Properties
+	Property.create_formatting(overridable_properties)
+	
 	Property.create_write(overridable_properties, "Twitch Chat Text", TYPE_STRING_NAME, Callable(self, "get_text"), Callable(self, "set_text_as_twitch_chat"))
 	
 	Property.create_write(overridable_properties, "Text Size", TYPE_INT, Callable(self, "get_text_size"), Callable(self, "set_text_size"))
@@ -19,7 +22,9 @@ func get_text_as_twitch_chat() -> String:
 
 
 func set_text_as_twitch_chat(value : String):
-	if sngl_Twitch.connected_channels.has(channel_login):
+	var channel_login : String = sngl_Twitch.get_channel_from_last_message(value)
+	
+	if channel_login != "":
 		var channel : TwitchChannelData = sngl_Twitch.connected_channels[channel_login]
 		Callable(self, "clear").call()
 		

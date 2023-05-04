@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://d3230ynp1mu7o"]
 
 [ext_resource type="Script" path="res://Overlays/gd_VBoxContainerOverlay.gd" id="1_tat1q"]
 

@@ -47,9 +47,9 @@ func load_properties_from_overlay(overlay : Overlay):
 			property_item.populate_properties(overlays[i])
 			property_item.show()
 	
-	if overlays.size() + 1 < property_interface_count:
-		for i in range(property_interface_count - overlays.size()):
-			property_container.get_child(i + overlays.size()).hide()
+	if overlays.size() < property_interface_count - 1: # Remember global properties
+		for i in range((property_interface_count - 1) - overlays.size()):
+			property_container.get_child(1 + i + overlays.size()).hide()
 
 
 func set_selected_global_property(property : Property):

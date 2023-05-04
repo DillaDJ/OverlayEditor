@@ -4,7 +4,7 @@ extends Button
 @onready var systemIO 	: Control = %System
 @onready var top_menu 	: Control = %TopMenu
 @onready var change_mode: Control = %ChangeMode
-@onready var right_panel: Control = %HierarchyInspector
+@onready var right_panel: Control = %RightMenu
 @onready var bg_color 	: Control = %BGColorRect
 @onready var gizmos 	: Control = %TransformTool
 @onready var grid 		: Control = %Grid

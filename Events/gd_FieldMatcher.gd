@@ -2,6 +2,8 @@ class_name FieldMatcher
 extends HBoxContainer
 
 
+@onready var placeholder: Label = $Placeholder
+@onready var toggle_btn : Button = $ToggleProperty
 @onready var checkbox 	: CheckBox = $CheckBox
 @onready var spinbox 	: SpinBox = $SpinBox
 @onready var line_edit 	: LineEdit = $LineEdit
@@ -24,6 +26,7 @@ var matched_property : Property
 
 
 signal field_changed(new_value)
+signal property_field_toggled(value)
 
 
 func _ready():
@@ -38,24 +41,29 @@ func _ready():
 	color_picker.connect("color_changed", Callable(self, "change_field"))
 	property_selector.connect("property_linked", Callable(self, "change_field"))
 	
-	$ToggleProperty.connect("button_down", Callable(self, "toggle_property"))
+	toggle_btn.connect("button_down", Callable(self, "toggle_property"))
 
 
 func toggle_property():
+	using_property_field = !using_property_field
+	
 	if matched_property:
-		using_property_field = !using_property_field
 		match_property(matched_property)
+	
+	property_field_toggled.emit(using_property_field)
 
 
 func match_property(match_prop : Property):
 	matched_property = match_prop
 	
+	placeholder.hide()
 	checkbox.hide()
 	spinbox.hide()
 	line_edit.hide()
 	vector.hide()
 	color_picker.hide()
 	property_selector.hide()
+	toggle_btn.show()
 	
 	if using_property_field:
 		property_selector.set_type_lock(match_prop.type)
@@ -114,6 +122,8 @@ func match_property(match_prop : Property):
 
 
 func reset():
+	placeholder.show()
+	toggle_btn.hide()
 	checkbox.hide()
 	spinbox.hide()
 	line_edit.hide()
@@ -121,6 +131,19 @@ func reset():
 	color_picker.hide()
 	property_selector.hide()
 	property_selector.reset()
+
+
+func fill_property(prop : Property):
+	using_property_field = true
+	
+	if prop:
+		property_selector.text = prop.get_display_name()
+		matched_property = prop
+	
+	if matched_property:
+		match_property(matched_property)
+	
+	toggle_btn.set_pressed(true)
 
 
 func reset_property():

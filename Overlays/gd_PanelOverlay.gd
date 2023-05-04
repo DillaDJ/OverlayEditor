@@ -8,8 +8,12 @@ func _ready() -> void:
 	# Properties
 	Property.create_write(overridable_properties, "Color", TYPE_COLOR, Callable(self, "get_overlay_color"), Callable(self, "set_overlay_color"))
 	
+	Property.create_formatting(overridable_properties)
+	
 	Property.create_write(overridable_properties, "Border Color", TYPE_COLOR, Callable(self, "get_border_color"), Callable(self, "set_border_color"))
 	Property.create_write(overridable_properties, "Border", TYPE_VECTOR4, Callable(self, "get_border"), Callable(self, "set_border"))
+	
+	Property.create_formatting(overridable_properties)
 	
 	Property.create_write(overridable_properties, "Rounding", TYPE_VECTOR4, Callable(self, "get_rounding"), Callable(self, "set_rounding"))
 	

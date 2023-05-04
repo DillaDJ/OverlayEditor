@@ -119,11 +119,11 @@ func check_if_changed():
 	
 	if split_axis.x == 1 and last_seen.x != vector.x:
 		property_set.emit()
-	elif split_axis.y == 1 and last_seen.x != vector.x:
+	elif split_axis.y == 1 and last_seen.x != vector.y:
 		property_set.emit()
-	elif split_axis.z == 1 and last_seen.x != vector.x:
+	elif split_axis.z == 1 and last_seen.x != vector.z:
 		property_set.emit()
-	elif split_axis.w == 1 and last_seen.x != vector.x:
+	elif split_axis.w == 1 and last_seen.x != vector.w:
 		property_set.emit()
 	
 	last_seen = vector

@@ -11,10 +11,11 @@ extends Panel
 @onready var vector4_property_scn 		: PackedScene = preload("res://Properties/Interface/scn_Vector4Property.tscn")
 @onready var color_property_scn 		: PackedScene = preload("res://Properties/Interface/scn_ColorProperty.tscn")
 @onready var texture_property_scn 		: PackedScene = preload("res://Properties/Interface/scn_TextureProperty.tscn")
-@onready var spacer						: PackedScene = preload("res://Utility/OtherInterface/scn_Spacer.tscn")
+@onready var separator					: PackedScene = preload("res://Utility/OtherInterface/scn_Separator.tscn")
 
 @onready var property_container = $ScrollContainer/PropertyContainer
 @onready var overlay_container = %OverlayElements
+@onready var transform_tool = %TransformTool
 
 
 func _ready():
@@ -40,6 +41,11 @@ func populate_properties(overlay : Overlay):
 			continue
 		
 		match property.type:
+			TYPE_NIL:
+				if property.prop_name == "Separator":
+					var interface = separator.instantiate()
+					property_container.add_child(interface)
+			
 			TYPE_PACKED_INT32_ARRAY:
 				add_enum_property_interface(property)
 			
@@ -62,7 +68,6 @@ func populate_properties(overlay : Overlay):
 				var property_interface = add_property_interface(vector2_property_scn, property)
 				
 				# Size and position changes with gizmo manipulations
-				var transform_tool = %TransformTool
 				if property.prop_name == "Position":
 					transform_tool.connect("overlay_translated", Callable(property_interface, "set_value_suppressed"))
 				elif property.prop_name == "Size":
@@ -120,16 +125,16 @@ func clear_properties():
 		property.queue_free()
 
 
-func update_property_paths(overlay : Overlay):
-	var overlays := sngl_Utility.get_nested_children_flat(overlay)
-	overlays.insert(0, overlay)
+func update_property_paths(overlay_to_update : Overlay):
+	var overlays := sngl_Utility.get_nested_children_flat(overlay_to_update)
+	overlays.insert(0, overlay_to_update)
 	
-	for i_overlay in overlays:
-		var new_prop_path = overlay.get_path_to(i_overlay)
+	for overlay in overlays:
+		var new_prop_path = overlay_to_update.get_path_to(overlay)
 		
-		for event in i_overlay.attached_events:
+		for event in overlay.attached_events:
 			for property in event.properties:
 				property.prop_path = new_prop_path
 
-		for property in i_overlay.overridable_properties:
+		for property in overlay.overridable_properties:
 			property.prop_path = new_prop_path

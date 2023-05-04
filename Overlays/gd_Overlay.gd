@@ -1,10 +1,12 @@
 class_name Overlay
 extends Control
 
-enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, HBOX, VBOX, GRID }
+enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, RICH_TEXT, HBOX, VBOX, GRID }
 @export var type : Type
 
 var overridable_properties 	: Array[Property] = []
+var position_property 		: Property
+
 @export var attached_events : Array[Event] = []
 
 signal name_changed(new_name : String)
@@ -18,7 +20,13 @@ func _ready() -> void:
 	
 	# Properties
 	Property.create_write(overridable_properties, "Name", 			TYPE_STRING, Callable(self, "get_name"), Callable(self, "set_overlay_name"))
+	
+	Property.create_formatting(overridable_properties)
+	
+	position_property = (
 	Property.create_write(overridable_properties, "Position", 		TYPE_VECTOR2, Callable(self, "get_global_position"), Callable(self, "set_overlay_pos"))
+	)
+	
 	Property.create_write(overridable_properties, "Size", 			TYPE_VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size"))
 	Property.create_write(overridable_properties, "Minimum Size", 	TYPE_VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size"))
 
@@ -74,6 +82,8 @@ func get_type_name() -> String:
 			return "Textured Panel Overlay"
 		Type.TEXT:
 			return "Text Overlay"
+		Type.RICH_TEXT:
+			return "Rich Text Overlay"
 		Type.HBOX:
 			return "Horizontal Box Container"
 		Type.VBOX:

@@ -3,9 +3,10 @@ extends Panel
 
 @onready var interface_container: EventInterfaceContainer = $VerticalLayout/ScrollContainer/EventContainer
 @onready var editor 			: Editor = sngl_Utility.get_scene_root()
-@onready var new_event_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewEvent
-@onready var new_action_button 	: Button = $VerticalLayout/Toolbar/HBoxContainer/NewAction
-@onready var delete_button 		: Button = $VerticalLayout/Toolbar/HBoxContainer/Delete
+@onready var new_event_button 	: Button = $VerticalLayout/Toolbar/NewEvent
+@onready var new_action_button 	: Button = $VerticalLayout/Toolbar/NewAction
+@onready var settings_button	: Button = $VerticalLayout/Toolbar/EventSettings
+@onready var delete_button 		: Button = $VerticalLayout/Toolbar/Delete
 
 @export var unselected_event_theme 	: StyleBoxFlat
 @export var selected_event_theme 	: StyleBoxFlat
@@ -88,7 +89,7 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 	style_interface(get_selected_interface(), unselected_action_theme if selected_action_idx != -1 else unselected_event_theme)
 	
 	# Select
-	selected_action_idx = get_action_idx(interface, ignore_action)
+	selected_action_idx = get_action_idx(interface, ignore_action) # Todo: remove ignore action
 	new_event_idx = get_event_idx(interface)
 	
 	if selected_event_idx != new_event_idx:
@@ -96,9 +97,16 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 		event_selected.emit(selected_overlay.attached_events[selected_event_idx])
 	
 	# Style
-	style_interface(get_selected_interface(), selected_action_theme if selected_action_idx != -1 else selected_event_theme)
-	new_action_button.disabled = false
-	delete_button.disabled = false
+	var selected_interface := get_selected_interface()
+	style_interface(selected_interface, selected_action_theme if selected_action_idx != -1 else selected_event_theme)
+	
+	new_action_button.set_disabled(false)
+	settings_button.set_disabled(false)
+	delete_button.set_disabled(false)
+	
+	# Settings
+	settings_button.set_current_popup(selected_interface, selected_overlay.attached_events[selected_event_idx] if selected_action_idx == -1 else
+		selected_overlay.attached_events[selected_event_idx].actions[selected_action_idx - 1])
 
 
 func delete_selected() -> void:
@@ -113,8 +121,9 @@ func delete_selected() -> void:
 			selected_event_idx = -1
 		selected_action_idx = -1
 	
-	new_action_button.disabled = true
-	delete_button.disabled = true
+	new_action_button.set_disabled(true)
+	settings_button.set_disabled(true)
+	delete_button.set_disabled(true)
 
 
 func populate(overlay : Overlay) -> void:
@@ -131,8 +140,9 @@ func populate(overlay : Overlay) -> void:
 
 
 func clear() -> void:
-	new_event_button.disabled = true
-	new_action_button.disabled = true
+	new_action_button.set_disabled(true)
+	settings_button.set_disabled(true)
+	delete_button.set_disabled(true)
 	interface_container.clear()
 	selected_event_idx = -1
 	selected_action_idx = -1

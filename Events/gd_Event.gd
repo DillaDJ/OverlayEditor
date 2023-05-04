@@ -21,12 +21,15 @@ func process(delta):
 
 func toggle(value : bool):
 	enabled = value
-	trigger.enabled = enabled
+	
+	if trigger != null:
+		trigger.enabled = enabled
 
 
 # Setup
 func attach_trigger(event_trigger : Trigger):
 	trigger = event_trigger
+	trigger.enabled = enabled
 	
 	match trigger.type:
 		Trigger.Type.TIMED:
@@ -38,7 +41,7 @@ func attach_trigger(event_trigger : Trigger):
 		
 		Trigger.Type.TWITCH_CHAT:
 			Property.create_read(properties, "Username", TYPE_STRING, Callable(trigger, "get_message_user"))
-			Property.create_read(properties, "Username Color", TYPE_STRING_NAME, Callable(trigger, "get_message_user_color"))
+			Property.create_read(properties, "Username Color", TYPE_COLOR, Callable(trigger, "get_message_user_color"))
 			Property.create_read(properties, "Chat Message", TYPE_STRING_NAME, Callable(trigger, "get_message_contents"))
 	
 	if !trigger.is_connected("triggered", Callable(self, "execute_actions")):
@@ -46,7 +49,6 @@ func attach_trigger(event_trigger : Trigger):
 
 
 func reset(overlay : Overlay):
-	attach_trigger(trigger)
 	trigger.reset(overlay)
 	
 	for action in actions:
@@ -62,13 +64,12 @@ func match_properties(overlay : Overlay):
 
 # Event
 func duplicate_event() -> Event:
-	var duplicated_event := Event.new(false)
+	var duplicated_event := Event.new(enabled)
 	
-	duplicated_event.trigger = trigger.duplicate(true)
+	duplicated_event.attach_trigger(trigger.duplicate(true))
 	
 	for action in actions:
 		duplicated_event.add_action(action.duplicate(true))
-	duplicated_event.enabled = enabled
 	
 	return duplicated_event
 

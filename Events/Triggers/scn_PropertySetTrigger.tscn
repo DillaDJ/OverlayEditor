@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://21toic0nd77d"]
+[gd_scene load_steps=5 format=3 uid="uid://21toic0nd77d"]
 
-[ext_resource type="PackedScene" path="res://Events/scn_PropertySelector.tscn" id="1_5sts6"]
+[ext_resource type="PackedScene" uid="uid://dwkjurdfdrudy" path="res://Events/scn_PropertySelector.tscn" id="1_5sts6"]
 [ext_resource type="Script" path="res://Events/Triggers/gd_PropertySetTriggerInterface.gd" id="1_obj72"]
-[ext_resource type="PackedScene" path="res://Events/scn_FieldMatcher.tscn" id="3_ph4tx"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_x6taa"]
+[ext_resource type="PackedScene" uid="uid://cd2ujxubk3c1d" path="res://Events/scn_FieldMatcher.tscn" id="3_ph4tx"]
 
 [node name="PropertySetTrigger" type="VBoxContainer"]
 size_flags_horizontal = 3
@@ -14,40 +15,16 @@ layout_mode = 2
 [node name="WhenLabel" type="Label" parent="FieldLayout"]
 layout_mode = 2
 text = "When"
+label_settings = ExtResource("2_x6taa")
 
 [node name="PropertySelectButton" parent="FieldLayout" instance=ExtResource("1_5sts6")]
 layout_mode = 2
 mode = 1
 
-[node name="IsLabel" type="Label" parent="FieldLayout"]
+[node name="Label" type="Label" parent="FieldLayout"]
 layout_mode = 2
-text = "is"
-
-[node name="OptionButton" type="OptionButton" parent="FieldLayout"]
-layout_mode = 2
-item_count = 3
-selected = 0
-fit_to_longest_item = false
-popup/item_0/text = "Changed"
-popup/item_0/id = 0
-popup/item_1/text = "Less than"
-popup/item_1/id = 1
-popup/item_2/text = "More than"
-popup/item_2/id = 2
-
-[node name="AndLabel" type="Label" parent="FieldLayout"]
-visible = false
-layout_mode = 2
-text = "and"
-
-[node name="OrLabel" type="Label" parent="FieldLayout"]
-visible = false
-layout_mode = 2
-text = "or"
+text = "is changed"
+label_settings = ExtResource("2_x6taa")
 
 [node name="FieldMatcher" parent="FieldLayout" instance=ExtResource("3_ph4tx")]
 layout_mode = 2
-
-[node name="CheckBox" type="CheckBox" parent="."]
-layout_mode = 2
-text = "Equal to"

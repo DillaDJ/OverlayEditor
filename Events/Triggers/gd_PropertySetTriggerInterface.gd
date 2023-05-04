@@ -1,63 +1,81 @@
 extends VBoxContainer
 
-
-@onready var checkbox : CheckBox = $CheckBox
-@onready var options : OptionButton = $FieldLayout/OptionButton
 @onready var layout_container := $FieldLayout
-
-@onready var and_label : Label = $FieldLayout/AndLabel
-@onready var or_label : Label = $FieldLayout/OrLabel
-
+@onready var label : Label = $FieldLayout/Label
 @onready var field_matcher : FieldMatcher = $FieldLayout/FieldMatcher
 
+var settings_popup : PopupMenu
 
-func _ready():
-	checkbox.connect("toggled", Callable(self, "toggle_equals"))
-	options.connect("item_selected", Callable(self, "set_mode"))
+var mode : PropertySetTrigger.Mode = PropertySetTrigger.Mode.ANY
+var equal := false
 
 
-func toggle_equals(pressed : bool) -> void:
-	if pressed:
-		checkbox.reparent(layout_container)
-		layout_container.move_child(checkbox, 6)
-	else:
-		checkbox.reparent(self)
+func process_settings(id : int) -> void:
+	if id != 4:
+		settings_popup.set_item_checked(0, false)
+		settings_popup.set_item_checked(1, false)
+		settings_popup.set_item_checked(2, false)
 	
-	set_mode(options.selected)
+	match id:
+		0:
+			settings_popup.set_item_checked(0, true)
+			set_mode(PropertySetTrigger.Mode.ANY)
+			
+		1:
+			settings_popup.set_item_checked(1, true)
+			set_mode(PropertySetTrigger.Mode.LESS)
+		
+		2:
+			settings_popup.set_item_checked(2, true)
+			set_mode(PropertySetTrigger.Mode.MORE)
+		
+		4:
+			settings_popup.set_item_checked(4, !settings_popup.is_item_checked(4))
+			toggle_equal(!equal)
 
 
-func set_mode(idx : int) -> void:
-	if checkbox.is_pressed():
-		if idx == 0:
-			or_label.hide()
-			and_label.show()
-			field_matcher.show()
-		else:
-			and_label.hide()
-			or_label.show()
-			field_matcher.show()
+func toggle_equal(is_equal) -> void:
+	equal = is_equal
+	set_mode(mode)
+
+
+func set_mode(new_mode : PropertySetTrigger.Mode) -> void:
+	mode = new_mode
+	
+	if equal:
+		match new_mode:
+			PropertySetTrigger.Mode.ANY:
+				label.text = "is changed to"
+			PropertySetTrigger.Mode.LESS:
+				label.text = "is less than or equal to"
+			PropertySetTrigger.Mode.MORE:
+				label.text = "is more than or equal to"
+		field_matcher.show()
 	else:
-		if idx == 0:
-			or_label.hide()
-			and_label.hide()
-			field_matcher.hide()
-		else:
-			and_label.hide()
-			or_label.hide()
-			field_matcher.show()
+		match new_mode:
+			PropertySetTrigger.Mode.ANY:
+				label.text = "is changed"
+				field_matcher.hide()
+			PropertySetTrigger.Mode.LESS:
+				label.text = "is less than"
+				field_matcher.show()
+			PropertySetTrigger.Mode.MORE:
+				label.text = "is more than"
+				field_matcher.show()
 
 
-func disable_disallowed_modes(property : Property):
+func disable_disallowed_modes(property : Property) -> void:
+	if !property or !settings_popup:
+		return
+	
 	var allowed_modes = [TYPE_INT, TYPE_FLOAT]
 	
 	if property.type in allowed_modes:
-		options.set_item_disabled(1, false)
-		options.set_item_disabled(2, false)
-		
+		settings_popup.set_item_disabled(1, false)
+		settings_popup.set_item_disabled(2, false)
 	else:
-		if options.selected == 1 or options.selected == 2:
-			options.select(0)
-			options.item_selected.emit(0)
-		options.set_item_disabled(1, true)
-		options.set_item_disabled(2, true)
+		if mode == PropertySetTrigger.Mode.LESS or mode == PropertySetTrigger.Mode.MORE:
+			process_settings(0)
+		settings_popup.set_item_disabled(1, true)
+		settings_popup.set_item_disabled(2, true)
 

@@ -55,6 +55,18 @@ func check_for_trigger():
 				trigger()
 
 
+func process_settings(id : int) -> void:
+	match id:
+		0:
+			set_mode(Mode.ANY)
+		1:
+			set_mode(Mode.LESS)
+		2:
+			set_mode(Mode.MORE)
+		4:
+			toggle_equal()
+
+
 func toggle_equal():
 	equal = !equal
 
@@ -77,6 +89,13 @@ func set_property(new_property : Property, suppress_fill_in := false):
 			set_value(new_property.get_value())
 		
 		property.connect("property_set", Callable(self, "check_for_trigger"))
+
+
+func toggle_property(using_property : bool):
+	if using_property:
+		value_container.current_data_type = TYPE_OBJECT
+	elif property:
+		value_container.current_data_type = property.type
 
 
 func set_value(new_value):

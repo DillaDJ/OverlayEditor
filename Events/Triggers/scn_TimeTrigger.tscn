@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b1ksl3m6t3mc1"]
+[gd_scene load_steps=2 format=3 uid="uid://b1ksl3m6t3mc1"]
+
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="1_hqsba"]
 
 [node name="TimeTrigger" type="HBoxContainer"]
 size_flags_horizontal = 3
@@ -6,6 +8,7 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 text = "Every "
+label_settings = ExtResource("1_hqsba")
 
 [node name="SpinBox" type="SpinBox" parent="."]
 layout_mode = 2
@@ -17,3 +20,4 @@ value = 0.1
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2
 text = " seconds:"
+label_settings = ExtResource("1_hqsba")

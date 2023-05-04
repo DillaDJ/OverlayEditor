@@ -7,7 +7,7 @@ var channel_data : TwitchChannelData
 
 func _init():
 	type = Type.TWITCH_CHAT
-	connect_to_channel("shroud")
+	connect_to_channel("nukedboom")
 
 
 func connect_to_channel(channel : String) -> void:
@@ -35,7 +35,7 @@ func get_message_user() -> String:
 	if !channel_data or !channel_data.latest_message:
 		return ""
 	
-	return channel_data.latest_message.get_user()
+	return channel_data.latest_message.get_user_login()
 
 
 func get_message_user_color() -> Color:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://pabm1gymvuh0"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_IntProperty.gd" id="1_5uqa6"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_tb52y"]
 
 [node name="IntProperty" type="HBoxContainer"]
 script = ExtResource("1_5uqa6")
@@ -9,6 +10,7 @@ script = ExtResource("1_5uqa6")
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Int Property:"
+label_settings = ExtResource("2_tb52y")
 
 [node name="SpinBox" type="SpinBox" parent="."]
 layout_mode = 2

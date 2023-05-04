@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://br6im1rsdba2o"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_Vector4Property.gd" id="1_tuh5d"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_wyjl6"]
 
-[node name="Vector4Property" type="HBoxContainer"]
+[node name="Vector4Property" type="VBoxContainer"]
+size_flags_horizontal = 3
 script = ExtResource("1_tuh5d")
 
 [node name="Name" type="Label" parent="."]
@@ -10,60 +12,75 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Vector4 Property:"
+label_settings = ExtResource("2_wyjl6")
 
 [node name="CoordinateLayout" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="XY" type="HBoxContainer" parent="CoordinateLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="XLayout" type="HBoxContainer" parent="CoordinateLayout"]
+[node name="XLayout" type="HBoxContainer" parent="CoordinateLayout/XY"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="XLabel" type="Label" parent="CoordinateLayout/XLayout"]
+[node name="XLabel" type="Label" parent="CoordinateLayout/XY/XLayout"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "X:"
+label_settings = ExtResource("2_wyjl6")
 
-[node name="XCoords" type="SpinBox" parent="CoordinateLayout/XLayout"]
+[node name="XCoords" type="SpinBox" parent="CoordinateLayout/XY/XLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 9999.0
 
-[node name="YLayout" type="HBoxContainer" parent="CoordinateLayout"]
+[node name="YLayout" type="HBoxContainer" parent="CoordinateLayout/XY"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="YLabel" type="Label" parent="CoordinateLayout/YLayout"]
+[node name="YLabel" type="Label" parent="CoordinateLayout/XY/YLayout"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "Y:"
+label_settings = ExtResource("2_wyjl6")
 
-[node name="YCoords" type="SpinBox" parent="CoordinateLayout/YLayout"]
+[node name="YCoords" type="SpinBox" parent="CoordinateLayout/XY/YLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 9999.0
 
-[node name="ZLayout" type="HBoxContainer" parent="CoordinateLayout"]
+[node name="ZW" type="HBoxContainer" parent="CoordinateLayout"]
 layout_mode = 2
 
-[node name="ZLabel" type="Label" parent="CoordinateLayout/ZLayout"]
+[node name="ZLayout" type="HBoxContainer" parent="CoordinateLayout/ZW"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ZLabel" type="Label" parent="CoordinateLayout/ZW/ZLayout"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "Z:"
+label_settings = ExtResource("2_wyjl6")
 
-[node name="ZCoords" type="SpinBox" parent="CoordinateLayout/ZLayout"]
+[node name="ZCoords" type="SpinBox" parent="CoordinateLayout/ZW/ZLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 9999.0
 
-[node name="WLayout" type="HBoxContainer" parent="CoordinateLayout"]
+[node name="WLayout" type="HBoxContainer" parent="CoordinateLayout/ZW"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="WLabel" type="Label" parent="CoordinateLayout/WLayout"]
+[node name="WLabel" type="Label" parent="CoordinateLayout/ZW/WLayout"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "W:"
+label_settings = ExtResource("2_wyjl6")
 
-[node name="WCoords" type="SpinBox" parent="CoordinateLayout/WLayout"]
+[node name="WCoords" type="SpinBox" parent="CoordinateLayout/ZW/WLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 9999.0

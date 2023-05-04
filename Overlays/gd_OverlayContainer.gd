@@ -15,13 +15,17 @@ func _ready():
 
 func move_overlay(from_item : TreeItem, to_item : TreeItem, shift):
 	var from_path = hierarchy.get_item_node_path(from_item)
-	var from := get_node(from_path)
+	var from : Overlay = get_node(from_path)
 	var old_name := from.name
 	var new_idx := 0
 	
 	if !from:
-		print("???")
+		printerr("Overlay not found!")
 		return
+	
+	var old_parent = from.get_parent()
+	if old_parent != self and old_parent.position_property.is_connected("property_set", Callable(from.position_property, "emit_signal")):
+		old_parent.position_property.disconnect("property_set", Callable(from.position_property, "emit_signal"))
 	
 	if shift == -100:
 		from.reparent(self)
@@ -30,14 +34,14 @@ func move_overlay(from_item : TreeItem, to_item : TreeItem, shift):
 		return
 	
 	var to_path = hierarchy.get_item_node_path(to_item)
-	var to = get_node(to_path)
-	
-	# print(from_path, " ", to_path, " ", shift)
-	
+	var to : Overlay = get_node(to_path)
 	var parent
 	if shift == 0:
 		new_idx = to.get_child_count()
 		parent = to
+		
+		to.position_property.connect("property_set", Callable(from.position_property, "emit_signal").bind("property_set"))
+		
 	else:
 		if to_item.get_child_count() > 0 and shift == 1:
 			parent = to

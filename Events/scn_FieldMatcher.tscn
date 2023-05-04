@@ -1,37 +1,82 @@
-[gd_scene load_steps=7 format=3 uid="uid://cd2ujxubk3c1d"]
+[gd_scene load_steps=11 format=3 uid="uid://cd2ujxubk3c1d"]
 
-[ext_resource type="Texture2D" uid="uid://bc4wcvk3u03in" path="res://Icons/icon.svg" id="1_3vo0h"]
 [ext_resource type="Script" path="res://Events/gd_FieldMatcher.gd" id="1_edavj"]
-[ext_resource type="PackedScene" path="res://Events/scn_PropertySelector.tscn" id="3_glwj8"]
+[ext_resource type="Texture2D" uid="uid://csvbphv682d8t" path="res://Icons/property.png" id="2_lp0ib"]
+[ext_resource type="PackedScene" uid="uid://dwkjurdfdrudy" path="res://Events/scn_PropertySelector.tscn" id="3_glwj8"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="5_dq53d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_is24e"]
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.54902)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.588235)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_rw0pp"]
+font_size = 14
+font_color = Color(0.501961, 0.501961, 0.501961, 1)
+outline_color = Color(0.360784, 0.360784, 0.360784, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luw1a"]
 bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpruv"]
 bg_color = Color(1, 1, 1, 0.196078)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kisw1"]
-bg_color = Color(0, 0, 0, 0.196078)
+content_margin_left = 0.0
+bg_color = Color(0, 0, 0, 0.470588)
+border_width_bottom = 2
+border_color = Color(0.627451, 0.505882, 0.976471, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p07ot"]
+content_margin_left = 4.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 2
+border_color = Color(0.627451, 0.505882, 0.976471, 1)
+corner_radius_bottom_right = 4
 
 [node name="FieldMatcher" type="HBoxContainer"]
-visible = false
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("1_edavj")
 
-[node name="ToggleProperty" type="Button" parent="."]
-custom_minimum_size = Vector2(31, 31)
+[node name="Placeholder" type="Label" parent="."]
 layout_mode = 2
-tooltip_text = "Toggles reading between properties or event data and user input"
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_is24e")
+text = "select a property..."
+label_settings = SubResource("LabelSettings_rw0pp")
+horizontal_alignment = 1
+
+[node name="ToggleProperty" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+tooltip_text = "Toggles between reading property data or user input"
 theme_override_styles/normal = SubResource("StyleBoxFlat_luw1a")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mpruv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_kisw1")
-icon = ExtResource("1_3vo0h")
+toggle_mode = true
+icon = ExtResource("2_lp0ib")
 expand_icon = true
 
 [node name="PropertySelector" parent="." instance=ExtResource("3_glwj8")]
 visible = false
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_p07ot")
 
 [node name="CheckBox" type="CheckBox" parent="."]
 visible = false
@@ -39,7 +84,7 @@ layout_mode = 2
 
 [node name="SpinBox" type="SpinBox" parent="."]
 visible = false
-custom_minimum_size = Vector2(90, 32)
+custom_minimum_size = Vector2(90, 30)
 layout_mode = 2
 min_value = -1e+06
 max_value = 1e+06
@@ -47,7 +92,7 @@ step = 0.1
 
 [node name="LineEdit" type="LineEdit" parent="."]
 visible = false
-custom_minimum_size = Vector2(100, 32)
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 caret_blink = true
@@ -65,6 +110,7 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "X:
 "
+label_settings = ExtResource("5_dq53d")
 
 [node name="SpinBox" type="SpinBox" parent="Vector/XCoords"]
 custom_minimum_size = Vector2(85, 0)
@@ -80,6 +126,7 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "Y:
 "
+label_settings = ExtResource("5_dq53d")
 
 [node name="SpinBox" type="SpinBox" parent="Vector/YCoords"]
 custom_minimum_size = Vector2(85, 0)
@@ -96,6 +143,7 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "Z:
 "
+label_settings = ExtResource("5_dq53d")
 
 [node name="SpinBox" type="SpinBox" parent="Vector/ZCoords"]
 custom_minimum_size = Vector2(85, 0)
@@ -110,6 +158,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Vector/WCoords"]
 layout_mode = 2
 text = "W:"
+label_settings = ExtResource("5_dq53d")
 
 [node name="SpinBox" type="SpinBox" parent="Vector/WCoords"]
 custom_minimum_size = Vector2(85, 0)

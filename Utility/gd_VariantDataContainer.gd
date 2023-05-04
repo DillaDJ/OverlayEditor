@@ -92,6 +92,10 @@ func get_property() -> Property:
 
 
 func set_property(prop : Property) -> void:
-	current_data_type = TYPE_OBJECT
-	property_data = prop
+	if prop == null:
+		current_data_type = TYPE_NIL
+		property_data = null
+	else:
+		current_data_type = TYPE_OBJECT
+		property_data = prop
 

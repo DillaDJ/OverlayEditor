@@ -38,8 +38,8 @@ func _ready():
 	selection_stoppers.append(%TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG)
 	selection_stoppers.append(%ChangeMode/ToggleShow)
 	selection_stoppers.append(%ChangeMode/ToOverlayButton)
-	selection_stoppers.append(%HierarchyInspector/ToggleShow)
-	selection_stoppers.append(%HierarchyInspector/HBoxContainer)
+	selection_stoppers.append(%RightMenu/ToggleShow)
+	selection_stoppers.append(%RightMenu/HBoxContainer)
 	selection_stoppers.append(%PropertySelect)
 	selection_stoppers.append(%System)
 
@@ -96,6 +96,8 @@ func duplicate_overlay(overlay : Overlay) -> void:
 			new_overlays[i].attached_events[j] = new_overlays[i].attached_events[j].duplicate_event()
 			new_overlays[i].attached_events[j].match_properties(new_overlays[i])
 			new_overlays[i].attached_events[j].reset(new_overlays[i])
+			
+			connect("events_toggled", Callable(new_overlays[i].attached_events[j], "toggle"))
 	
 	overlay_created.emit(new_overlay)
 

@@ -1,18 +1,19 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://mcflddcurwjh"]
 
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Utility/Theme/thm_ActionUnselected.tres" id="1_0qi47"]
 [ext_resource type="Texture2D" uid="uid://dmc17mxboy2f0" path="res://Icons/burger.png" id="1_2i4wt"]
-[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Events/Actions/thm_ActionUnselected.tres" id="1_yf3m7"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="3_aleps"]
 [ext_resource type="PackedScene" path="res://Events/scn_PropertySelector.tscn" id="3_nufed"]
 
 [node name="PrintAction" type="PanelContainer"]
 size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource("1_yf3m7")
+theme_override_styles/panel = ExtResource("1_0qi47")
 
 [node name="HorizontalLayout" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="BurgerButton" type="Button" parent="HorizontalLayout"]
-custom_minimum_size = Vector2(32, 30)
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("1_2i4wt")
 flat = true
@@ -22,6 +23,8 @@ expand_icon = true
 [node name="Label" type="Label" parent="HorizontalLayout"]
 layout_mode = 2
 text = "Print "
+label_settings = ExtResource("3_aleps")
 
 [node name="PropertySelectButton" parent="HorizontalLayout" instance=ExtResource("3_nufed")]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
