@@ -2,8 +2,8 @@ class_name Trigger
 extends Resource
 
 
-enum Type { TIMED, TWITCH_CHAT, PROPERTY }
-@export var type : Type
+enum Type { NONE = -1, TIMED, TWITCH_CHAT, PROPERTY }
+@export var type : Type = Type.NONE
 
 var enabled := false
 

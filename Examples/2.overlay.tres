@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="OverlayData" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://Overlays/gd_PanelOverlay.gd" id="1_6alxh"]
+[ext_resource type="Script" path="res://Utility/gd_OverlayData.gd" id="2_sbh33"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jonlh"]
+bg_color = Color(0, 0.0627451, 1, 1)
+
+[sub_resource type="PackedScene" id="PackedScene_1jjav"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, -97.5, 13.5, 2.5, 122.5, 2, SubResource("StyleBoxFlat_jonlh"), ExtResource("1_6alxh"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_k05le"]
+script = ExtResource("2_sbh33")
+packed_scene = SubResource("PackedScene_1jjav")
+child_data = Array[ExtResource("2_sbh33")]([])
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjjy5"]
+bg_color = Color(0, 1, 0.0627451, 1)
+
+[sub_resource type="PackedScene" id="PackedScene_cv36j"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, 32.0, 18.5, 125.0, 137.5, 2, SubResource("StyleBoxFlat_wjjy5"), ExtResource("1_6alxh"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_oelkj"]
+script = ExtResource("2_sbh33")
+packed_scene = SubResource("PackedScene_cv36j")
+child_data = Array[ExtResource("2_sbh33")]([SubResource("Resource_k05le")])
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jt7s"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PackedScene" id="PackedScene_au6rc"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, 133.0, -190.0, 287.0, -47.0, 2, SubResource("StyleBoxFlat_7jt7s"), ExtResource("1_6alxh"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[resource]
+script = ExtResource("2_sbh33")
+packed_scene = SubResource("PackedScene_au6rc")
+child_data = Array[ExtResource("2_sbh33")]([SubResource("Resource_oelkj")])

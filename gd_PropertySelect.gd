@@ -86,7 +86,7 @@ func start_select(mode : PropertySelectButton.Mode, type : Variant.Type):
 		if property_item != global_property_list:
 			property_item.set_event_properties_disabled(disable_writing)
 		else:
-			property_item.set_properties_disabled(disable_writing)		
+			property_item.set_properties_disabled(disable_writing)
 		property_item.deselect_all()
 		
 	show()

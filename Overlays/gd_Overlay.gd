@@ -1,6 +1,7 @@
 class_name Overlay
 extends Control
 
+
 enum Type { NULL, PANEL, TEXTURE_PANEL, TEXT, RICH_TEXT, HBOX, VBOX, GRID }
 @export var type : Type
 
@@ -21,25 +22,26 @@ func _ready() -> void:
 	# Properties
 	Property.create_write(overridable_properties, "Name", 			TYPE_STRING, Callable(self, "get_name"), Callable(self, "set_overlay_name"))
 	
-	Property.create_formatting(overridable_properties)
+	position_property = \
+	Property.create_write(overridable_properties, "Position", 		TYPE_VECTOR2, Callable(self, "get_global_position"), Callable(self, "set_global_position"))
 	
-	position_property = (
-	Property.create_write(overridable_properties, "Position", 		TYPE_VECTOR2, Callable(self, "get_global_position"), Callable(self, "set_overlay_pos"))
-	)
-	
-	Property.create_write(overridable_properties, "Size", 			TYPE_VECTOR2, Callable(self, "get_size"), Callable(self, "set_overlay_size"))
+	Property.create_write(overridable_properties, "Size", 			TYPE_VECTOR2, Callable(self, "get_size"), Callable(self, "set_size"))
 	Property.create_write(overridable_properties, "Minimum Size", 	TYPE_VECTOR2, Callable(self, "get_custom_minimum_size"), Callable(self, "set_overlay_min_size"))
 
 
-func _physics_process(delta):
-	for event in attached_events:
-		event.process(delta)
+func _process(delta) -> void:
+	for property in overridable_properties:
+		
+		if property.animator:
+			if property is VectorSplitProperty:
+				continue # Prevents vector splits from speeding up animator
+			property.animator.animate(delta)
 
 
 # Property Setters
 func set_overlay_index(idx : int) -> void:
-	var parent = get_parent()
-	var child_count = parent.get_child_count()
+	var parent := get_parent()
+	var child_count := parent.get_child_count()
 	
 	if idx > child_count:
 		idx = child_count
@@ -53,14 +55,6 @@ func set_overlay_name(new_name : String) -> void:
 	set_name(new_name)
 	
 	name_changed.emit(new_name)
-
-
-func set_overlay_pos(new_pos) -> void:
-	set_global_position(new_pos)
-
-
-func set_overlay_size(new_size) -> void:
-	set_size(new_size)
 
 
 func set_overlay_min_size(new_size) -> void:

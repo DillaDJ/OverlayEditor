@@ -31,36 +31,35 @@ func connect_signals(interface : Control, event_or_action : Variant):
 
 
 func disconnect_signals():
-	if !current_event_or_action or ! current_interface:
-		return
-	
-	var type : Type = get_event_or_action_and_type(current_event_or_action)
-	match type:
-		Type.PROP_TRIGGER:
-			var popup = prop_trigger.get_popup()
-			if popup.is_connected("id_pressed", Callable(current_event_or_action.trigger, "process_settings")):
-				popup.disconnect("id_pressed", Callable(current_event_or_action.trigger, "process_settings"))
+	if current_event_or_action != null:
+		var type : Type = get_event_or_action_and_type(current_event_or_action)
+		match type:
+			Type.PROP_TRIGGER:
+				var popup = prop_trigger.get_popup()
+				if popup.is_connected("id_pressed", Callable(current_event_or_action.trigger, "process_settings")):
+					popup.disconnect("id_pressed", Callable(current_event_or_action.trigger, "process_settings"))
 			
-			if popup.is_connected("id_pressed", Callable(current_interface, "process_settings")):
-				popup.disconnect("id_pressed", Callable(current_interface, "process_settings"))
-			current_interface.settings_popup = null
+			Type.PROP_ACTION:
+				var popup = prop_action.get_popup()
+				if popup.is_connected("id_pressed", Callable(current_event_or_action, "process_settings")):
+					popup.disconnect("id_pressed", Callable(current_event_or_action, "process_settings"))
 		
-		Type.PROP_ACTION:
-			var popup = prop_action.get_popup()
-			if popup.is_connected("id_pressed", Callable(current_event_or_action, "process_settings")):
-				popup.disconnect("id_pressed", Callable(current_event_or_action, "process_settings"))
-				
-			if popup.is_connected("id_pressed", Callable(current_interface, "process_settings")):
-				popup.disconnect("id_pressed", Callable(current_interface, "process_settings"))
-			current_interface.settings_popup = null
+		current_event_or_action = null
 	
-	if current_popup_button and current_popup_button.get_popup().is_connected("id_pressed", Callable(current_interface, "process_settings")):
-		current_popup_button.get_popup().disconnect("id_pressed", Callable(current_interface, "process_settings"))
-	current_interface = null
-	current_event_or_action = null
+	if current_interface != null:
+		if current_interface.settings_popup.is_connected("id_pressed", Callable(current_interface, "process_settings")):
+			current_interface.settings_popup.disconnect("id_pressed", Callable(current_interface, "process_settings"))
+		current_interface.settings_popup = null
+		
+		if current_popup_button and current_popup_button.get_popup().is_connected("id_pressed", Callable(current_interface, "process_settings")):
+			current_popup_button.get_popup().disconnect("id_pressed", Callable(current_interface, "process_settings"))
+		
+		current_interface = null
 
 
 func set_current_popup(interface : Control, event_or_action : Variant) -> void:
+	if interface != current_interface:
+		reset_popups()
 	disconnect_signals()
 	
 	var type : Type = get_event_or_action_and_type(event_or_action)
@@ -95,7 +94,6 @@ func set_current_popup(interface : Control, event_or_action : Variant) -> void:
 	connect_signals(interface, event_or_action)
 
 
-
 func show_popup() -> void:
 	if current_popup_button == null:
 		set_disabled(true)
@@ -104,8 +102,20 @@ func show_popup() -> void:
 	current_popup_button.show_popup()
 
 
+func reset_popups():
+	var popup = prop_trigger.get_popup()
+	for i in range(popup.item_count):
+		popup.set_item_checked(i, false)
+	
+	popup = prop_action.get_popup()
+	for i in range(popup.item_count):
+		popup.set_item_checked(i, false)
+
+
 func clear():
 	current_popup_button = null
+	current_interface = null
+	current_event_or_action = null
 	set_disabled(true)
 
 

@@ -41,9 +41,6 @@ func populate_properties(overlay : Overlay):
 	overlay_list.clear()
 	
 	for property in overlay.overridable_properties:
-		if property.type == TYPE_NIL:
-			continue
-		
 		overlay_list.add_item(property.prop_name)
 	
 	refresh_event_properties()
@@ -122,6 +119,7 @@ func overlay_property_selected(idx : int):
 		return
 	
 	event_list.deselect_all()
+	
 	property_selected.emit(attached_overlay.overridable_properties[idx], self)
 
 

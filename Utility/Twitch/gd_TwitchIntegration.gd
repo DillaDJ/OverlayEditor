@@ -1,6 +1,7 @@
 class_name TwitchIntegration
 extends Node
 
+
 const username 		:= "overlayeditor"
 const client_id		:= "zwna9fh0wp9wx5f8i6saxt7igx5wf5"
 const client_secret	:= "wz5oyd785ppv1spw783lp6xaio63hw"
@@ -8,6 +9,7 @@ const token_path 	:= "user://token"
 
 var access_token	:= ""
 var refresh_token	:= ""
+var linked_account_data : Dictionary = {}
 
 var connected_channels : Dictionary = {}
 var http_requests : Array[HTTPRequest]
@@ -15,12 +17,14 @@ var poll_timer : Timer
 
 var expecting_uri_response := false
 
+
 signal auth_token_parsed(data)
 signal user_data_parsed(data)
 signal user_color_parsed(data)
 signal emote_data_parsed(data)
 signal image_data_parsed(data)
-signal tokens_loaded()
+
+signal twitch_account_linked(data)
 
 
 func _ready() -> void:
@@ -33,7 +37,7 @@ func _ready() -> void:
 	poll_timer.start()
 	
 	load_tokens()
-	#request_oauth_token("code=ub9np2sob9fw694b1cg5yoeri0bek9&scope=chat%3Aread+chat%3Aedit")
+	#request_oauth_token("code=eci2v72la324ne0wyf8xizgg1r3w1e&scope=chat%3Aread")
 
 
 func spawn_http_request() -> HTTPRequest:
@@ -75,7 +79,7 @@ func get_channel_from_last_message(value : String) -> String:
 
 
 # Tokens
-func load_tokens():
+func load_tokens() -> void:
 	var file : FileAccess 
 	if FileAccess.file_exists(token_path):
 		file = FileAccess.open(token_path, FileAccess.READ_WRITE)
@@ -84,16 +88,14 @@ func load_tokens():
 	
 	if file == null:
 		printerr("COULD NOT OPEN TOKENS")
-	elif file.get_length() == 0:
-		request_auth_code()
-	else:
+	elif file.get_length() != 0:
 		access_token = file.get_line().strip_edges()
 		refresh_token = file.get_line().strip_edges()
 		verify_tokens()
 	file.close()
 
 
-func save_tokens(data : Dictionary):
+func save_tokens(data : Dictionary) -> void:
 	var file := FileAccess.open(token_path, FileAccess.WRITE)
 	access_token = data["access_token"]
 	refresh_token = data["refresh_token"]
@@ -108,15 +110,24 @@ func save_tokens(data : Dictionary):
 	verify_tokens()
 
 
-func verify_tokens():
+func clear_tokens() -> void:
+	var file := FileAccess.open(token_path, FileAccess.WRITE)
+	
+	if file == null:
+		printerr("COULD NOT CLEAR TOKENS")
+	else:
+		file.store_string("")
+	file.close()
+
+
+func verify_tokens() -> void:
 	if access_token.length() != 30:
 		refresh_oauth_token()
 		return
 	elif refresh_token.length() != 50:
-		request_auth_code()
 		return
 	
-	tokens_loaded.emit()
+	request_app_user_data()
 
 
 # Authentication HTTP Requests
@@ -154,7 +165,15 @@ func refresh_oauth_token() -> void:
 
 
 # Other HTTP Requests
-func request_user_data(login_name : String):
+func request_app_user_data() -> void:
+	var http := spawn_http_request()
+	http.connect("request_completed", Callable(self, "parse_http_response_data").bind(http, ResponseType.APP_USER_DATA))
+	
+	http.request("https://api.twitch.tv/helix/users", \
+	PackedStringArray(["Authorization: Bearer %s" % access_token, "Client-Id: %s" % client_id]))
+
+
+func request_user_data(login_name : String) -> void:
 	var http := spawn_http_request()
 	http.connect("request_completed", Callable(self, "parse_http_response_data").bind(http, ResponseType.USER_DATA))
 	
@@ -162,7 +181,7 @@ func request_user_data(login_name : String):
 	PackedStringArray(["Authorization: Bearer %s" % access_token, "Client-Id: %s" % client_id]))
 
 
-func request_user_chat_color(user_id : int):
+func request_user_chat_color(user_id : int) -> void:
 	var http := spawn_http_request()
 	http.connect("request_completed", Callable(self, "parse_http_response_data").bind(http, ResponseType.COLOR_DATA))
 	
@@ -171,11 +190,12 @@ func request_user_chat_color(user_id : int):
 
 
 func request_global_emotes():
-	spawn_http_request().request("https://api.twitch.tv/helix/chat/emotes/global",
+	var http := spawn_http_request()
+	http.request("https://api.twitch.tv/helix/chat/emotes/global",
 	PackedStringArray(["Authorization: Bearer %s" % access_token, "Client-Id: %s" % client_id]))
 
 
-func request_channel_emotes(broadcaster_id : int):
+func request_channel_emotes(broadcaster_id : int) -> void:
 	var http := spawn_http_request()
 	http.connect("request_completed", Callable(self, "parse_http_response_data").bind(http, ResponseType.EMOTE))
 	
@@ -183,16 +203,14 @@ func request_channel_emotes(broadcaster_id : int):
 	PackedStringArray(["Authorization: Bearer %s" % access_token, "Client-Id: %s" % client_id]))
 
 
-func download_image(url : String):
+func download_image(url : String) -> void:
 	var http := spawn_http_request()
 	http.connect("request_completed", Callable(self, "parse_http_response_data").bind(http, ResponseType.IMAGE))
-	#var path := "user://cache/emotes/%s" % image_name
-	
 	http.request(url)
 
 
 # Parse HTTP responses
-enum ResponseType { AUTH_CODE, AUTH_REFRESH, USER_DATA, COLOR_DATA, EMOTE, IMAGE }
+enum ResponseType { AUTH_CODE, AUTH_REFRESH, APP_USER_DATA, USER_DATA, COLOR_DATA, EMOTE, IMAGE }
 func validate_http_response(response_code : int, body : PackedByteArray) -> bool:
 	if response_code == 200:
 		return true
@@ -221,6 +239,10 @@ func parse_http_response_data(_result : int, response_code : int, _headers : Pac
 			ResponseType.AUTH_REFRESH:
 				save_tokens(data)
 			
+			ResponseType.APP_USER_DATA:
+				linked_account_data = data["data"][0]
+				twitch_account_linked.emit(data["data"][0])
+				
 			ResponseType.USER_DATA:
 				user_data_parsed.emit(data["data"][0])
 			
@@ -241,7 +263,6 @@ func parse_http_response_data(_result : int, response_code : int, _headers : Pac
 			if response["message"] == "Invalid OAuth token":
 				refresh_oauth_token()
 			elif response["message"] == "Invalid refresh token":
-				#request_oauth_token("code=9bpruvge0jjag0ckru85g3rkaog9gw&scope=chat%3Aread")
-				request_auth_code()
+				pass
 	
 	despawn_http_request(http_request)

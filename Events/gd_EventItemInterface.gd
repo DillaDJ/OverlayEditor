@@ -131,8 +131,8 @@ func setup_property_action_interface(event_editor : EventEditor, action_interfac
 	# Set fields
 	action_interface.set_mode(action.add_mode)
 	action_interface.toggle_animating(action.animating)
-	anim_time.value = action.property_animator.length
-	anim_type.select(action.property_animator.type)
+	anim_time.value = action.anim_length
+	anim_type.select(action.anim_type)
 	
 	if action.property:
 		prop_select.text = action.property.get_display_name()
@@ -153,12 +153,13 @@ func setup_property_action_interface(event_editor : EventEditor, action_interfac
 	action.connect("value_nulled", Callable(field_matcher, "reset_property"))
 	field_matcher.connect("field_changed", Callable(action, "set_value"))
 	
-	anim_time.connect("value_changed", Callable(action.property_animator, "set_anim_length"))
-	anim_type.connect("item_selected", Callable(action.property_animator, "set_anim_type"))
+	anim_time.connect("value_changed", Callable(action, "set_anim_length"))
+	anim_type.connect("item_selected", Callable(action, "set_anim_type"))
 
 
 func setup_wait_action_interface(action_interface : Control, action : WaitAction):
 	var spinbox : SpinBox = action_interface.get_node("HorizontalLayout/SpinBox") 
+	spinbox.value = action.wait_time
 	spinbox.connect("value_changed", Callable(action, "set_wait_time"))
 
 

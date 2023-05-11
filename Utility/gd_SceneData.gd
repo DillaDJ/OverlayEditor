@@ -2,14 +2,16 @@ class_name SceneData
 extends Resource
 
 
-@export var scene_overlay_data : Array[OverlayData]
+@export var overlay_data : Array[OverlayData] = []
 
 
-func add_overlay_data(overlay_data : OverlayData) -> void:
-	scene_overlay_data.append(overlay_data)
+func add_overlay_data(data : OverlayData) -> void:
+	overlay_data.append(data)
 
 
 static func load_scene(path : String) -> Resource:
 	if ResourceLoader.exists(path):
-		return load(path)
+		var scene_data = ResourceLoader.load(path)
+		if scene_data is SceneData:
+			return scene_data
 	return null

@@ -89,6 +89,6 @@ func find_emote(emote_name : String) -> TwitchEmote:
 	var bsort_func = func(array_element : TwitchEmote, search_str: String): return array_element.name < search_str
 	var index = channel_emotes.bsearch_custom(emote_name, bsort_func)
 	
-	if index > channel_emotes.size() - 1 or channel_emotes[index].name != emote_name:
+	if index > channel_emotes.size() - 1:
 		return null
 	return channel_emotes[index]

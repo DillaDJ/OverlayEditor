@@ -1,3 +1,4 @@
+class_name Hierarchy
 extends Panel
 
 @onready var panel_icon : Texture2D = preload("res://Icons/panel.png")
@@ -132,6 +133,7 @@ func select_by_hierarchy() -> void:
 func select_by_overlay(overlay : Control) -> void:
 	var path = get_overlay_tree_path(overlay)
 	var to_select = get_tree_item_from_path(path)
+	
 	to_select.select(0)
 
 

@@ -2,21 +2,15 @@ class_name Event
 extends Resource
 
 
-@export var trigger : Trigger
+@export var trigger : Trigger = null
 @export var actions : Array[Action] = []
-var properties 		: Array[Property]
+var properties 		: Array[Property] = []
 
 var enabled = false
 
 
-func _init(is_enabled : bool):
+func _init(is_enabled : bool = false):
 	enabled = is_enabled
-
-
-func process(delta):
-	for action in actions:
-		if action.type == Action.Type.PROPERTY:
-			action.property_animator.animate(delta)
 
 
 func toggle(value : bool):

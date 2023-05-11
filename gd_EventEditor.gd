@@ -71,9 +71,6 @@ func create_action(action_type : Action.Type) -> void:
 		Action.Type.PROPERTY:
 			action = PropertyAction.new()
 			action.value_container = VariantDataContainer.new()
-			action.property_animator = PropertyAnimator.new()
-			action.property_animator.from = VariantDataContainer.new()
-			action.property_animator.to = VariantDataContainer.new()
 		
 		Action.Type.WAIT:
 			action = WaitAction.new()
@@ -105,8 +102,11 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 	delete_button.set_disabled(false)
 	
 	# Settings
-	settings_button.set_current_popup(selected_interface, selected_overlay.attached_events[selected_event_idx] if selected_action_idx == -1 else
-		selected_overlay.attached_events[selected_event_idx].actions[selected_action_idx - 1])
+	if selected_action_idx == -1:
+		settings_button.set_current_popup(selected_interface, selected_overlay.attached_events[selected_event_idx])
+	else:
+		settings_button.set_current_popup(selected_interface, 
+			selected_overlay.attached_events[selected_event_idx].actions[selected_action_idx - 1])
 
 
 func delete_selected() -> void:
@@ -122,8 +122,8 @@ func delete_selected() -> void:
 		selected_action_idx = -1
 	
 	new_action_button.set_disabled(true)
-	settings_button.set_disabled(true)
 	delete_button.set_disabled(true)
+	settings_button.clear()
 
 
 func populate(overlay : Overlay) -> void:

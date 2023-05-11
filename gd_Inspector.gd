@@ -36,16 +36,12 @@ func populate_from_path(path : String):
 func populate_properties(overlay : Overlay):
 	clear_properties()
 	
-	for property in overlay.overridable_properties:
+	for i in range(overlay.overridable_properties.size()):
+		var property = overlay.overridable_properties[i]
 		if property.hidden_prop:
 			continue
 		
 		match property.type:
-			TYPE_NIL:
-				if property.prop_name == "Separator":
-					var interface = separator.instantiate()
-					property_container.add_child(interface)
-			
 			TYPE_PACKED_INT32_ARRAY:
 				add_enum_property_interface(property)
 			
@@ -91,6 +87,8 @@ func populate_properties(overlay : Overlay):
 			
 			TYPE_PROJECTION:
 				add_property_interface(texture_property_scn, property)
+		
+		add_seperator(overlay.type, property.prop_name)
 
 
 func add_property_interface(property_scene : PackedScene, property : Property) -> Control:
@@ -118,6 +116,34 @@ func add_enum_property_interface(property : EnumProperty) -> void:
 	property_interface.set_prop_name(property.prop_name + ":")
 	
 	property_interface.connect("value_changed", Callable(property, "set_value"))
+
+
+func add_seperator(overlay_type : Overlay.Type, property_name : String): # Adds a seperator after certain properties
+	match overlay_type:
+		Overlay.Type.PANEL:
+			if property_name not in ["Name", "Color", "Border"]:
+				return
+		Overlay.Type.TEXTURE_PANEL:
+			if property_name not in ["Name", "Minimum Size", "Texture", "Region Margin"]:
+				return
+		Overlay.Type.TEXT:
+			if property_name not in ["Name", "Minimum Size", "Text Color"]:
+				return
+		Overlay.Type.RICH_TEXT:
+			if property_name not in ["Name", "Minimum Size"]:
+				return
+		Overlay.Type.HBOX:
+			if property_name not in ["Name", "Minimum Size"]:
+				return
+		Overlay.Type.VBOX:
+			if property_name not in ["Name", "Minimum Size"]:
+				return
+		Overlay.Type.GRID:
+			if property_name not in ["Name", "Minimum Size"]:
+				return
+	
+	var interface = separator.instantiate()
+	property_container.add_child(interface)
 
 
 func clear_properties():

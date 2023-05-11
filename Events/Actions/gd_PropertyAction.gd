@@ -4,9 +4,10 @@ extends Action
 @export var add_mode : bool
 @export var property : Property
 @export var value_container : VariantDataContainer
-@export var property_animator : PropertyAnimator
 
-var animating := false
+@export var animating := false
+@export var anim_length := 0.0
+@export var anim_type : PropertyAnimator.Type
 
 signal value_nulled()
 
@@ -31,16 +32,33 @@ func execute() -> void:
 	if property == null or value_container.get_value() == null:
 		return
 	
+	# Get new value
 	var new_value
 	if value_container.current_data_type == TYPE_OBJECT:
 		var prop_value = value_container.get_property().get_value()
 		new_value = prop_value + property.get_value() if add_mode else prop_value
 	else:
 		new_value = value_container.get_value() + property.get_value() if add_mode else value_container.get_value()
-
-	if animating and property_animator.length != 0:
-		property_animator.start(new_value)
+	
+	# Animation
+	if animating and anim_length != 0:
+		if property is VectorSplitProperty:
+			var split_value = new_value
+			new_value = property.vector_property.get_value()
+			if property.split_axis.x != 0:
+				new_value.x = split_value
+			elif property.split_axis.y != 0:
+				new_value.y = split_value
+			elif property.split_axis.z != 0:
+				new_value.z = split_value
+			elif property.split_axis.w != 0:
+				new_value.w = split_value
+		property.animator.start(new_value, anim_length, anim_type)
 		return
+	
+	# Non-animating
+	if property.animator:
+		property.animator.stop()
 	property.set_value(new_value)
 
 
@@ -65,10 +83,7 @@ func set_property(new_property : Property, suppress_fill_in := false) -> void:
 	elif !suppress_fill_in: # Keep user values when changed
 		set_value(new_property.get_value())
 	
-	var anim_allowed_modes := [TYPE_INT, TYPE_FLOAT, TYPE_VECTOR2, TYPE_VECTOR4, TYPE_COLOR]
-	if new_property.type in anim_allowed_modes:
-		property_animator.property = new_property
-	else:
+	if !new_property.animator:
 		animating = false
 	property = new_property
 
@@ -79,3 +94,11 @@ func set_value(new_value):
 		return
 	
 	value_container.set_value(new_value)
+
+
+func set_anim_length(new_value : float):
+	anim_length = new_value
+
+
+func set_anim_type(new_value : PropertyAnimator.Type):
+	anim_type = new_value

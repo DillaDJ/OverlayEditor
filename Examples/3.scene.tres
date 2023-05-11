@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="SceneData" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://Overlays/gd_PanelOverlay.gd" id="1_m18pd"]
+[ext_resource type="Script" path="res://Utility/gd_OverlayData.gd" id="2_mkj8u"]
+[ext_resource type="Script" path="res://Utility/gd_SceneData.gd" id="3_s4qvi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qsd68"]
+
+[sub_resource type="PackedScene" id="PackedScene_lfvbe"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, -343.0, 26.0, -179.0, 141.0, 2, SubResource("StyleBoxFlat_qsd68"), ExtResource("1_m18pd"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_2s1mv"]
+script = ExtResource("2_mkj8u")
+packed_scene = SubResource("PackedScene_lfvbe")
+child_data = Array[ExtResource("2_mkj8u")]([])
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1t6ld"]
+
+[sub_resource type="PackedScene" id="PackedScene_bmwf3"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay (1)", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 3, 9, 4, 10, 4, 11, 5, 12, 5, 13, 6, 14, 7, 15, 8, 16, 9, 0),
+"variants": [Vector2(40, 40), 0, 0.5, -20.0, 20.0, 2, SubResource("StyleBoxFlat_1t6ld"), ExtResource("1_m18pd"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_a4jec"]
+script = ExtResource("2_mkj8u")
+packed_scene = SubResource("PackedScene_bmwf3")
+child_data = Array[ExtResource("2_mkj8u")]([])
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32ruh"]
+
+[sub_resource type="PackedScene" id="PackedScene_hopop"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PanelOverlay (2)", "custom_minimum_size", "layout_mode", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "theme_override_styles/panel", "script", "type", "attached_events", "Panel"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 17, 0, -1, 16, 1, 0, 2, 1, 3, 2, 4, 2, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 0),
+"variants": [Vector2(40, 40), 0, 0.5, -168.0, -145.0, -128.0, -105.0, 2, SubResource("StyleBoxFlat_32ruh"), ExtResource("1_m18pd"), 1, Array[Resource("res://Events/gd_Event.gd")]([])],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_ll00c"]
+script = ExtResource("2_mkj8u")
+packed_scene = SubResource("PackedScene_hopop")
+child_data = Array[ExtResource("2_mkj8u")]([])
+
+[resource]
+script = ExtResource("3_s4qvi")
+overlay_data = Array[ExtResource("2_mkj8u")]([SubResource("Resource_2s1mv"), SubResource("Resource_a4jec"), SubResource("Resource_ll00c")])

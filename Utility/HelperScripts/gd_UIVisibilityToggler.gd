@@ -28,7 +28,7 @@ func _process(_delta):
 
 
 func hide_interface():
-	systemIO.display_message("Interface Hidden", "To unhide the interface, press any key after this message fades out")
+	systemIO.display_message("To unhide the interface, press any key after this message fades out", "Interface Hidden")
 	change_mode.hide()
 	top_menu.hide()
 	right_panel.hide()

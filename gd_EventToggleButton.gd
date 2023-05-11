@@ -2,19 +2,19 @@ extends Button
 
 
 @onready var editor : Editor = sngl_Utility.get_scene_root()
-
-@export var play_icon : Texture2D
-@export var stop_icon : Texture2D
-
-
-func _ready():
-	connect("button_down", Callable(self, "toggle_events")) 
+@onready var play_icon : Texture2D = preload("res://Icons/play.png")
+@onready var stop_icon : Texture2D = preload("res://Icons/stop.png")
 
 
-func toggle_events():
-	editor.toggle_events()
+func _ready() -> void:
+	connect("toggled", Callable(self, "toggle_events")) 
+
+
+func toggle_events(events_enabled) -> void:
+	editor.events_enabled = events_enabled
+	editor.events_toggled.emit(events_enabled)
 	
-	if icon == play_icon:
+	if events_enabled:
 		icon = stop_icon
 	else:
 		icon = play_icon

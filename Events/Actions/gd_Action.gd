@@ -2,8 +2,8 @@ class_name Action
 extends Resource
 
 
-enum Type { PRINT, PROPERTY, WAIT }
-@export var type : Type
+enum Type { NONE = -1, PRINT, PROPERTY, WAIT }
+@export var type : Type = Type.NONE
 
 
 func reset(_overlay : Overlay):

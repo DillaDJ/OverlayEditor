@@ -6,7 +6,10 @@ extends PanelContainer
 @onready var property_selector : Control = $HorizontalLayout/VerticalLayout/HorizontalLayout/PropertySelector
 @onready var mode_label : Label = $HorizontalLayout/VerticalLayout/HorizontalLayout/ModeLabel
 @onready var animation_options : Control = $HorizontalLayout/VerticalLayout/Options
+@onready var anim_time : SpinBox = $HorizontalLayout/VerticalLayout/Options/SpinBox
+@onready var anim_type : OptionButton = $HorizontalLayout/VerticalLayout/Options/OptionButton
 
+var current_property : Property
 var settings_popup : PopupMenu
 var add_mode := false
 var animating := false

@@ -67,6 +67,7 @@ func setup_vec_split(vector_prop : Property, axis : Vector4, is_hidden : bool = 
 		setup(vector_prop.prop_name + "." + axis_name, TYPE_FLOAT, Callable(self, "get_vector_value_from_axis"), is_hidden)
 	
 	vector_property = vector_prop
+	animator = vector_prop.animator
 	last_seen = vector_prop.get_value()
 	vector_prop.connect("property_set", Callable(self, "check_if_changed"))
 

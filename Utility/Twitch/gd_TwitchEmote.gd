@@ -37,11 +37,11 @@ func start_load_image(size : int = 0):
 	
 	if !FileAccess.file_exists(path):
 		image_loaded = false
-		sngl_Twitch.download_image(url_base + sizes[size])
 		if type == Type.STATIC and !sngl_Twitch.is_connected("image_data_parsed", Callable(self, "save_animated_image_to_cache")):
 			sngl_Twitch.connect("image_data_parsed", Callable(self, "save_image_to_cache").bind(path))
 		elif !sngl_Twitch.is_connected("image_data_parsed", Callable(self, "save_animated_image_to_cache")):
 			sngl_Twitch.connect("image_data_parsed", Callable(self, "save_animated_image_to_cache").bind(path))
+		sngl_Twitch.download_image(url_base + sizes[size])
 		return
 		
 	if !image_loaded or size != loaded_size:

@@ -2,8 +2,8 @@ class_name Editor
 extends Node
 
 
-@onready var hierarchy 	:= %Hierarchy
-@onready var system_io 	:= %System
+@onready var hierarchy : Hierarchy = %Hierarchy
+@onready var system_io : SystemIO = %System
 
 @onready var transform_tool		: TransformTool = %TransformTool
 @onready var overlay_container 	: Control = %OverlayElements
@@ -29,7 +29,8 @@ signal overlay_deselected()
 signal events_toggled(value)
 
 
-func _ready():
+func _ready() -> void:
+	sngl_SaveLoad.connect("save_complete", Callable(system_io, "display_message").bind("Save Complete"))
 	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
 	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
 	
@@ -41,24 +42,26 @@ func _ready():
 	selection_stoppers.append(%RightMenu/ToggleShow)
 	selection_stoppers.append(%RightMenu/HBoxContainer)
 	selection_stoppers.append(%PropertySelect)
-	selection_stoppers.append(%System)
+	selection_stoppers.append(%Settings)
 
 
-func _unhandled_input(event):
+func _unhandled_input(event) -> void:
 	if selected_overlay:
-		if event.is_action_pressed("left_click"):
-			deselect_overlay()
-		
 		if event.is_action_pressed("delete"):
 			prompt_delete(selected_overlay)
 		
 		if event.is_action_pressed("duplicate"):
 			duplicate_overlay(selected_overlay)
+		
+		if event.is_action_pressed("left_click"):
+			deselect_overlay()
 	
 	if event.is_action_pressed("save"):
 		prompt_save(0)
+	
 	elif event.is_action_pressed("hard_save"):
 		prompt_save(1)
+	
 	elif event.is_action_pressed("full_save"):
 		prompt_save(2)
 
@@ -75,31 +78,33 @@ func _process(delta):
 		mouse_hold_time += delta
 
 
-# Creation
-func create_overlay(overlay_scn : PackedScene) -> void:
-	var new_overlay : Control = overlay_scn.instantiate()
-	new_overlay.name = sngl_Utility.get_unique_name_amongst_siblings(new_overlay.name, new_overlay, overlay_container)
-	overlay_container.add_child(new_overlay)
-	overlay_created.emit(new_overlay)
+# Overlay
+func register_overlay(overlay : Overlay, parent : Control, to_reset : bool) -> void:
+	overlay.name = sngl_Utility.get_unique_name_amongst_siblings(overlay.name, overlay, parent)
+	parent.add_child(overlay)
+	
+	if to_reset:
+		reset_overlay(overlay)
+	
+	overlay_created.emit(overlay)
 
 
 func duplicate_overlay(overlay : Overlay) -> void:
-	var new_overlay = overlay.duplicate()
-	new_overlay.name = sngl_Utility.get_unique_name_amongst_siblings(new_overlay.name, new_overlay, overlay_container)
-	overlay_container.add_child(new_overlay)
+	var duplicated_overlay = overlay.duplicate()
+	register_overlay(duplicated_overlay, overlay_container, true)
+
+
+func reset_overlay(overlay_to_reset : Overlay):
+	var overlays := sngl_Utility.get_nested_children_flat(overlay_to_reset)
+	overlays.insert(0, overlay_to_reset)
 	
-	var new_overlays := sngl_Utility.get_nested_children_flat(new_overlay)
-	new_overlays.insert(0, new_overlay)
-	
-	for i in range(new_overlays.size()):
-		for j in range(new_overlays[i].attached_events.size()):
-			new_overlays[i].attached_events[j] = new_overlays[i].attached_events[j].duplicate_event()
-			new_overlays[i].attached_events[j].match_properties(new_overlays[i])
-			new_overlays[i].attached_events[j].reset(new_overlays[i])
+	for overlay in overlays:
+		for i in range(overlay.attached_events.size()):
+			overlay.attached_events[i] = overlay.attached_events[i].duplicate_event()
+			overlay.attached_events[i].match_properties(overlay)
+			overlay.attached_events[i].reset(overlay)
 			
-			connect("events_toggled", Callable(new_overlays[i].attached_events[j], "toggle"))
-	
-	overlay_created.emit(new_overlay)
+			connect("events_toggled", Callable(overlay.attached_events[i], "toggle"))
 
 
 # Selection
@@ -109,7 +114,7 @@ func check_for_selections(mouse_pos : Vector2) -> void:
 	
 	var overlays : Array[Node] = sngl_Utility.get_nested_children_flat(overlay_container)
 	var selection_group : Array[Node] = []
-	overlays.reverse()
+	overlays.reverse() # Front-to-back selection
 	
 	for overlay in overlays:
 		if overlay.get_global_rect().has_point(mouse_pos):
@@ -118,18 +123,25 @@ func check_for_selections(mouse_pos : Vector2) -> void:
 	if selection_group.size() > 0:
 		var selected_idx : int = selection_group.find(selected_overlay)
 		
-		if selected_idx != -1:
+		if selected_idx != -1: # Cycle through selections
 			var new_selection : Node = selection_group[(selected_idx + 1) % selection_group.size()]
 			if new_selection == selected_overlay:
 				return
 			click_select_overlay(new_selection)
-		else:
+		else: # Select the first thing
 			click_select_overlay(selection_group[0])
 
 
 func click_select_overlay(overlay : Control) -> void:
 	select_overlay(overlay)
 	overlay_click_selected.emit(overlay)
+
+
+func select_from_path(path : String) -> void:
+	var overlay : Control = overlay_container.get_node(path)
+	select_overlay(overlay)
+
+	overlay_hierarchy_selected.emit(overlay)
 
 
 func select_overlay(overlay : Control) -> void:
@@ -144,18 +156,11 @@ func deselect_overlay() -> void:
 	if !selected_overlay:
 		return
 	
-	if selected_overlay.is_connected("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item")):
-		selected_overlay.disconnect("hierarchy_order_changed", Callable(%Hierarchy, "move_overlay_tree_item"))
+	if selected_overlay.is_connected("hierarchy_order_changed", Callable(hierarchy, "move_overlay_tree_item")):
+		selected_overlay.disconnect("hierarchy_order_changed", Callable(hierarchy, "move_overlay_tree_item"))
 	selected_overlay = null
 	
 	overlay_deselected.emit()
-
-
-func select_from_path(path : String) -> void:
-	var overlay : Control = overlay_container.get_node(path)
-	select_overlay(overlay)
-
-	overlay_hierarchy_selected.emit(overlay)
 
 
 func is_point_in_interface(point : Vector2) -> bool:
@@ -169,23 +174,22 @@ func is_point_in_interface(point : Vector2) -> bool:
 func prompt_delete(overlay : Node) -> void:
 	system_io.prompt_confirmation("Confirm Deletion", "Really delete overlay %s?" % overlay.name)
 	system_io.connect("confirmed", Callable(self, "delete_overlay").bind(overlay))
-	system_io.connect("unconfirmed", Callable(self, "stop_delete"))
+	system_io.connect("unconfirmed", Callable(self, "cancel_delete"))
 
 
 func delete_overlay(overlay : Node) -> void:
 	overlay_deleted.emit()
 	overlay.queue_free()
-	
-	stop_delete()
+	cancel_delete()
 
 
-func stop_delete() -> void:
+func cancel_delete() -> void:
 	system_io.disconnect("confirmed", Callable(self, "delete_overlay"))
-	system_io.disconnect("unconfirmed", Callable(self, "stop_delete"))
+	system_io.disconnect("unconfirmed", Callable(self, "cancel_delete"))
 
 
 # Saving and Loading
-func new_scene():
+func new_scene() -> void:
 	deselect_overlay()
 	overlay_container.clear()
 
@@ -195,9 +199,8 @@ func prompt_save(save_type : int) -> void:
 	
 	if save_type == 0: # SAVE
 		var result := sngl_SaveLoad.save_previous()
-			
-		if result != "":
-			system_io.display_message("Save Successful", result)
+		
+		if result == Error.OK:
 			return
 	
 	if save_type == 0 or save_type == 1:
@@ -205,17 +208,18 @@ func prompt_save(save_type : int) -> void:
 			system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_overlay").bind(selected_overlay))
 			title = "Save Selected Overlay: %s" % selected_overlay.name
 		else:
-			system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(overlay_container, "Save Scene"))
+			system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(overlay_container))
 			title = "Save Scene"
 	else: # SAVE_SCENE
-		system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(selected_overlay, "Save Scene"))
+		system_io.connect("file_selected", Callable(sngl_SaveLoad, "save_scene").bind(overlay_container))
 		title = "Save Scene"
 	
+	system_io.connect("file_selected", Callable(self, "disconnect_file_signals"))
 	system_io.connect("file_cancelled", Callable(self, "disconnect_file_signals"))
 	system_io.prompt_save_file(title)
 
 
-func prompt_load(load_type : int):
+func prompt_load(load_type : int) -> void:
 	var filters : Array[String] = ["*.tscn", "*.tres"]
 	
 	match load_type:
@@ -224,41 +228,47 @@ func prompt_load(load_type : int):
 		1: # Overlay
 			system_io.connect("file_selected", Callable(self, "load_overlay"))
 	
+	system_io.connect("file_selected", Callable(self, "disconnect_file_signals"))
 	system_io.connect("file_cancelled", Callable(self, "disconnect_file_signals"))
 	system_io.prompt_load_file(filters)
 
 
-func load_overlay(path : String):
-	var overlay = sngl_SaveLoad.load_overlay_into_scene(path, overlay_container)
-	overlay_created.emit(overlay)
+func load_overlay(path : String) -> void:
+	var overlay : Overlay = sngl_SaveLoad.load_overlay(path)
 	
-	disconnect_file_signals()
+	if overlay:
+		register_overlay(overlay, overlay_container, true)
+	else:
+		printerr("Error loading overlay")
 
 
-func load_scene(path : String):
+func load_scene(path : String) -> void:
 	new_scene()
-	sngl_SaveLoad.load_scene_to_container(path, overlay_container)
 	
-	for overlay in overlay_container.get_children():
-		overlay_created.emit(overlay)
+	var overlays : Array[Overlay] = sngl_SaveLoad.load_scene(path)
 	
-	disconnect_file_signals()
+	if overlays != null:
+		for overlay in overlays:
+			register_overlay(overlay, overlay_container, true)
+	else:
+		printerr("Error loading scene")
 
 
-func disconnect_file_signals():
+func disconnect_file_signals(_path : String = ""):
 	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "save_overlay")):
 		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "save_overlay"))
 		
 	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "save_scene")):
 		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "save_scene"))
 	
-	if system_io.is_connected("file_selected", Callable(sngl_SaveLoad, "load_overlay")):
-		system_io.disconnect("file_selected", Callable(sngl_SaveLoad, "load_overlay"))
+	if system_io.is_connected("file_selected", Callable(self, "load_overlay")):
+		system_io.disconnect("file_selected", Callable(self, "load_overlay"))
+		
+	if system_io.is_connected("file_selected", Callable(self, "load_scene")):
+		system_io.disconnect("file_selected", Callable(self, "load_scene"))
+	
+	if system_io.is_connected("file_selected", Callable(self, "disconnect_file_signals")):
+		system_io.disconnect("file_selected", Callable(self, "disconnect_file_signals"))
 	
 	if system_io.is_connected("file_cancelled", Callable(self, "disconnect_file_signals")):
 		system_io.disconnect("file_cancelled", Callable(self, "disconnect_file_signals"))
-
-
-func toggle_events():
-	events_enabled = !events_enabled
-	events_toggled.emit(events_enabled)

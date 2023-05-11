@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=3 uid="uid://cttbku4lnibr8"]
+[gd_scene load_steps=103 format=3 uid="uid://cttbku4lnibr8"]
 
 [ext_resource type="PackedScene" uid="uid://bddye7g80a4he" path="res://Utility/OtherInterface/scn_ToggleContentContainer.tscn" id="1_ehu1h"]
 [ext_resource type="Script" path="res://gd_Editor.gd" id="1_w4h5f"]
@@ -38,11 +38,12 @@
 [ext_resource type="PackedScene" uid="uid://be2wo7fk5ffns" path="res://Utility/OtherInterface/scn_Separator.tscn" id="27_plnp8"]
 [ext_resource type="Script" path="res://gd_EventToggleButton.gd" id="28_2olqp"]
 [ext_resource type="Script" path="res://Utility/HelperScripts/gd_ChangeSceneButton.gd" id="28_uk5qy"]
-[ext_resource type="Texture2D" uid="uid://tmuilxh33711" path="res://Icons/stop.png" id="29_2cvot"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_BarResizer.gd" id="30_2sbud"]
 [ext_resource type="Script" path="res://gd_PropertySelect.gd" id="30_jjmu8"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_TabDragNDrop.gd" id="31_vp4v7"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_DraggableTree.gd" id="33_iw3tt"]
+[ext_resource type="Script" path="res://Utility/HelperScripts/gd_SettingsButton.gd" id="34_dse8j"]
+[ext_resource type="Texture2D" uid="uid://b4s7xq7qldx1m" path="res://Icons/question.png" id="34_fiihj"]
 [ext_resource type="Script" path="res://gd_EventEditor.gd" id="38_6jkux"]
 [ext_resource type="Script" path="res://gd_SystemIO.gd" id="39_cyawd"]
 [ext_resource type="Script" path="res://Utility/OtherInterface/gd_Message.gd" id="40_5724f"]
@@ -58,8 +59,13 @@
 [ext_resource type="Texture2D" uid="uid://bc6lyuxawaul" path="res://Icons/action.png" id="49_sijv2"]
 [ext_resource type="Script" path="res://Events/gd_EventSettings.gd" id="50_28hmv"]
 [ext_resource type="Texture2D" uid="uid://dmpu4dlcw7h72" path="res://Icons/bin.png" id="50_h3ly2"]
-[ext_resource type="StyleBox" uid="uid://cq47281n1gbce" path="res://Utility/Theme/thm_button_nonflat_normal.tres" id="57_n511e"]
-[ext_resource type="StyleBox" uid="uid://cywgduc0vv6a5" path="res://Utility/Theme/thm_button_nonflat_hover.tres" id="58_yavqg"]
+[ext_resource type="Theme" uid="uid://dt3q2ftoaf71v" path="res://Utility/Theme/thm_Button.tres" id="60_0fwfw"]
+[ext_resource type="Texture2D" uid="uid://bfy87hop0o11x" path="res://Icons/profile-default.png" id="60_8b5r2"]
+[ext_resource type="Script" path="res://gd_EditorSettings.gd" id="60_j2n68"]
+[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="60_xh5y8"]
+[ext_resource type="Shader" path="res://shd_CircleMask.gdshader" id="62_gjffi"]
+[ext_resource type="StyleBox" uid="uid://c0fvyvg6djxgt" path="res://Utility/Theme/thm_secondary_unrounded.tres" id="63_qc30m"]
+[ext_resource type="LabelSettings" uid="uid://2mce03igjxrm" path="res://Utility/Theme/thm_default_text_bold.tres" id="64_r8m3g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb07r"]
 bg_color = Color(0.968627, 0.305882, 0.654902, 0)
@@ -88,6 +94,13 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r5361"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buiey"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mujvi"]
 bg_color = Color(1, 1, 1, 0.588235)
@@ -309,6 +322,45 @@ _data = {
 "RESET": SubResource("Animation_xh6aa"),
 "fadeinout": SubResource("Animation_m5dns")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pec1e"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fl7ci"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xo1i8"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jlgpm"]
+shader = ExtResource("62_gjffi")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fe1tc"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0980392, 0.117647, 0.141176, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5n7l3"]
+bg_color = Color(0.321569, 0.152941, 0.568627, 1)
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2u4g8"]
+bg_color = Color(0.560784, 0.270588, 1, 1)
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
 
 [node name="Editor" type="Node"]
 script = ExtResource("1_w4h5f")
@@ -566,6 +618,7 @@ grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme = ExtResource("6_6be1u")
+theme_override_styles/panel = SubResource("StyleBoxFlat_buiey")
 
 [node name="ButtonLayout" type="HBoxContainer" parent="TopMenu/BGPanel"]
 layout_mode = 2
@@ -783,12 +836,11 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Toggle whether events are triggered or not (useful things liken when you are editing events that move overlay but you don't want them to fly away until you test them)"
+toggle_mode = true
 icon = ExtResource("27_380fe")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("28_2olqp")
-play_icon = ExtResource("27_380fe")
-stop_icon = ExtResource("29_2cvot")
 
 [node name="Save" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
 custom_minimum_size = Vector2(40, 40)
@@ -796,6 +848,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Shows and hides saving options"
+toggle_mode = true
 icon = ExtResource("26_5t0ix")
 icon_alignment = 1
 expand_icon = true
@@ -872,6 +925,17 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Hide UI elements and preview overlays"
 icon = ExtResource("7_5ii8i")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("34_dse8j")
+
+[node name="Help" type="Button" parent="TopMenu/BGPanel/ButtonLayout"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "View documentation and other help for the editor"
+icon = ExtResource("34_fiihj")
 icon_alignment = 1
 expand_icon = true
 
@@ -1186,7 +1250,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("6_6be1u")
+theme = ExtResource("60_0fwfw")
 script = ExtResource("30_jjmu8")
 
 [node name="PanelContainer" type="PanelContainer" parent="PropertySelect"]
@@ -1271,33 +1335,24 @@ layout_mode = 2
 [node name="Confirm" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/ButtonLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = ExtResource("57_n511e")
-theme_override_styles/hover = ExtResource("58_yavqg")
 disabled = true
 text = "Confirm"
 
 [node name="Cancel" type="Button" parent="PropertySelect/PanelContainer/VBoxContainer/ButtonLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = ExtResource("57_n511e")
-theme_override_styles/hover = ExtResource("58_yavqg")
 text = "Cancel"
 
 [node name="System" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("39_cyawd")
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="System"]
-position = Vector2i(500, 500)
-size = Vector2i(300, 100)
-theme = ExtResource("6_6be1u")
 
 [node name="Message" type="Panel" parent="System"]
 visible = false
@@ -1346,6 +1401,144 @@ theme_override_colors/font_color = Color(0.588235, 0.623529, 0.682353, 1)
 text = "Subtitle"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Settings" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("60_0fwfw")
+script = ExtResource("60_j2n68")
+
+[node name="Window" type="PanelContainer" parent="Settings"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = -103.5
+offset_right = 155.0
+offset_bottom = 103.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pec1e")
+
+[node name="VerticalLayout" type="VBoxContainer" parent="Settings/Window"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Heading" type="Label" parent="Settings/Window/VerticalLayout"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="Settings/Window/VerticalLayout"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fl7ci")
+
+[node name="TabContainer" type="TabContainer" parent="Settings/Window/VerticalLayout"]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xo1i8")
+
+[node name="General" type="ScrollContainer" parent="Settings/Window/VerticalLayout/TabContainer"]
+layout_mode = 2
+
+[node name="VerticalLayout" type="VBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="TwitchLogin" type="PanelContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("47_qqs2y")
+
+[node name="Layout" type="HBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProfilePicture" type="TextureRect" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout"]
+material = SubResource("ShaderMaterial_jlgpm")
+custom_minimum_size = Vector2(61, 61)
+layout_mode = 2
+texture = ExtResource("60_8b5r2")
+expand_mode = 2
+
+[node name="RightLayout" type="VBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("63_qc30m")
+text = "Linked Twitch Account:"
+label_settings = ExtResource("64_r8m3g")
+
+[node name="ConnectionLayout" type="HBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Username" type="Label" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout/ConnectionLayout"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_fe1tc")
+text = "None"
+label_settings = ExtResource("60_xh5y8")
+horizontal_alignment = 1
+
+[node name="LinkAccount" type="Button" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout/ConnectionLayout"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_5n7l3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2u4g8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5n7l3")
+text = "Link"
+
+[node name="SideMenu" type="VBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/SideMenu"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Side Menu Position"
+label_settings = ExtResource("64_r8m3g")
+vertical_alignment = 1
+
+[node name="ButtonLayout" type="HBoxContainer" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/SideMenu"]
+layout_mode = 2
+
+[node name="Left" type="Button" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/SideMenu/ButtonLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_pressed = true
+text = "Left"
+
+[node name="Right" type="Button" parent="Settings/Window/VerticalLayout/TabContainer/General/VerticalLayout/SideMenu/ButtonLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Right"
+
+[node name="Close" type="Button" parent="Settings/Window"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "x"
+flat = true
 
 [editable path="TopMenu"]
 [editable path="TopMenu/BGPanel/ButtonLayout/Save/SaveBG/ButtonLayout/Spacer"]

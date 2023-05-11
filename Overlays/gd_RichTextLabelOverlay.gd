@@ -6,8 +6,6 @@ func _ready():
 	type = Type.RICH_TEXT
 	
 	# Properties
-	Property.create_formatting(overridable_properties)
-	
 	Property.create_write(overridable_properties, "Twitch Chat Text", TYPE_STRING_NAME, Callable(self, "get_text"), Callable(self, "set_text_as_twitch_chat"))
 	
 	Property.create_write(overridable_properties, "Text Size", TYPE_INT, Callable(self, "get_text_size"), Callable(self, "set_text_size"))

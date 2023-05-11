@@ -1,11 +1,11 @@
+class_name SystemIO
 extends Control
 
-
-@onready var confirm_dialog : ConfirmationDialog = $ConfirmationDialog
 @onready var message 		: Control = $Message
-@onready var base_theme		: Theme = preload("res://Utility/Theme/thm_Base.tres")
+@onready var button_theme	: Theme = preload("res://Utility/Theme/thm_Button.tres")
 
-var file_dialog : FileDialog
+var confirm_dialog 	: ConfirmationDialog
+var file_dialog 	: FileDialog
 
 signal confirmed()
 signal unconfirmed()
@@ -17,6 +17,7 @@ signal file_cancelled()
 func _ready():
 	message.connect("message_expired", Callable(self, "hide"))
 	
+	create_confirm_dialogue()
 	confirm_dialog.connect("confirmed", Callable(self, "confirm"))
 	confirm_dialog.connect("canceled", Callable(self, "unconfirm"))
 	
@@ -26,15 +27,23 @@ func _ready():
 
 
 # System Message
-func display_message(title, subtitle):
-	show()
+func display_message(subtitle : String, title : String) -> void: # Ordered to preserve title when using bind()
 	message.title.text = title
 	message.subtitle.text = subtitle
+	show()
 	
 	message.anim.play("fadeinout")
 
 
 # Confirmation Dialog
+func create_confirm_dialogue():
+	if confirm_dialog == null:
+		confirm_dialog = ConfirmationDialog.new()
+		get_tree().root.add_child(confirm_dialog)
+		
+		confirm_dialog.set_theme(button_theme)
+
+
 func prompt_confirmation(title : String, popup_message : String):
 	confirm_dialog.title = title
 	confirm_dialog.dialog_text = popup_message
@@ -60,7 +69,7 @@ func create_file_dialogue():
 		file_dialog = FileDialog.new()
 		get_tree().root.add_child(file_dialog)
 		
-		file_dialog.set_theme(base_theme)
+		file_dialog.set_theme(button_theme)
 		file_dialog.set_access(FileDialog.ACCESS_FILESYSTEM)
 		
 		file_dialog.size = Vector2i(800, 600)
