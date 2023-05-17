@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://21toic0nd77d"]
+[gd_scene load_steps=5 format=3 uid="uid://ct3wks1dqi8c6"]
 
 [ext_resource type="PackedScene" uid="uid://dwkjurdfdrudy" path="res://Events/scn_PropertySelector.tscn" id="1_5sts6"]
 [ext_resource type="Script" path="res://Events/Triggers/gd_PropertySetTriggerInterface.gd" id="1_obj72"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_x6taa"]
-[ext_resource type="PackedScene" uid="uid://cd2ujxubk3c1d" path="res://Events/scn_FieldMatcher.tscn" id="3_ph4tx"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_x6taa"]
+[ext_resource type="PackedScene" path="res://Events/scn_FieldMatcher.tscn" id="3_ph4tx"]
 
 [node name="PropertySetTrigger" type="VBoxContainer"]
 size_flags_horizontal = 3

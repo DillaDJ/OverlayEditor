@@ -142,7 +142,6 @@ func deselect_all(_mouse_pos : Vector2, _mouse_btn_idx : int) -> void:
 	emit_signal("items_deselected")
 
 
-
 # Utility
 func get_item_node_path(item : TreeItem) -> String:
 	var path := ""

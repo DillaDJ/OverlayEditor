@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6wavenevcl6l"]
+[gd_scene load_steps=3 format=3 uid="uid://d3jfoux4udw6p"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_Vector2Property.gd" id="1_imgd5"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_vxltj"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_vxltj"]
 
 [node name="Vector2Property" type="VBoxContainer"]
 script = ExtResource("1_imgd5")

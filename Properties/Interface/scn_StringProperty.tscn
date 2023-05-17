@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://buujr7qxrkksh"]
+[gd_scene load_steps=3 format=3 uid="uid://cfmgnelpkj83v"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_StringProperty.gd" id="1_0gf6y"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_rb602"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_rb602"]
 
 [node name="StringProperty" type="VBoxContainer"]
 script = ExtResource("1_0gf6y")

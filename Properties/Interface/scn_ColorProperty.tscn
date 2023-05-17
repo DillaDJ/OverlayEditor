@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://biun85mugy41i"]
+[gd_scene load_steps=3 format=3 uid="uid://b4t4eek2pftrr"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_ColorProperty.gd" id="1_plgjh"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_lok54"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_lok54"]
 
 [node name="ColorProperty" type="HBoxContainer"]
 script = ExtResource("1_plgjh")

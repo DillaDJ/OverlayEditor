@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1ksl3m6t3mc1"]
+[gd_scene load_steps=2 format=3 uid="uid://bx73ni383hgq4"]
 
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="1_hqsba"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="1_hqsba"]
 
 [node name="TimeTrigger" type="HBoxContainer"]
 size_flags_horizontal = 3

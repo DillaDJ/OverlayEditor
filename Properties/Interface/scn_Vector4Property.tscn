@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://br6im1rsdba2o"]
+[gd_scene load_steps=3 format=3 uid="uid://pmosubdmcg4q"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_Vector4Property.gd" id="1_tuh5d"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_wyjl6"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_wyjl6"]
 
 [node name="Vector4Property" type="VBoxContainer"]
 size_flags_horizontal = 3

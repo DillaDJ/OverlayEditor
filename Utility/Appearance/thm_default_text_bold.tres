@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://bii25oq2yeq3v"]
+
+[ext_resource type="SystemFont" uid="uid://btyoewv7q1qu" path="res://Utility/Appearance/thm_editor_font.tres" id="1_um0aj"]
+
+[sub_resource type="FontVariation" id="FontVariation_abp0m"]
+base_font = ExtResource("1_um0aj")
+variation_embolden = 1.0
+
+[resource]
+font = SubResource("FontVariation_abp0m")
+font_size = 14

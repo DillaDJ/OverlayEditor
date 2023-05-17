@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddkoj4sjvaifv"]
+[gd_scene load_steps=3 format=3 uid="uid://d2mlfc2kd4ay8"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_ShortStringProperty.gd" id="1_a6yem"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_4teft"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_4teft"]
 
 [node name="StringProperty" type="HBoxContainer"]
 script = ExtResource("1_a6yem")

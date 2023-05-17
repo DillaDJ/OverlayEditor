@@ -1,21 +1,19 @@
-extends Control
+extends PanelContainer
 
-
-@onready var link_btn : Button = $Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout/ConnectionLayout/LinkAccount
-@onready var username : Label = $Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/RightLayout/ConnectionLayout/Username
-@onready var profile : TextureRect = $Window/VerticalLayout/TabContainer/General/VerticalLayout/TwitchLogin/Layout/ProfilePicture
 
 @onready var default_user_texture : Texture2D = preload("res://Icons/profile-default.png")
 
+@onready var link_btn 		: Button = $Layout/RightLayout/ConnectionLayout/LinkAccount
+@onready var username 		: Label = $Layout/RightLayout/ConnectionLayout/Username
+@onready var profile 		: TextureRect = $Layout/ProfilePicture
 
-func _ready() -> void:
+
+func _ready():
 	link_btn.connect("button_down", Callable(self, "link_twitch_account"))
 	sngl_Twitch.connect("twitch_account_linked", Callable(self, "display_user"))
 	
 	if sngl_Twitch.linked_account_data:
 		display_user(sngl_Twitch.linked_account_data)
-	
-	$Window/Close.connect("button_down", Callable(self, "hide"))
 
 
 func link_twitch_account() -> void:
@@ -59,5 +57,3 @@ func set_profile_pic(data : PackedByteArray) -> void:
 	var image_texture := ImageTexture.create_from_image(image_to_load)
 	profile.texture = image_texture
 	return
-
-

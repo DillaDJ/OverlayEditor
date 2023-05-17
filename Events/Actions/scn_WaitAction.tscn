@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://weboe05mpv72"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Texture2D" uid="uid://dmc17mxboy2f0" path="res://Icons/burger.png" id="1_2i4wt"]
-[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Utility/Theme/thm_ActionUnselected.tres" id="1_yf3m7"]
+[ext_resource type="StyleBox" uid="uid://cklb76s6bhkr4" path="res://Utility/Appearance/Theme/thm_Unselected.tres" id="1_yf3m7"]
 
 [node name="PrintAction" type="PanelContainer"]
 size_flags_horizontal = 3

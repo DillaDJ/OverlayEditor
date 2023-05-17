@@ -1,3 +1,4 @@
+class_name ToggleContentContainer
 extends Control
 
 enum DockedEdge { LEFT, TOP, RIGHT, BOTTOM }
@@ -10,13 +11,15 @@ enum ToggleType { CLICK, HOVER }
 
 @export var unhover_hider : Button
 
-@export var move_width := 180
 @export var hide_toggle_button := false
+
+@export var extra_move_offset := 0
 
 var anim_lib  : AnimationLibrary
 
 var hovering_content := false
 var toggled := false
+var move_width := 0
 
 
 func _ready():
@@ -24,7 +27,12 @@ func _ready():
 		var toggle_button : Button = $ToggleShow 
 		toggle_button.text = ""
 		toggle_button.flat = true
-		
+	
+	if docked_edge == DockedEdge.LEFT or docked_edge == DockedEdge.RIGHT:
+		move_width = get_child(2).size.x + extra_move_offset
+	else:
+		move_width = get_child(2).size.y + extra_move_offset
+	
 	setup_params()
 	setup_animations()
 

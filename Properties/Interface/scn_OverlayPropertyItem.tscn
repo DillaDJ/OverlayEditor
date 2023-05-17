@@ -1,12 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://xd0kjmcecvgr"]
+[gd_scene load_steps=5 format=3 uid="uid://b8fqtulpqrgmc"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_OverlayPropertyItem.gd" id="1_8aeew"]
-[ext_resource type="StyleBox" uid="uid://dtudci3yxsvff" path="res://Utility/Theme/thm_header.tres" id="2_bxkdx"]
 [ext_resource type="Texture2D" uid="uid://bulx7384td3sc" path="res://Icons/caret-on.png" id="2_p38wg"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ydga"]
-content_margin_top = 4.0
-bg_color = Color(0.0431373, 0.0431373, 0.0431373, 0.784314)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6a17c"]
 
@@ -18,7 +13,7 @@ script = ExtResource("1_8aeew")
 
 [node name="HeaderBG" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_bxkdx")
+theme_type_variation = &"Header"
 
 [node name="HeaderLayout" type="HBoxContainer" parent="HeaderBG"]
 layout_mode = 2
@@ -38,7 +33,6 @@ text = "Overlay Name (OverlayType)"
 
 [node name="PropertyBG" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2ydga")
 
 [node name="PropertyLists" type="VBoxContainer" parent="PropertyBG"]
 layout_mode = 2
@@ -49,6 +43,7 @@ text = "Event Properties (Read Only):"
 
 [node name="EventPropertyList" type="ItemList" parent="PropertyBG/PropertyLists"]
 layout_mode = 2
+theme_type_variation = &"Tertiary"
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6a17c")
 auto_height = true
 
@@ -58,5 +53,6 @@ text = "Overlay Properties:"
 
 [node name="OverlayPropertyList" type="ItemList" parent="PropertyBG/PropertyLists"]
 layout_mode = 2
+theme_type_variation = &"Tertiary"
 theme_override_styles/focus = SubResource("StyleBoxEmpty_10sed")
 auto_height = true

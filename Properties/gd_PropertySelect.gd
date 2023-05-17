@@ -5,9 +5,9 @@ extends Control
 @onready var property_item_scn : PackedScene = preload("res://Properties/Interface/scn_OverlayPropertyItem.tscn")
 
 @onready var editor : Editor = sngl_Utility.get_scene_root()
-@onready var property_container : Control = $PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer
-@onready var global_property_list = $PanelContainer/VBoxContainer/ScrollContainer/PropertyContainer/GlobalProperties
-@onready var confirm_button : Button = $PanelContainer/VBoxContainer/ButtonLayout/Confirm
+@onready var property_container : Control = $VBoxContainer/ScrollContainer/PropertyContainer
+@onready var global_property_list = $VBoxContainer/ScrollContainer/PropertyContainer/GlobalProperties
+@onready var confirm_button : Button = $VBoxContainer/ButtonLayout/Confirm
 
 var selected_property : Property
 
@@ -21,8 +21,8 @@ func _ready():
 	event_menu.connect("event_created", Callable(self, "refresh_events"))
 	event_menu.connect("event_deleted", Callable(self, "refresh_events"))
 	
-	$PanelContainer/VBoxContainer/ButtonLayout/Confirm.connect("button_down", Callable(self, "confirm"))
-	$PanelContainer/VBoxContainer/ButtonLayout/Cancel.connect("button_down", Callable(self, "cancel"))
+	$VBoxContainer/ButtonLayout/Confirm.connect("button_down", Callable(self, "confirm"))
+	$VBoxContainer/ButtonLayout/Cancel.connect("button_down", Callable(self, "cancel"))
 	
 	editor.connect("overlay_selected", Callable(self, "load_properties_from_overlay"))
 	

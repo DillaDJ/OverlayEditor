@@ -127,7 +127,7 @@ func add_seperator(overlay_type : Overlay.Type, property_name : String): # Adds 
 			if property_name not in ["Name", "Minimum Size", "Texture", "Region Margin"]:
 				return
 		Overlay.Type.TEXT:
-			if property_name not in ["Name", "Minimum Size", "Text Color"]:
+			if property_name not in ["Name", "Minimum Size", "Text Font"]:
 				return
 		Overlay.Type.RICH_TEXT:
 			if property_name not in ["Name", "Minimum Size"]:

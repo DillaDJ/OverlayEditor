@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://pabm1gymvuh0"]
+[gd_scene load_steps=3 format=3 uid="uid://cdo6l24ytgvbf"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_IntProperty.gd" id="1_5uqa6"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_tb52y"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_tb52y"]
 
 [node name="IntProperty" type="HBoxContainer"]
 script = ExtResource("1_5uqa6")

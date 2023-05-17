@@ -103,7 +103,7 @@ func save_tokens(data : Dictionary) -> void:
 	if file == null:
 		printerr("COULD NOT SAVE TOKENS")
 	else:
-		file.store_string(access_token + "\n")
+		file.store_line(access_token)
 		file.store_string(refresh_token)
 	file.close()
 	

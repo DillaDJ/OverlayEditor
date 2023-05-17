@@ -1,5 +1,5 @@
 class_name Editor
-extends Node
+extends Control
 
 
 @onready var hierarchy : Hierarchy = %Hierarchy
@@ -34,15 +34,17 @@ func _ready() -> void:
 	%Hierarchy.connect("item_selected", Callable(self, "select_from_path"))
 	%Hierarchy.connect("items_deselected", Callable(self, "deselect_overlay"))
 	
-	selection_stoppers.append(%TopMenu/ToggleShow)
-	selection_stoppers.append(%TopMenu/BGPanel)
-	selection_stoppers.append(%TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG)
-	selection_stoppers.append(%ChangeMode/ToggleShow)
-	selection_stoppers.append(%ChangeMode/ToOverlayButton)
-	selection_stoppers.append(%RightMenu/ToggleShow)
-	selection_stoppers.append(%RightMenu/HBoxContainer)
-	selection_stoppers.append(%PropertySelect)
-	selection_stoppers.append(%Settings)
+	selection_stoppers.append($TopMenu/ToggleShow)
+	selection_stoppers.append($TopMenu/BGPanel)
+	selection_stoppers.append($TopMenu/BGPanel/ButtonLayout/ToggleGrid/GridSettingsBG)
+	selection_stoppers.append($TopMenu/BGPanel/ButtonLayout/Save/SaveBG)
+	selection_stoppers.append($ChangeMode)
+	selection_stoppers.append($RightMenu/ToggleShow)
+	selection_stoppers.append($RightMenu/HBoxContainer)
+	selection_stoppers.append($PropertySelect)
+	selection_stoppers.append($System)
+	selection_stoppers.append($Settings)
+	selection_stoppers.append($Help)
 
 
 func _unhandled_input(event) -> void:
@@ -130,6 +132,8 @@ func check_for_selections(mouse_pos : Vector2) -> void:
 			click_select_overlay(new_selection)
 		else: # Select the first thing
 			click_select_overlay(selection_group[0])
+	else:
+		deselect_overlay()
 
 
 func click_select_overlay(overlay : Control) -> void:

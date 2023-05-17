@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmcuquyl4hjyd"]
+[gd_scene load_steps=2 format=3 uid="uid://crvqahafveyp"]
 
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="1_u8wwv"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="1_u8wwv"]
 
 [node name="TwitchChatTrigger" type="HBoxContainer"]
 size_flags_horizontal = 3

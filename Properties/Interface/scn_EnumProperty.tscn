@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://by3jcoboqf5dl"]
+[gd_scene load_steps=3 format=3 uid="uid://dx02mubdugxt5"]
 
 [ext_resource type="Script" path="res://Properties/Interface/gd_EnumProperty.gd" id="1_txuck"]
-[ext_resource type="LabelSettings" uid="uid://c2t6kpcmvupac" path="res://Utility/Theme/thm_default_text.tres" id="2_oauub"]
+[ext_resource type="LabelSettings" path="res://Utility/Appearance/thm_default_text.tres" id="2_oauub"]
 
 [node name="EnumProperty" type="HBoxContainer"]
 script = ExtResource("1_txuck")

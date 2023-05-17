@@ -1,14 +1,27 @@
 extends Overlay
 
 
+var editor_font : SystemFont
+@export var font : SystemFont 
+
+
 func _ready():
 	super()
 	type = Type.TEXT
+	
+	if !font:
+		init_font()
 	
 	# Properties
 	Property.create_write(overridable_properties, "Text", TYPE_STRING_NAME, Callable(self, "get_text"), Callable(self, "set_text"))
 	Property.create_write(overridable_properties, "Text Size", TYPE_INT, Callable(self, "get_text_size"), Callable(self, "set_text_size"))
 	Property.create_write(overridable_properties, "Text Color", TYPE_COLOR, Callable(self, "get_text_color"), Callable(self, "set_text_color"))
+	
+	var sys_fonts : Array[String] = []
+	sys_fonts.append("Default")
+	for font_name in OS.get_system_fonts():
+		sys_fonts.append(font_name)
+	EnumProperty.create_enum(overridable_properties, "Text Font", sys_fonts, Callable(self, "get_font"), Callable(self, "set_font"))
 	
 	EnumProperty.create_enum(overridable_properties, "Horizontal Alignment", ["Left", "Middle", "Right", "Fill"], Callable(self, "get_horizontal_alignment"), Callable(self, "set_horizontal_alignment"))
 	EnumProperty.create_enum(overridable_properties, "Vertical Alignment", ["Top", "Middle", "Bottom", "Fill"], Callable(self, "get_vertical_alignment"), Callable(self, "set_vertical_alignment"))
@@ -63,3 +76,25 @@ func get_text_color():
 
 func set_text_color(new_color):
 	add_theme_color_override("font_color", new_color)
+
+
+func init_font():
+		font = SystemFont.new()
+		editor_font = sngl_Utility.get_scene_root().get_node("%EditorFont").editor_font
+		font.font_names = editor_font.font_names
+		add_theme_font_override("font", font)
+
+func get_font() -> int:
+	var sys_fonts := OS.get_system_fonts()
+	
+	if font.font_names.size() == 0:
+		return 0
+	return sys_fonts.find(font.font_names[0]) + 1
+
+func set_font(id : int) -> void:
+	var sys_fonts := OS.get_system_fonts()
+	
+	if id == 0:
+		font.font_names = []
+		return
+	font.font_names = [sys_fonts[id - 2]]
