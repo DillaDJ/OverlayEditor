@@ -31,13 +31,8 @@
 [ext_resource type="StyleBox" uid="uid://r6qtkwwec7kc" path="res://Utility/Appearance/Theme/thm_Expand_Button.tres" id="27_lwn3w"]
 [ext_resource type="StyleBox" uid="uid://bjayq4cvkdx8k" path="res://Utility/Appearance/Theme/thm_Expand_Button_Faded.tres" id="28_5d2wd"]
 [ext_resource type="StyleBox" uid="uid://58hfwj44pbl3" path="res://Utility/Appearance/Theme/thm_Selected_unrounded.tres" id="29_l0ro5"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uejvy"]
-content_margin_left = 16.0
-content_margin_top = 4.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.14902, 0.156863, 0.192157, 1)
+[ext_resource type="StyleBox" uid="uid://duheih2vfmuk4" path="res://Utility/Appearance/Theme/thm_Tree_selected.tres" id="32_3pfm6"]
+[ext_resource type="StyleBox" uid="uid://blfd341qcsoot" path="res://Utility/Appearance/Theme/thm_Window.tres" id="33_bjmbu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sy7g2"]
 
@@ -53,43 +48,40 @@ bg_color = Color(0.14902, 0.156863, 0.192157, 1)
 content_margin_left = 10.0
 content_margin_right = 10.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpf5y"]
-bg_color = Color(0.258824, 0.494118, 0.898039, 0.392157)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
 [resource]
-AcceptDialog/styles/panel = SubResource("StyleBoxFlat_uejvy")
-Button/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
-Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-Button/colors/icon_normal_color = Color(0.905882, 0.917647, 0.92549, 1)
+AcceptDialog/styles/panel = ExtResource("23_jvg03")
+Button/colors/font_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
+Button/colors/font_disabled_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
+Button/colors/font_focus_color = Color(0.909804, 0.956863, 0.968627, 1)
+Button/colors/font_hover_color = Color(0.909804, 0.956863, 0.968627, 1)
+Button/colors/icon_disabled_color = Color(0.909804, 0.956863, 0.968627, 0.392157)
+Button/colors/icon_hover_color = Color(0.909804, 0.956863, 0.968627, 1)
+Button/colors/icon_hover_pressed_color = Color(0.909804, 0.956863, 0.968627, 1)
+Button/colors/icon_normal_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
+Button/colors/icon_pressed_color = Color(0.356863, 0.239216, 0.941176, 1)
 Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_rhx3w")
 Button/styles/focus = SubResource("StyleBoxEmpty_sy7g2")
 Button/styles/hover = ExtResource("2_gwlap")
 Button/styles/normal = ExtResource("3_2km76")
 Button/styles/pressed = ExtResource("4_3wc7y")
-CheckBox/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+CheckBox/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 CheckBox/icons/checked = ExtResource("5_6pcq7")
 CheckBox/icons/unchecked = ExtResource("6_mts62")
 CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_gsywa")
 CheckBox/styles/normal = SubResource("StyleBoxEmpty_na5gl")
 CheckBox/styles/pressed = SubResource("StyleBoxEmpty_bthe5")
-CheckButton/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+CheckButton/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 CheckButton/fonts/font = ExtResource("1_rhx3w")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_d0egl")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_d0egl")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_d0egl")
-ColorPickerButton/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+ColorPickerButton/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 ColorPickerButton/fonts/font = ExtResource("1_rhx3w")
 ColorPickerButton/styles/hover = ExtResource("7_x60cn")
 ColorPickerButton/styles/normal = ExtResource("8_bnweb")
+FileDialog/colors/file_icon_color = Color(0.909804, 0.956863, 0.968627, 1)
+FileDialog/colors/folder_icon_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
 Footer/base_type = &"Panel"
 Footer/styles/panel = ExtResource("7_q4i3o")
 Header/base_type = &"Panel"
@@ -101,20 +93,20 @@ ItemList/colors/font_selected_color = Color(0.905882, 0.917647, 0.92549, 1)
 ItemList/font_sizes/font_size = 14
 ItemList/fonts/font = ExtResource("1_rhx3w")
 ItemList/styles/panel = ExtResource("11_ffr34")
-Label/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+Label/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 Label/fonts/font = ExtResource("1_rhx3w")
-LineEdit/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+LineEdit/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 LineEdit/font_sizes/font_size = 14
 LineEdit/fonts/font = ExtResource("1_rhx3w")
 LineEdit/styles/normal = ExtResource("12_dwq5f")
-OptionButton/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+OptionButton/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 OptionButton/fonts/font = ExtResource("1_rhx3w")
 OptionButton/styles/hover = ExtResource("3_2km76")
 OptionButton/styles/normal = ExtResource("3_2km76")
 OptionButton/styles/pressed = ExtResource("3_2km76")
 Panel/styles/panel = ExtResource("13_a54l8")
 PanelContainer/styles/panel = ExtResource("13_a54l8")
-PopupMenu/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+PopupMenu/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 PopupMenu/font_sizes/font_size = 14
 PopupMenu/fonts/font = ExtResource("1_rhx3w")
 PopupMenu/styles/panel = ExtResource("14_du83s")
@@ -141,7 +133,8 @@ SecondaryUnrounded/base_type = &"Panel"
 SecondaryUnrounded/styles/panel = ExtResource("23_jvg03")
 Seperator/base_type = &"Panel"
 Seperator/styles/panel = ExtResource("24_s0iai")
-TabContainer/colors/font_selected_color = Color(0.905882, 0.917647, 0.92549, 1)
+TabContainer/colors/font_selected_color = Color(0.909804, 0.956863, 0.968627, 1)
+TabContainer/colors/font_unselected_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
 TabContainer/constants/side_margin = 0
 TabContainer/font_sizes/font_size = 14
 TabContainer/fonts/font = ExtResource("1_rhx3w")
@@ -154,19 +147,19 @@ Tertiary/styles/normal = ExtResource("11_ffr34")
 Tertiary/styles/panel = ExtResource("11_ffr34")
 TertiaryUnrounded/base_type = &"Panel"
 TertiaryUnrounded/styles/panel = ExtResource("26_grg3j")
-TextEdit/colors/font_color = Color(0.905882, 0.917647, 0.92549, 1)
+TextEdit/colors/font_color = Color(0.909804, 0.956863, 0.968627, 1)
 TextEdit/font_sizes/font_size = 14
 TextEdit/fonts/font = ExtResource("1_rhx3w")
 TextEdit/styles/normal = ExtResource("12_dwq5f")
 ToggleContentButton/base_type = &"Button"
-ToggleContentButton/colors/font_color = Color(0.894118, 0.921569, 0.878431, 0.196078)
-ToggleContentButton/colors/font_hover_color = Color(0.894118, 0.921569, 0.878431, 1)
+ToggleContentButton/colors/font_color = Color(0.909804, 0.956863, 0.968627, 0.196078)
+ToggleContentButton/colors/font_focus_color = Color(0.909804, 0.956863, 0.968627, 1)
+ToggleContentButton/colors/font_hover_color = Color(0.909804, 0.956863, 0.968627, 1)
 ToggleContentButton/colors/font_hover_pressed_color = Color(0.894118, 0.921569, 0.878431, 1)
 ToggleContentButton/colors/font_pressed_color = Color(0.894118, 0.921569, 0.878431, 1)
-ToggleContentButton/colors/icon_hover_color = Color(0.894118, 0.921569, 0.878431, 1)
-ToggleContentButton/colors/icon_hover_pressed_color = Color(0.894118, 0.921569, 0.878431, 1)
-ToggleContentButton/colors/icon_normal_color = Color(0.894118, 0.921569, 0.878431, 0.196078)
-ToggleContentButton/colors/icon_pressed_color = Color(0.894118, 0.921569, 0.878431, 1)
+ToggleContentButton/colors/icon_focus_color = Color(0.909804, 0.956863, 0.968627, 1)
+ToggleContentButton/colors/icon_hover_color = Color(0.909804, 0.956863, 0.968627, 1)
+ToggleContentButton/colors/icon_normal_color = Color(0.909804, 0.956863, 0.968627, 0.196078)
 ToggleContentButton/styles/hover = ExtResource("27_lwn3w")
 ToggleContentButton/styles/normal = ExtResource("28_5d2wd")
 ToggleContentButton/styles/pressed = ExtResource("27_lwn3w")
@@ -175,11 +168,14 @@ Translate/styles/hover = ExtResource("29_l0ro5")
 Translate/styles/normal = ExtResource("29_l0ro5")
 Translate/styles/pressed = ExtResource("29_l0ro5")
 Tree/colors/drop_position_color = Color(0.258824, 0.494118, 0.898039, 1)
-Tree/colors/font_selected_color = Color(0.905882, 0.917647, 0.92549, 1)
+Tree/colors/font_color = Color(0.909804, 0.956863, 0.968627, 0.705882)
+Tree/colors/font_selected_color = Color(0.909804, 0.956863, 0.968627, 1)
 Tree/font_sizes/font_size = 14
 Tree/fonts/font = ExtResource("1_rhx3w")
 Tree/fonts/title_button_font = ExtResource("1_rhx3w")
 Tree/styles/panel = ExtResource("21_egcvj")
-Tree/styles/selected = SubResource("StyleBoxFlat_gpf5y")
-Tree/styles/selected_focus = SubResource("StyleBoxFlat_gpf5y")
-Window/styles/embedded_border = ExtResource("25_nu3fl")
+Tree/styles/selected = ExtResource("32_3pfm6")
+Tree/styles/selected_focus = ExtResource("32_3pfm6")
+Window/colors/title_color = Color(0.909804, 0.956863, 0.968627, 1)
+Window/fonts/title_font = ExtResource("1_rhx3w")
+Window/styles/embedded_border = ExtResource("33_bjmbu")

@@ -8,10 +8,9 @@ extends Panel
 @onready var settings_button	: Button = $VerticalLayout/Toolbar/EventSettings
 @onready var delete_button 		: Button = $VerticalLayout/Toolbar/Delete
 
-@export var unselected_event_theme 	: StyleBoxFlat
-@export var selected_event_theme 	: StyleBoxFlat
-@export var unselected_action_theme : StyleBoxFlat
-@export var selected_action_theme 	: StyleBoxFlat
+@onready var selected_theme 	: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Selected_shaded.tres")
+
+@export var unselected_theme 	: StyleBoxFlat
 
 
 # For mapping interface to event/action
@@ -83,7 +82,7 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 	var new_event_idx : int
 	
 	# Destyle
-	style_interface(get_selected_interface(), unselected_action_theme if selected_action_idx != -1 else unselected_event_theme)
+	style_interface(get_selected_interface(), unselected_theme)
 	
 	# Select
 	selected_action_idx = get_action_idx(interface, ignore_action) # Todo: remove ignore action
@@ -95,7 +94,7 @@ func select_interface(interface : PanelContainer, ignore_action : bool = false) 
 	
 	# Style
 	var selected_interface := get_selected_interface()
-	style_interface(selected_interface, selected_action_theme if selected_action_idx != -1 else selected_event_theme)
+	style_interface(selected_interface, selected_theme)
 	
 	new_action_button.set_disabled(false)
 	settings_button.set_disabled(false)

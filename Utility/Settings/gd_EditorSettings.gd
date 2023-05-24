@@ -31,7 +31,7 @@ func init_settings():
 	var file = FileAccess.open(settings_path, FileAccess.WRITE)
 	file.store_line(current_version)
 	file.store_line("1")		# Tutorial
-	file.store_line("1")		# Theme
+	file.store_line("0")		# Theme
 	file.store_line("---")		# Font
 	file.store_line("0")		# Menu Side
 	file.close()
@@ -58,7 +58,7 @@ func load_settings():
 			%Help.show()
 		
 		if settings[2] != "0":
-			theme_settings.set_theme_preset(settings[2].to_int() - 1)
+			theme_settings.set_theme_preset(settings[2].to_int())
 		
 		font_settings.load_font_from_cfg(settings[3])
 		
@@ -68,6 +68,7 @@ func load_settings():
 
 
 func finalize_settings():
+	%TopMenu/BGPanel/ButtonLayout/Settings.set_pressed(false)
 	hide()
 
 

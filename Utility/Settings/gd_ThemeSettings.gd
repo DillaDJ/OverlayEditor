@@ -24,6 +24,7 @@ extends VBoxContainer
 @onready var help_button 		: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_HelpButton.tres")
 @onready var footer 			: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Footer.tres")
 @onready var tab_selected 		: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Tab_selected.tres")
+@onready var window 			: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Window.tres")
 
 # Secondary
 @onready var sec 				: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Secondary.tres")
@@ -49,6 +50,7 @@ extends VBoxContainer
 @onready var resize 			: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Resize.tres")
 @onready var selected_shaded	: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Selected_shaded.tres")
 @onready var selected_unrnd 	: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Selected_unrounded.tres")
+@onready var tree_selected 		: StyleBoxFlat = preload("res://Utility/Appearance/Theme/thm_Tree_selected.tres")
 
 var is_using_custom_theme := false
 
@@ -72,7 +74,7 @@ func _ready():
 	
 	var theme_presets = theme_buttons.get_children()
 	for i in range(theme_buttons.get_child_count()):
-		var theme_button : Button = theme_buttons.get_child(i)
+		var theme_button : Button = theme_presets[i]
 		theme_button.connect("button_down", Callable(self, "set_theme_preset").bind(i))
 		theme_button.connect("button_down", Callable(self, "toggle_custom").bind(false))
 	
@@ -88,6 +90,7 @@ func set_primary_color(new_color : Color):
 	help_button.bg_color		= new_color
 	footer.bg_color 			= new_color
 	tab_selected.bg_color 		= new_color
+	window.bg_color 			= new_color
 
 
 func set_secondary_color(new_color : Color):
@@ -107,13 +110,15 @@ func set_tertiary_color(new_color : Color):
 func set_text_color(new_color : Color):
 	base.set_color("font_hover_color", "Button", new_color)
 	base.set_color("font_focus_color", "Button", new_color)
-	base.set_color("icon_normal_color", "Button", new_color)
 	base.set_color("icon_hover_color", "Button", new_color)
+	base.set_color("icon_hover_pressed_color", "Button", new_color)
+	base.set_color("icon_focus_color", "Button", new_color)
 	
 	base.set_color("font_hover_color", "ToggleContentButton", new_color)
 	base.set_color("font_focus_color", "ToggleContentButton", new_color)
 	base.set_color("icon_hover_color", "ToggleContentButton", new_color)
 	base.set_color("icon_focus_color", "ToggleContentButton", new_color)
+	base.set_color("file_icon_color", "FileDialog", new_color)
 	
 	base.set_color("font_color", "CheckBox", new_color)
 	base.set_color("font_color", "CheckButton", new_color)
@@ -125,17 +130,23 @@ func set_text_color(new_color : Color):
 	base.set_color("font_color", "TextEdit", new_color)
 	base.set_color("font_selected_color", "Tree", new_color)
 	base.set_color("font_selected_color", "TabContainer", new_color)
+	base.set_color("title_color", "Window", new_color)
 	
 	var color_faded = new_color
 	color_faded.a8 = 50
 	base.set_color("icon_normal_color", "ToggleContentButton", color_faded)
 	base.set_color("font_color", "ToggleContentButton", color_faded)
 	
-	color_faded.a8 = 180
-	base.set_color("font_color", "Button", color_faded)
+	color_faded.a8 = 100
 	base.set_color("icon_disabled_color", "Button", color_faded)
 	base.set_color("font_disabled_color", "Button", color_faded)
+	
+	color_faded.a8 = 180
+	base.set_color("font_color", "Button", color_faded)
+	base.set_color("icon_normal_color", "Button", new_color)
 	base.set_color("font_unselected_color", "TabContainer", color_faded)
+	base.set_color("font_color", "Tree", color_faded)
+	base.set_color("folder_icon_color", "FileDialog", color_faded)
 	
 	popup_menu.border_color = new_color
 	color_pick_btn.border_color = new_color
@@ -157,9 +168,21 @@ func set_accent_color(new_color : Color):
 	header.bg_color = new_color
 	resize.bg_color = new_color
 	tab_selected.border_color = new_color
+	window.border_color = new_color
 	selected_shaded.border_color = new_color
 	selected_unrnd.border_color = new_color
 	color_pick_btn_hvr.border_color = new_color
+	tree_selected.border_color = new_color
+	
+	var faded_color = new_color
+	faded_color.a = .5
+	tree_selected.bg_color = faded_color
+	
+	new_color.v += -0.1
+	new_color.s += 0.05
+	header.border_color = new_color
+	
+	base.set_color("icon_pressed_color", "Button", new_color)
 
 
 func toggle_custom(using_custom : bool):
@@ -204,4 +227,4 @@ func set_theme_preset(idx : int):
 	theme_button.set_pressed(true)
 	
 	$Name.text = "Selected Preset: %s" % theme_button.name
-	preset_changed.emit("%d" % (idx + 1))
+	preset_changed.emit("%d" % idx)

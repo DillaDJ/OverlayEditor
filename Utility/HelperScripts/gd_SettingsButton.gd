@@ -5,4 +5,11 @@ extends Button
 
 
 func _ready():
-	connect("button_down", Callable(settings, "show"))
+	connect("toggled", Callable(self, "toggle_settings"))
+
+
+func toggle_settings(settings_showing : bool):
+	if settings_showing:
+		settings.show()
+	else:
+		settings.hide()

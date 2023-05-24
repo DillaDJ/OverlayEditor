@@ -50,7 +50,10 @@ func create_confirm_dialogue():
 		confirm_dialog = ConfirmationDialog.new()
 		get_tree().root.add_child(confirm_dialog)
 		
-		confirm_dialog.set_theme(%Theme.base)
+		confirm_dialog.get_cancel_button().set_custom_minimum_size(Vector2(80, 30))
+		confirm_dialog.get_ok_button().set_custom_minimum_size(Vector2(80, 30))
+		
+		confirm_dialog.set_theme(load("res://Utility/Appearance/Theme/thm_Base.tres"))
 
 
 func prompt_confirmation(new_title : String, popup_message : String):
@@ -78,11 +81,12 @@ func create_file_dialogue():
 		file_dialog = FileDialog.new()
 		get_tree().root.add_child(file_dialog)
 		
-		file_dialog.set_theme(%Theme.base)
 		file_dialog.set_access(FileDialog.ACCESS_FILESYSTEM)
 		
 		file_dialog.size = Vector2i(800, 600)
 		file_dialog.position = (Vector2i(get_viewport_rect().size) - file_dialog.size) / 2.0
+		
+		file_dialog.set_theme(load("res://Utility/Appearance/Theme/thm_Base.tres"))
 
 
 func prompt_save_file(new_title = "Save a File"):

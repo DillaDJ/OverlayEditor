@@ -18,11 +18,18 @@ func _ready():
 	$SaveBG/ButtonLayout/LoadScene.connect("button_down", Callable(editor, "prompt_load").bind(0))
 	$SaveBG/ButtonLayout/LoadOverlay.connect("button_down", Callable(editor, "prompt_load").bind(1))
 	
-	connect("button_down", Callable(self, "toggle_save_menu"))
+	connect("toggled", Callable(self, "toggle_save_menu"))
 
 
-func toggle_save_menu():
-	if save_menu.is_visible_in_tree():
-		save_menu.hide()
-	else:
+func _input(event):
+	if save_menu.is_visible_in_tree() and event is InputEventMouseButton:
+		if !get_global_rect().has_point(event.position) and !save_menu.get_global_rect().has_point(event.position):
+			set_pressed(false)
+			save_menu.hide()
+
+
+func toggle_save_menu(is_showing : bool):
+	if is_showing:
 		save_menu.show()
+	else:
+		save_menu.hide()

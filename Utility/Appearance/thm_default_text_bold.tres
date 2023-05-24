@@ -9,3 +9,4 @@ variation_embolden = 1.0
 [resource]
 font = SubResource("FontVariation_abp0m")
 font_size = 14
+font_color = Color(0.909804, 0.956863, 0.968627, 1)
